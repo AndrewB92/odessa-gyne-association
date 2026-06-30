@@ -22,6 +22,7 @@ const news = (await getCollection('news'))
           description={item.data.description}
           eyebrow={item.data.category ?? 'News'}
           date={item.data.date}
+          href={`/news/${item.id}/`}
         />
       ))}
     </div>

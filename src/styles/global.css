@@ -434,3 +434,48 @@ main:focus {
     display: none;
   }
 }
+
+.article-content {
+  max-width: 760px;
+  margin-top: var(--space-lg);
+}
+
+.article-content time {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.article-content h2,
+.article-content h3,
+.article-content h4 {
+  margin: var(--space-lg) 0 var(--space-sm);
+  font-family: var(--font-heading);
+  line-height: 1.15;
+}
+
+.article-content p,
+.article-content li {
+  color: var(--color-text-muted);
+}
+
+.article-content a {
+  color: var(--color-primary);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.article-content ul,
+.article-content ol {
+  padding-inline-start: 1.2rem;
+}
+
+.article-content > *:first-child {
+  margin-top: 0;
+}
+
+.article-content > *:last-child {
+  margin-bottom: 0;
+}

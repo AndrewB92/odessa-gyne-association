@@ -23,6 +23,7 @@ const events = (await getCollection('events'))
           eyebrow={item.data.featured ? 'Featured event' : 'Event'}
           date={item.data.date}
           meta={item.data.location}
+          href={`/events/${item.id}/`}
         />
       ))}
     </div>
