@@ -1,17 +1,94 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Section from '../components/ui/Section.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Professional medical association"
+  description="A modern professional community for obstetricians and gynecologists in the Odessa region."
+>
+  <Section
+    class="hero"
+    eyebrow="Professional association"
+    title="A calmer, clearer digital home for the medical community."
+    lead="We are rebuilding this website as a fast, accessible, content-first platform for news, events, documents, projects, and professional collaboration."
+  >
+    <div class="hero__actions">
+      <Button href="/association/">About the association</Button>
+      <Button href="/events/" variant="secondary">Upcoming events</Button>
+    </div>
+
+    <div class="hero__panel card" aria-label="Project status">
+      <p class="eyebrow">Current milestone</p>
+      <h2>Application shell</h2>
+      <p>
+        Base layout, shared UI primitives, metadata, and project configuration are now separated from
+        page content.
+      </p>
+    </div>
+  </Section>
+
+  <Section
+    eyebrow="Foundation"
+    title="Built for structured content, not visual noise."
+    lead="The new architecture will let us add pages, documents, news, events, and multilingual content without duplicating layout code."
+  >
+    <div class="grid grid--3 feature-grid">
+      <article class="feature-card card">
+        <h3>Reusable shell</h3>
+        <p>Every page will share one layout, one metadata system, and consistent spacing.</p>
+      </article>
+
+      <article class="feature-card card">
+        <h3>Static-first</h3>
+        <p>No database is needed for the first version. Content can stay fast, secure, and free to host.</p>
+      </article>
+
+      <article class="feature-card card">
+        <h3>Future-ready</h3>
+        <p>The structure is prepared for content collections, localization, CMS editing, and search.</p>
+      </article>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block-start: clamp(5rem, 4rem + 5vw, 9rem);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: var(--space-lg);
+  }
+
+  .hero__panel {
+    max-width: 540px;
+    margin-top: var(--space-xl);
+    padding: var(--space-lg);
+  }
+
+  .hero__panel h2,
+  .feature-card h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    line-height: 1.1;
+  }
+
+  .hero__panel p:last-child,
+  .feature-card p {
+    margin-bottom: 0;
+    color: var(--color-text-muted);
+  }
+
+  .feature-grid {
+    margin-top: var(--space-lg);
+  }
+
+  .feature-card {
+    padding: var(--space-lg);
+  }
+</style>
