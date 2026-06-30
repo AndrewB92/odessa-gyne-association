@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import ContentCard from '../content/ContentCard.astro';
+import ContentList from '../content/ContentList.astro';
+import Button from '../ui/Button.astro';
+import EmptyState from '../ui/EmptyState.astro';
+import Section from '../ui/Section.astro';
+
+const now = new Date();
+
+const events = (await getCollection('events'))
+  .filter((item) => !item.data.draft)
+  .filter((item) => item.data.date >= now)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<Section
+  eyebrow="Events"
+  title="Upcoming events"
+  lead="Conferences, lectures, meetings, and educational events for the professional community."
+>
+  <div class="section-actions">
+    <Button href="/events/" variant="secondary">All events</Button>
+  </div>
+
+  <ContentList columns={3}>
+    {events.length > 0 ? (
+      events.map((item) => (
+        <ContentCard
+          title={item.data.title}
+          description={item.data.description}
+          eyebrow={item.data.featured ? 'Featured event' : 'Event'}
+          date={item.data.date}
+          meta={item.data.location}
+          href={`/events/${item.id}/`}
+        />
+      ))
+    ) : (
+      <EmptyState
+        title="No upcoming events yet"
+        description="New events will appear here after they are added."
+      />
+    )}
+  </ContentList>
+</Section>
+
+<style>
+  .section-actions {
+    margin-top: var(--space-md);
+  }
+</style>

@@ -1,18 +1,25 @@
 ---
 import Logo from './Logo.astro';
-import { site } from '../../data/site';
-import { primaryNavigation } from '../../data/navigation';
+import type { Language } from '../../i18n/config';
+import { getPrimaryNavigation } from '../../data/navigation';
+import { getSite } from '../../data/site';
+
+type Props = {
+  lang: Language;
+};
+
+const { lang } = Astro.props;
 
 const year = new Date().getFullYear();
+const site = getSite(lang);
+const primaryNavigation = getPrimaryNavigation(lang);
 ---
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
     <div class="site-footer__brand">
-      <Logo />
-      <p>
-        {site.description}
-      </p>
+      <Logo lang={lang} />
+      <p>{site.description}</p>
     </div>
 
     <nav class="site-footer__nav" aria-label="Footer navigation">

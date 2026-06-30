@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import ContentCard from '../content/ContentCard.astro';
+import ContentList from '../content/ContentList.astro';
+import Button from '../ui/Button.astro';
+import EmptyState from '../ui/EmptyState.astro';
+import Section from '../ui/Section.astro';
+import { getDocumentTypeLabel } from '../../lib/labels';
+
+const documents = (await getCollection('documents'))
+  .filter((item) => !item.data.draft)
+  .sort((a, b) => {
+    const dateA = a.data.date?.valueOf() ?? 0;
+    const dateB = b.data.date?.valueOf() ?? 0;
+
+    return dateB - dateA;
+  })
+  .slice(0, 3);
+---
+
+<Section
+  eyebrow="Documents"
+  title="Useful documents and materials"
+  lead="A structured place for protocols, regulations, reports, presentations, and other professional materials."
+>
+  <div class="section-actions">
+    <Button href="/documents/" variant="secondary">All documents</Button>
+  </div>
+
+  <ContentList columns={3}>
+    {documents.length > 0 ? (
+      documents.map((item) => (
+        <ContentCard
+          title={item.data.title}
+          description={item.data.description}
+          eyebrow={getDocumentTypeLabel(item.data.type)}
+          date={item.data.date}
+          href={item.data.fileUrl}
+        />
+      ))
+    ) : (
+      <EmptyState
+        title="No documents yet"
+        description="Documents and useful materials will appear here after they are added."
+      />
+    )}
+  </ContentList>
+</Section>
+
+<style>
+  .section-actions {
+    margin-top: var(--space-md);
+  }
+</style>

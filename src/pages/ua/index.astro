@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/sections/Hero.astro';
+import LatestNews from '../../components/sections/LatestNews.astro';
+import UpcomingEvents from '../../components/sections/UpcomingEvents.astro';
+import ProjectsOverview from '../../components/sections/ProjectsOverview.astro';
+import DocumentsPreview from '../../components/sections/DocumentsPreview.astro';
+import CTA from '../../components/sections/CTA.astro';
+---
+
+<BaseLayout
+  lang="ua"
+  route="home"
+  title="Професійна медична асоціація"
+  description="Професійна спільнота акушерів-гінекологів Одеського регіону."
+>
+  <Hero />
+  <LatestNews />
+  <UpcomingEvents />
+  <ProjectsOverview />
+  <DocumentsPreview />
+  <CTA />
+</BaseLayout>

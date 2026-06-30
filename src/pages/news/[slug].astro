@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/ui/Section.astro';
 import Article from '../../components/content/Article.astro';
+import { formatDate } from '../../lib/date';
 
 export async function getStaticPaths() {
   const news = await getCollection('news', ({ data }) => !data.draft);
@@ -25,7 +26,7 @@ const { Content } = await render(item);
   >
     <Article>
       <time datetime={item.data.date.toISOString()}>
-        {item.data.date.toLocaleDateString('en-GB')}
+        {formatDate(item.data.date)}
       </time>
 
       <Content />

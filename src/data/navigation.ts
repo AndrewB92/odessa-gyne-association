@@ -1,49 +1,45 @@
+import type { Language } from '../i18n/config';
+import { getRoute, type RouteKey } from '../i18n/routes';
+import { useTranslations } from '../i18n/ui';
+
 export type NavigationItem = {
   label: string;
   href: string;
-  description?: string;
+  route: RouteKey;
 };
 
-export const primaryNavigation: NavigationItem[] = [
-  {
-    label: 'Association',
-    href: '/association/',
-    description: 'About the association, history, presidium, and membership.',
-  },
-  {
-    label: 'News',
-    href: '/news/',
-    description: 'Updates, announcements, and professional community news.',
-  },
-  {
-    label: 'Events',
-    href: '/events/',
-    description: 'Conferences, meetings, lectures, and educational events.',
-  },
-  {
-    label: 'Projects',
-    href: '/projects/',
-    description: 'Association initiatives and public medical projects.',
-  },
-  {
-    label: 'Documents',
-    href: '/documents/',
-    description: 'Regulations, protocols, reports, and useful materials.',
-  },
-  {
-    label: 'Contacts',
-    href: '/contacts/',
-    description: 'Contact information and communication channels.',
-  },
+type PrimaryRouteKey = Exclude<RouteKey, 'home'>;
+
+const primaryRoutes: PrimaryRouteKey[] = [
+  'association',
+  'news',
+  'events',
+  'projects',
+  'documents',
+  'contacts',
 ];
 
-export const languageNavigation: NavigationItem[] = [
-  {
-    label: 'UA',
-    href: '/',
-  },
-  {
-    label: 'EN',
-    href: '/en/',
-  },
-];
+export function getPrimaryNavigation(lang: Language): NavigationItem[] {
+  const t = useTranslations(lang);
+
+  return primaryRoutes.map((route) => ({
+    label: t.nav[route],
+    href: getRoute(route, lang),
+    route,
+  }));
+}
+
+export function getLanguageNavigation(route: RouteKey = 'home') {
+  return [
+    {
+      label: 'UA',
+      href: getRoute(route, 'ua'),
+      lang: 'ua',
+    },
+    {
+      label: 'EN',
+      href: getRoute(route, 'en'),
+      lang: 'en',
+    },
+  ] as const;
+}

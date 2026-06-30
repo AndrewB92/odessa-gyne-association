@@ -2,7 +2,10 @@
 import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { site } from '../data/site';
+import { defaultLanguage, type Language } from '../i18n/config';
+import type { RouteKey } from '../i18n/routes';
+import { getSite } from '../data/site';
+import { useTranslations } from '../i18n/ui';
 
 type Props = {
   title?: string;
@@ -11,20 +14,27 @@ type Props = {
   image?: string;
   noindex?: boolean;
   bodyClass?: string;
+  lang?: Language;
+  route?: RouteKey;
 };
 
 const {
   title,
-  description = site.description,
   canonical,
-  image = site.defaultOgImage,
+  image,
   noindex = false,
   bodyClass,
+  lang = defaultLanguage,
+  route = 'home',
 } = Astro.props;
+
+const site = getSite(lang);
+const t = useTranslations(lang);
+const description = Astro.props.description ?? site.description;
 
 const pageTitle = title ? `${title} | ${site.shortName}` : site.name;
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site.url).toString();
-const imageUrl = new URL(image, site.url).toString();
+const imageUrl = new URL(image ?? site.defaultOgImage, site.url).toString();
 ---
 
 <!doctype html>
@@ -56,14 +66,14 @@ const imageUrl = new URL(image, site.url).toString();
   </head>
 
   <body class={bodyClass}>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{t.common.skipToContent}</a>
 
-    <Header />
+    <Header lang={lang} route={route} />
 
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
 
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>

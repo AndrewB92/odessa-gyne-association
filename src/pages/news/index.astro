@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/ui/Section.astro';
 import ContentCard from '../../components/content/ContentCard.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
 
 const news = (await getCollection('news'))
   .filter((item) => !item.data.draft)
@@ -16,15 +17,22 @@ const news = (await getCollection('news'))
     lead="Updates, announcements, and professional community news."
   >
     <div class="content-list">
-      {news.map((item) => (
-        <ContentCard
-          title={item.data.title}
-          description={item.data.description}
-          eyebrow={item.data.category ?? 'News'}
-          date={item.data.date}
-          href={`/news/${item.id}/`}
+      {news.length > 0 ? (
+        news.map((item) => (
+          <ContentCard
+            title={item.data.title}
+            description={item.data.description}
+            eyebrow={item.data.category ?? 'News'}
+            date={item.data.date}
+            href={`/news/${item.id}/`}
+          />
+        ))
+      ) : (
+        <EmptyState
+          title="No news yet"
+          description="News and announcements will appear here after they are added."
         />
-      ))}
+      )}
     </div>
   </Section>
 </BaseLayout>

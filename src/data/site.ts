@@ -1,14 +1,22 @@
+import { defaultLanguage, type Language } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
 export const site = {
-  name: 'Association of Obstetricians and Gynecologists of Odessa Region',
-  shortName: 'AAGU Odessa',
-  description:
-    'Professional medical association supporting obstetricians, gynecologists, education, research, and healthcare collaboration in the Odessa region.',
   url: 'https://odessa-gyne-association.pages.dev',
-  locale: 'en',
   email: 'office@aagu.od.ua',
   phone: '',
-  address: 'Odessa, Ukraine',
+  address: 'Одеса, Україна',
   defaultOgImage: '/og-image.jpg',
 } as const;
 
-export type SiteConfig = typeof site;
+export function getSite(lang: Language = defaultLanguage) {
+  const t = useTranslations(lang);
+
+  return {
+    ...site,
+    name: t.siteName,
+    shortName: t.shortName,
+    description: t.description,
+    locale: lang === 'ua' ? 'uk' : 'en',
+  };
+}

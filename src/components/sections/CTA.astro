@@ -1,0 +1,65 @@
+---
+import Button from '../ui/Button.astro';
+---
+
+<section class="home-cta">
+  <div class="container">
+    <div class="home-cta__inner card">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2>Need information about membership, events, or documents?</h2>
+        <p>
+          Contact the association to clarify participation, cooperation, professional events, or access
+          to useful materials.
+        </p>
+      </div>
+
+      <div class="home-cta__actions">
+        <Button href="/contacts/">Contact us</Button>
+        <Button href="/documents/" variant="secondary">View documents</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-cta {
+    padding-block: var(--space-2xl);
+  }
+
+  .home-cta__inner {
+    display: grid;
+    gap: var(--space-lg);
+    padding: var(--space-xl);
+  }
+
+  .home-cta h2 {
+    max-width: 760px;
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 1.35rem + 3vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+  }
+
+  .home-cta p:not(.eyebrow) {
+    max-width: 620px;
+    margin: 1rem 0 0;
+    color: var(--color-text-muted);
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.16rem);
+  }
+
+  .home-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 860px) {
+    .home-cta__inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+  }
+</style>

@@ -1,4 +1,6 @@
 ---
+import { formatDate } from '../../lib/date';
+
 type Props = {
   title: string;
   description?: string;
@@ -10,14 +12,7 @@ type Props = {
 
 const { title, description, eyebrow, date, href, meta } = Astro.props;
 
-const formattedDate = date
-  ? new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    }).format(date)
-  : undefined;
-
+const formattedDate = date ? formatDate(date) : undefined;
 const TitleTag = href ? 'a' : 'span';
 ---
 
@@ -32,7 +27,7 @@ const TitleTag = href ? 'a' : 'span';
 
   {(formattedDate || meta) && (
     <div class="content-card__meta">
-      {formattedDate && <time datetime={date?.toISOString()}>{formattedDate}</time>}
+      {date && <time datetime={date.toISOString()}>{formattedDate}</time>}
       {meta && <span>{meta}</span>}
     </div>
   )}

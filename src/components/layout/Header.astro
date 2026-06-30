@@ -1,13 +1,26 @@
 ---
 import Logo from './Logo.astro';
 import Button from '../ui/Button.astro';
-import { primaryNavigation, languageNavigation } from '../../data/navigation';
+import type { Language } from '../../i18n/config';
+import type { RouteKey } from '../../i18n/routes';
+import { getPrimaryNavigation, getLanguageNavigation } from '../../data/navigation';
+import { useTranslations } from '../../i18n/ui';
+
+type Props = {
+  lang: Language;
+  route?: RouteKey;
+};
+
+const { lang, route = 'home' } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const primaryNavigation = getPrimaryNavigation(lang);
+const languageNavigation = getLanguageNavigation(route);
+const t = useTranslations(lang);
 
 const isActive = (href: string) => {
-  if (href === '/') {
-    return currentPath === '/';
+  if (href === '/ua/' || href === '/en/') {
+    return currentPath === href;
   }
 
   return currentPath.startsWith(href);
@@ -16,7 +29,7 @@ const isActive = (href: string) => {
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <Logo />
+    <Logo lang={lang} />
 
     <nav class="site-header__nav" aria-label="Primary navigation">
       <ul class="site-header__nav-list">
@@ -38,16 +51,18 @@ const isActive = (href: string) => {
       <nav class="site-header__langs" aria-label="Language navigation">
         {languageNavigation.map((item) => (
           <a
-            class:list={['site-header__lang', isActive(item.href) && 'is-active']}
+            class:list={['site-header__lang', item.lang === lang && 'is-active']}
             href={item.href}
-            aria-current={isActive(item.href) ? 'page' : undefined}
+            aria-current={item.lang === lang ? 'page' : undefined}
           >
             {item.label}
           </a>
         ))}
       </nav>
 
-      <Button href="/contacts/" size="small">Contact</Button>
+      <Button href={primaryNavigation.find((item) => item.route === 'contacts')?.href ?? '/contacts/'} size="small">
+        {t.common.contact}
+      </Button>
     </div>
   </div>
 </header>

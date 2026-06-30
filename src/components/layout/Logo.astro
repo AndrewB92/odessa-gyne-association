@@ -1,12 +1,17 @@
 ---
-import { site } from '../../data/site';
+import type { Language } from '../../i18n/config';
+import { getRoute } from '../../i18n/routes';
+import { getSite } from '../../data/site';
 
 type Props = {
   href?: string;
+  lang: Language;
   class?: string;
 };
 
-const { href = '/', class: className } = Astro.props;
+const { lang, href = getRoute('home', lang) } = Astro.props;
+const className = Astro.props.class;
+const site = getSite(lang);
 ---
 
 <a class:list={['site-logo', className]} href={href} aria-label={`${site.shortName} home`}>
