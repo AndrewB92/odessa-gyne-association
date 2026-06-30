@@ -1,0 +1,18 @@
+---
+import { site } from '../../data/site';
+
+type Props = {
+  href?: string;
+  class?: string;
+};
+
+const { href = '/', class: className } = Astro.props;
+---
+
+<a class:list={['site-logo', className]} href={href} aria-label={`${site.shortName} home`}>
+  <span class="site-logo__mark" aria-hidden="true">A</span>
+  <span class="site-logo__text">
+    <span class="site-logo__name">{site.shortName}</span>
+    <span class="site-logo__description">Obstetrics & Gynecology Association</span>
+  </span>
+</a>

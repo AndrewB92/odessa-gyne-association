@@ -1,0 +1,40 @@
+---
+import Logo from './Logo.astro';
+import { site } from '../../data/site';
+import { primaryNavigation } from '../../data/navigation';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <Logo />
+      <p>
+        {site.description}
+      </p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Footer navigation">
+      <h2>Navigation</h2>
+      <ul>
+        {primaryNavigation.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <address class="site-footer__contacts">
+      <h2>Contacts</h2>
+      <p>{site.address}</p>
+      {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
+      {site.phone && <a href={`tel:${site.phone}`}>{site.phone}</a>}
+    </address>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} {site.shortName}. All rights reserved.</p>
+  </div>
+</footer>

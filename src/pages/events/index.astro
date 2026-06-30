@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import ContentCard from '../../components/content/ContentCard.astro';
+
+const events = (await getCollection('events'))
+  .filter((item) => !item.data.draft)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+---
+
+<BaseLayout title="Events" description="Upcoming and past professional events.">
+  <Section
+    eyebrow="Events"
+    title="Events"
+    lead="Conferences, lectures, meetings, and educational events."
+  >
+    <div class="content-list">
+      {events.map((item) => (
+        <ContentCard
+          title={item.data.title}
+          description={item.data.description}
+          eyebrow={item.data.featured ? 'Featured event' : 'Event'}
+          date={item.data.date}
+          meta={item.data.location}
+        />
+      ))}
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .content-list {
+    display: grid;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+</style>

@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import ContentCard from '../../components/content/ContentCard.astro';
+
+const news = (await getCollection('news'))
+  .filter((item) => !item.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="News" description="Latest association news and announcements.">
+  <Section
+    eyebrow="News"
+    title="Latest news"
+    lead="Updates, announcements, and professional community news."
+  >
+    <div class="content-list">
+      {news.map((item) => (
+        <ContentCard
+          title={item.data.title}
+          description={item.data.description}
+          eyebrow={item.data.category ?? 'News'}
+          date={item.data.date}
+        />
+      ))}
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .content-list {
+    display: grid;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+</style>

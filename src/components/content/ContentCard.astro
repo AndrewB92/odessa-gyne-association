@@ -1,0 +1,70 @@
+---
+type Props = {
+  title: string;
+  description?: string;
+  eyebrow?: string;
+  date?: Date;
+  href?: string;
+  meta?: string;
+};
+
+const { title, description, eyebrow, date, href, meta } = Astro.props;
+
+const formattedDate = date
+  ? new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }).format(date)
+  : undefined;
+
+const TitleTag = href ? 'a' : 'span';
+---
+
+<article class="content-card card">
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+
+  <h3>
+    <TitleTag href={href}>{title}</TitleTag>
+  </h3>
+
+  {description && <p>{description}</p>}
+
+  {(formattedDate || meta) && (
+    <div class="content-card__meta">
+      {formattedDate && <time datetime={date?.toISOString()}>{formattedDate}</time>}
+      {meta && <span>{meta}</span>}
+    </div>
+  )}
+</article>
+
+<style>
+  .content-card {
+    padding: var(--space-lg);
+  }
+
+  .content-card h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 1.15rem + 1vw, 2rem);
+    line-height: 1.1;
+  }
+
+  .content-card h3 a:hover {
+    color: var(--color-primary);
+  }
+
+  .content-card p:not(.eyebrow) {
+    margin: 0.75rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  .content-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-top: 1rem;
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+</style>

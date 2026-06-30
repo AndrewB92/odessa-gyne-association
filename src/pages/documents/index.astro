@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import ContentCard from '../../components/content/ContentCard.astro';
+
+const documents = (await getCollection('documents'))
+  .filter((item) => !item.data.draft)
+  .sort((a, b) => {
+    const dateA = itemDate(a.data.date);
+    const dateB = itemDate(b.data.date);
+
+    return dateB - dateA;
+  });
+
+function itemDate(date?: Date) {
+  return date?.valueOf() ?? 0;
+}
+---
+
+<BaseLayout title="Documents" description="Useful documents, protocols, reports, and materials.">
+  <Section
+    eyebrow="Documents"
+    title="Documents"
+    lead="Regulations, protocols, reports, and useful materials."
+  >
+    <div class="content-list">
+      {documents.map((item) => (
+        <ContentCard
+          title={item.data.title}
+          description={item.data.description}
+          eyebrow={item.data.type}
+          date={item.data.date}
+          href={item.data.fileUrl}
+        />
+      ))}
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .content-list {
+    display: grid;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+</style>
