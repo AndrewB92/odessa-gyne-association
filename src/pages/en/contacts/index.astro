@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/ui/Section.astro';
+import { getSite } from '../../../data/site';
+
+const site = getSite('en');
+---
+
+<BaseLayout lang="en" route="contacts" title="Contacts" description="Contact information for the association.">
+  <Section eyebrow="Contacts" title="Contacts" lead="Main contact information and communication channels.">
+    <div class="contact-card card">
+      <p>{site.address}</p>
+      {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
+      {site.phone && <a href={`tel:${site.phone}`}>{site.phone}</a>}
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .contact-card {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 36rem;
+    margin-top: var(--space-lg);
+    padding: var(--space-lg);
+  }
+
+  .contact-card p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .contact-card a {
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+</style>

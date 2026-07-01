@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/ui/Section.astro';
+---
+
+<BaseLayout
+  lang="ua"
+  route="association"
+  title="Асоціація"
+  description="Про асоціацію, її місію, історію та професійну діяльність."
+>
+  <Section
+    eyebrow="Асоціація"
+    title="Про асоціацію"
+    lead="Професійна спільнота, що об’єднує фахівців у сфері акушерства та гінекології Одеського регіону."
+  >
+    <div class="page-card card">
+      <h2>Розділ у роботі</h2>
+      <p>
+        Тут буде розміщено інформацію про історію асоціації, президію, членство,
+        напрями діяльності та професійні ініціативи.
+      </p>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-card {
+    max-width: 760px;
+    margin-top: var(--space-lg);
+    padding: var(--space-lg);
+  }
+
+  .page-card h2 {
+    margin: 0;
+    font-family: var(--font-heading);
+  }
+
+  .page-card p {
+    margin-bottom: 0;
+    color: var(--color-text-muted);
+  }
+</style>

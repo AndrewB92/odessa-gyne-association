@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/ui/Section.astro';
+import ContentCard from '../../../components/content/ContentCard.astro';
+import ContentList from '../../../components/content/ContentList.astro';
+import EmptyState from '../../../components/ui/EmptyState.astro';
+
+const news = (await getCollection('news'))
+  .filter((item) => !item.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout lang="ua" route="news" title="Новини" description="Новини та оголошення асоціації.">
+  <Section eyebrow="Новини" title="Новини" lead="Оновлення, оголошення та новини професійної спільноти.">
+    <ContentList>
+      {news.length > 0 ? (
+        news.map((item) => (
+          <ContentCard
+            title={item.data.title}
+            description={item.data.description}
+            eyebrow={item.data.category ?? 'Новини'}
+            date={item.data.date}
+            href={`/ua/news/${item.id}/`}
+          />
+        ))
+      ) : (
+        <EmptyState title="Новин поки немає" description="Новини та оголошення з’являться тут після додавання." />
+      )}
+    </ContentList>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/ui/Section.astro';
+import ProjectsOverview from '../../../components/sections/ProjectsOverview.astro';
+---
+
+<BaseLayout
+  lang="ua"
+  route="projects"
+  title="Проєкти"
+  description="Проєкти та професійні ініціативи асоціації."
+>
+  <Section
+    eyebrow="Проєкти"
+    title="Проєкти"
+    lead="Освітні, клінічні та громадські ініціативи асоціації."
+  />
+
+  <ProjectsOverview />
+</BaseLayout>

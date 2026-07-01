@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/ui/Section.astro';
+---
+
+<BaseLayout
+  lang="en"
+  route="association"
+  title="Association"
+  description="About the association, its mission, history, and professional activity."
+>
+  <Section
+    eyebrow="Association"
+    title="About the association"
+    lead="A professional community bringing together specialists in obstetrics and gynecology across the Odessa region."
+  >
+    <div class="page-card card">
+      <h2>Section in progress</h2>
+      <p>
+        This section will contain information about the association history, presidium,
+        membership, areas of activity, and professional initiatives.
+      </p>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-card {
+    max-width: 760px;
+    margin-top: var(--space-lg);
+    padding: var(--space-lg);
+  }
+
+  .page-card h2 {
+    margin: 0;
+    font-family: var(--font-heading);
+  }
+
+  .page-card p {
+    margin-bottom: 0;
+    color: var(--color-text-muted);
+  }
+</style>

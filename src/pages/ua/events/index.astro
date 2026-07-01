@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/ui/Section.astro';
+import ContentCard from '../../../components/content/ContentCard.astro';
+import ContentList from '../../../components/content/ContentList.astro';
+import EmptyState from '../../../components/ui/EmptyState.astro';
+
+const events = (await getCollection('events'))
+  .filter((item) => !item.data.draft)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+---
+
+<BaseLayout lang="ua" route="events" title="Події" description="Професійні події, лекції та конференції.">
+  <Section eyebrow="Події" title="Події" lead="Конференції, лекції, зустрічі та освітні заходи.">
+    <ContentList>
+      {events.length > 0 ? (
+        events.map((item) => (
+          <ContentCard
+            title={item.data.title}
+            description={item.data.description}
+            eyebrow={item.data.featured ? 'Важлива подія' : 'Подія'}
+            date={item.data.date}
+            meta={item.data.location}
+            href={`/ua/events/${item.id}/`}
+          />
+        ))
+      ) : (
+        <EmptyState title="Подій поки немає" description="Події з’являться тут після додавання." />
+      )}
+    </ContentList>
+  </Section>
+</BaseLayout>
