@@ -5,7 +5,39 @@ import ContentList from '../content/ContentList.astro';
 import Button from '../ui/Button.astro';
 import EmptyState from '../ui/EmptyState.astro';
 import Section from '../ui/Section.astro';
+import type { Language } from '../../i18n/config';
+import { getRoute } from '../../i18n/routes';
 
+type Props = {
+  lang: Language;
+};
+
+const { lang } = Astro.props;
+
+const content = {
+  ua: {
+    eyebrow: 'Події',
+    title: 'Найближчі події',
+    lead: 'Конференції, лекції, зустрічі та освітні заходи для професійної спільноти.',
+    all: 'Усі події',
+    featured: 'Важлива подія',
+    fallbackEyebrow: 'Подія',
+    emptyTitle: 'Найближчих подій поки немає',
+    emptyDescription: 'Нові події з’являться тут після додавання.',
+  },
+  en: {
+    eyebrow: 'Events',
+    title: 'Upcoming events',
+    lead: 'Conferences, lectures, meetings, and educational events for the professional community.',
+    all: 'All events',
+    featured: 'Featured event',
+    fallbackEyebrow: 'Event',
+    emptyTitle: 'No upcoming events yet',
+    emptyDescription: 'New events will appear here after they are added.',
+  },
+} as const;
+
+const t = content[lang];
 const now = new Date();
 
 const events = (await getCollection('events'))
@@ -15,13 +47,9 @@ const events = (await getCollection('events'))
   .slice(0, 3);
 ---
 
-<Section
-  eyebrow="Events"
-  title="Upcoming events"
-  lead="Conferences, lectures, meetings, and educational events for the professional community."
->
+<Section eyebrow={t.eyebrow} title={t.title} lead={t.lead}>
   <div class="section-actions">
-    <Button href="/events/" variant="secondary">All events</Button>
+    <Button href={getRoute('events', lang)} variant="secondary">{t.all}</Button>
   </div>
 
   <ContentList columns={3}>
@@ -30,17 +58,14 @@ const events = (await getCollection('events'))
         <ContentCard
           title={item.data.title}
           description={item.data.description}
-          eyebrow={item.data.featured ? 'Featured event' : 'Event'}
+          eyebrow={item.data.featured ? t.featured : t.fallbackEyebrow}
           date={item.data.date}
           meta={item.data.location}
-          href={`/events/${item.id}/`}
+          href={`${getRoute('events', lang)}${item.id}/`}
         />
       ))
     ) : (
-      <EmptyState
-        title="No upcoming events yet"
-        description="New events will appear here after they are added."
-      />
+      <EmptyState title={t.emptyTitle} description={t.emptyDescription} />
     )}
   </ContentList>
 </Section>

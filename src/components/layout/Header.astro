@@ -17,6 +17,18 @@ const currentPath = Astro.url.pathname;
 const primaryNavigation = getPrimaryNavigation(lang);
 const languageNavigation = getLanguageNavigation(route);
 const t = useTranslations(lang);
+const labels = {
+  ua: {
+    primaryNavigation: 'Основна навігація',
+    languageNavigation: 'Перемикач мови',
+  },
+  en: {
+    primaryNavigation: 'Primary navigation',
+    languageNavigation: 'Language navigation',
+  },
+} as const;
+
+const label = labels[lang];
 
 const isActive = (href: string) => {
   if (href === '/ua/' || href === '/en/') {
@@ -31,7 +43,7 @@ const isActive = (href: string) => {
   <div class="container site-header__inner">
     <Logo lang={lang} />
 
-    <nav class="site-header__nav" aria-label="Primary navigation">
+    <nav class="site-header__nav" aria-label={label.primaryNavigation}>
       <ul class="site-header__nav-list">
         {primaryNavigation.map((item) => (
           <li>
@@ -48,7 +60,7 @@ const isActive = (href: string) => {
     </nav>
 
     <div class="site-header__actions">
-      <nav class="site-header__langs" aria-label="Language navigation">
+      <nav class="site-header__langs" aria-label={label.languageNavigation}>
         {languageNavigation.map((item) => (
           <a
             class:list={['site-header__lang', item.lang === lang && 'is-active']}
@@ -60,7 +72,7 @@ const isActive = (href: string) => {
         ))}
       </nav>
 
-      <Button href={primaryNavigation.find((item) => item.route === 'contacts')?.href ?? '/contacts/'} size="small">
+      <Button href={primaryNavigation.find((item) => item.route === 'contacts')?.href ?? '/ua/contacts/'} size="small">
         {t.common.contact}
       </Button>
     </div>

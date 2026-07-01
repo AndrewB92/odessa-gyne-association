@@ -1,34 +1,68 @@
 ---
 import Button from '../ui/Button.astro';
 import Section from '../ui/Section.astro';
+import type { Language } from '../../i18n/config';
+import { getRoute } from '../../i18n/routes';
 
-const projects = [
-  {
-    title: 'Professional education',
-    description: 'Lectures, meetings, conferences, and continuous education for specialists.',
+type Props = {
+  lang: Language;
+};
+
+const { lang } = Astro.props;
+
+const content = {
+  ua: {
+    eyebrow: 'Проєкти',
+    title: 'Проєкти та професійні ініціативи',
+    lead: 'Асоціація об’єднує освітню, клінічну та громадську діяльність у довгострокову системну роботу.',
+    all: 'Усі проєкти',
+    projects: [
+      {
+        title: 'Професійна освіта',
+        description: 'Лекції, зустрічі, конференції та безперервне навчання для фахівців.',
+      },
+      {
+        title: 'Клінічна співпраця',
+        description: 'Обмін досвідом, практичні рекомендації та професійна дискусія.',
+      },
+      {
+        title: 'Громадські ініціативи',
+        description: 'Проєкти, присвячені жіночому здоров’ю, профілактиці та регіональній співпраці.',
+      },
+    ],
   },
-  {
-    title: 'Clinical cooperation',
-    description: 'Exchange of experience, practical recommendations, and professional discussion.',
+  en: {
+    eyebrow: 'Projects',
+    title: 'Projects and professional initiatives',
+    lead: 'The association brings together educational, clinical, and public health activity into structured long-term work.',
+    all: 'All projects',
+    projects: [
+      {
+        title: 'Professional education',
+        description: 'Lectures, meetings, conferences, and continuous education for specialists.',
+      },
+      {
+        title: 'Clinical cooperation',
+        description: 'Exchange of experience, practical recommendations, and professional discussion.',
+      },
+      {
+        title: 'Public health initiatives',
+        description: 'Projects focused on women’s health, awareness, prevention, and regional cooperation.',
+      },
+    ],
   },
-  {
-    title: 'Public health initiatives',
-    description: 'Projects focused on women’s health, awareness, prevention, and regional cooperation.',
-  },
-];
+} as const;
+
+const t = content[lang];
 ---
 
-<Section
-  eyebrow="Projects"
-  title="Projects and professional initiatives"
-  lead="The association brings together educational, clinical, and public health activity into structured long-term work."
->
+<Section eyebrow={t.eyebrow} title={t.title} lead={t.lead}>
   <div class="section-actions">
-    <Button href="/projects/" variant="secondary">All projects</Button>
+    <Button href={getRoute('projects', lang)} variant="secondary">{t.all}</Button>
   </div>
 
   <div class="project-grid">
-    {projects.map((project) => (
+    {t.projects.map((project) => (
       <article class="project-card card">
         <h3>{project.title}</h3>
         <p>{project.description}</p>

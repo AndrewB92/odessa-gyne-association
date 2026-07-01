@@ -1,34 +1,63 @@
 ---
 import Button from '../ui/Button.astro';
+import type { Language } from '../../i18n/config';
+import { getRoute } from '../../i18n/routes';
+
+type Props = {
+  lang: Language;
+};
+
+const { lang } = Astro.props;
+
+const content = {
+  ua: {
+    eyebrow: 'Професійна медична асоціація',
+    title: 'Асоціація акушерів-гінекологів Одеської області',
+    lead:
+      'Професійна спільнота, зосереджена на медичній освіті, клінічній співпраці, дослідженнях, громадських проєктах та підтримці фахівців регіону.',
+    primary: 'Про асоціацію',
+    secondary: 'Найближчі події',
+    focusEyebrow: 'Фокус',
+    focusTitle: 'Освіта, співпраця та клінічна практика.',
+    focusText:
+      'Новий сайт створюється навколо зручного доступу до подій, документів, новин, проєктів та професійної інформації.',
+  },
+  en: {
+    eyebrow: 'Professional medical association',
+    title: 'Association of Obstetricians and Gynecologists of Odessa Region',
+    lead:
+      'A professional community focused on medical education, clinical collaboration, research, public health projects, and support for specialists across the region.',
+    primary: 'About the association',
+    secondary: 'Upcoming events',
+    focusEyebrow: 'Focus',
+    focusTitle: 'Education, cooperation and clinical practice.',
+    focusText:
+      'The new website is being rebuilt around clear access to events, documents, news, projects, and professional information.',
+  },
+} as const;
+
+const t = content[lang];
 ---
 
 <section class="home-hero">
   <div class="container home-hero__inner">
     <div class="home-hero__content">
-      <p class="eyebrow">Professional medical association</p>
+      <p class="eyebrow">{t.eyebrow}</p>
 
-      <h1>
-        Association of Obstetricians and Gynecologists of Odessa Region
-      </h1>
+      <h1>{t.title}</h1>
 
-      <p class="home-hero__lead">
-        A professional community focused on medical education, clinical collaboration,
-        research, public health projects, and support for specialists across the region.
-      </p>
+      <p class="home-hero__lead">{t.lead}</p>
 
       <div class="home-hero__actions">
-        <Button href="/association/">About the association</Button>
-        <Button href="/events/" variant="secondary">Upcoming events</Button>
+        <Button href={getRoute('association', lang)}>{t.primary}</Button>
+        <Button href={getRoute('events', lang)} variant="secondary">{t.secondary}</Button>
       </div>
     </div>
 
-    <aside class="home-hero__note card" aria-label="Association focus">
-      <p class="eyebrow">Focus</p>
-      <h2>Education, cooperation and clinical practice.</h2>
-      <p>
-        The new website is being rebuilt around clear access to events, documents,
-        news, projects, and professional information.
-      </p>
+    <aside class="home-hero__note card" aria-label={t.focusEyebrow}>
+      <p class="eyebrow">{t.focusEyebrow}</p>
+      <h2>{t.focusTitle}</h2>
+      <p>{t.focusText}</p>
     </aside>
   </div>
 </section>

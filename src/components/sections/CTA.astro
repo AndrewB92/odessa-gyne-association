@@ -1,22 +1,48 @@
 ---
 import Button from '../ui/Button.astro';
+import type { Language } from '../../i18n/config';
+import { getRoute } from '../../i18n/routes';
+
+type Props = {
+  lang: Language;
+};
+
+const { lang } = Astro.props;
+
+const content = {
+  ua: {
+    eyebrow: 'Контакти',
+    title: 'Потрібна інформація щодо членства, подій або документів?',
+    text:
+      'Зв’яжіться з асоціацією, щоб уточнити участь, співпрацю, професійні події або доступ до корисних матеріалів.',
+    primary: 'Зв’язатися',
+    secondary: 'Переглянути документи',
+  },
+  en: {
+    eyebrow: 'Contact',
+    title: 'Need information about membership, events, or documents?',
+    text:
+      'Contact the association to clarify participation, cooperation, professional events, or access to useful materials.',
+    primary: 'Contact us',
+    secondary: 'View documents',
+  },
+} as const;
+
+const t = content[lang];
 ---
 
 <section class="home-cta">
   <div class="container">
     <div class="home-cta__inner card">
       <div>
-        <p class="eyebrow">Contact</p>
-        <h2>Need information about membership, events, or documents?</h2>
-        <p>
-          Contact the association to clarify participation, cooperation, professional events, or access
-          to useful materials.
-        </p>
+        <p class="eyebrow">{t.eyebrow}</p>
+        <h2>{t.title}</h2>
+        <p>{t.text}</p>
       </div>
 
       <div class="home-cta__actions">
-        <Button href="/contacts/">Contact us</Button>
-        <Button href="/documents/" variant="secondary">View documents</Button>
+        <Button href={getRoute('contacts', lang)}>{t.primary}</Button>
+        <Button href={getRoute('documents', lang)} variant="secondary">{t.secondary}</Button>
       </div>
     </div>
   </div>

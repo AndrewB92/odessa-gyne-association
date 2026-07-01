@@ -5,7 +5,36 @@ import ContentList from '../content/ContentList.astro';
 import Button from '../ui/Button.astro';
 import EmptyState from '../ui/EmptyState.astro';
 import Section from '../ui/Section.astro';
+import type { Language } from '../../i18n/config';
+import { getRoute } from '../../i18n/routes';
 import { getDocumentTypeLabel } from '../../lib/labels';
+
+type Props = {
+  lang: Language;
+};
+
+const { lang } = Astro.props;
+
+const content = {
+  ua: {
+    eyebrow: 'Документи',
+    title: 'Корисні документи та матеріали',
+    lead: 'Структуроване місце для протоколів, положень, звітів, презентацій та інших професійних матеріалів.',
+    all: 'Усі документи',
+    emptyTitle: 'Документів поки немає',
+    emptyDescription: 'Документи та корисні матеріали з’являться тут після додавання.',
+  },
+  en: {
+    eyebrow: 'Documents',
+    title: 'Useful documents and materials',
+    lead: 'A structured place for protocols, regulations, reports, presentations, and other professional materials.',
+    all: 'All documents',
+    emptyTitle: 'No documents yet',
+    emptyDescription: 'Documents and useful materials will appear here after they are added.',
+  },
+} as const;
+
+const t = content[lang];
 
 const documents = (await getCollection('documents'))
   .filter((item) => !item.data.draft)
@@ -18,13 +47,9 @@ const documents = (await getCollection('documents'))
   .slice(0, 3);
 ---
 
-<Section
-  eyebrow="Documents"
-  title="Useful documents and materials"
-  lead="A structured place for protocols, regulations, reports, presentations, and other professional materials."
->
+<Section eyebrow={t.eyebrow} title={t.title} lead={t.lead}>
   <div class="section-actions">
-    <Button href="/documents/" variant="secondary">All documents</Button>
+    <Button href={getRoute('documents', lang)} variant="secondary">{t.all}</Button>
   </div>
 
   <ContentList columns={3}>
@@ -39,10 +64,7 @@ const documents = (await getCollection('documents'))
         />
       ))
     ) : (
-      <EmptyState
-        title="No documents yet"
-        description="Documents and useful materials will appear here after they are added."
-      />
+      <EmptyState title={t.emptyTitle} description={t.emptyDescription} />
     )}
   </ContentList>
 </Section>
