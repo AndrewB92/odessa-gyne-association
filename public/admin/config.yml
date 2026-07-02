@@ -54,10 +54,31 @@ collections:
         fields:
           - label: "Ukrainian"
             name: "uk"
-            widget: "text"
+            widget: "markdown"
+            buttons:
+              - bold
+              - italic
+              - bulleted-list
+              - numbered-list
+              - link
+            editor_components: []
+            modes:
+              - rich_text
+              - raw
+
           - label: "English"
             name: "en"
-            widget: "text"
+            widget: "markdown"
+            buttons:
+              - bold
+              - italic
+              - bulleted-list
+              - numbered-list
+              - link
+            editor_components: []
+            modes:
+              - rich_text
+              - raw
 
       - label: "Photo"
         name: "photo"

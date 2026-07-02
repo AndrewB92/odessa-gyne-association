@@ -1,13 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import type { ImageMetadata } from "astro";
-
-const speakerImages = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/speakers/*.{png,jpg,jpeg,webp,avif}",
-  { eager: true }
-);
 
 export async function getStaticPaths() {
   const speakers = await getCollection("speakers");
@@ -19,37 +12,153 @@ export async function getStaticPaths() {
 }
 
 const { speaker } = Astro.props;
-const image = speaker.data.photo
-  ? speakerImages[speaker.data.photo]?.default
-  : null;
 ---
 
 <BaseLayout lang="uk" title={speaker.data.name.uk}>
-  <main class="container py-16">
-    <a href="/work" class="text-rose-900">← Повернутись</a>
+  <main class="speaker-page">
+    <div class="speaker-container">
+      <a href="/work" class="speaker-back">← Повернутись до спікерів</a>
 
-    <article class="mt-8 max-w-4xl">
-    {speaker.data.photo && (
-    <img
-        src={speaker.data.photo}
-        alt={speaker.data.name.uk}
-        class="rounded-3xl mb-8"
-        loading="lazy"
-        decoding="async"
-    />
-    )}
+      <article class="speaker-hero">
+        {speaker.data.photo && (
+          <div class="speaker-photo-wrap">
+            <img
+              src={speaker.data.photo}
+              alt={speaker.data.name.uk}
+              class="speaker-photo"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        )}
 
-      <h1 class="font-heading text-4xl font-bold text-rose-900">
-        {speaker.data.name.uk}
-      </h1>
+        <div class="speaker-info">
+          <p class="speaker-eyebrow">Спікер</p>
+          <h1>{speaker.data.name.uk}</h1>
+          <p class="speaker-position">{speaker.data.position.uk}</p>
+        </div>
+      </article>
 
-      <p class="mt-4 text-lg text-slate-600">
-        {speaker.data.position.uk}
-      </p>
-
-      <div class="mt-8 whitespace-pre-line text-slate-700 leading-8">
-        {speaker.data.biography.uk}
-      </div>
-    </article>
+      <section class="speaker-bio">
+        <h2>Біографія</h2>
+        <div class="speaker-bio-content">
+          {speaker.data.biography.uk}
+        </div>
+      </section>
+    </div>
   </main>
 </BaseLayout>
+
+<style>
+  .speaker-page {
+    padding: 72px 0;
+    background:
+      radial-gradient(circle at top left, rgba(244, 63, 94, 0.12), transparent 34rem),
+      linear-gradient(180deg, #fff7f9 0%, #ffffff 45%);
+  }
+
+  .speaker-container {
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  .speaker-back {
+    display: inline-flex;
+    margin-bottom: 32px;
+    color: #881337;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .speaker-back:hover {
+    text-decoration: underline;
+  }
+
+  .speaker-hero {
+    display: grid;
+    grid-template-columns: minmax(260px, 380px) 1fr;
+    gap: 48px;
+    align-items: center;
+    padding: 40px;
+    border: 1px solid rgba(136, 19, 55, 0.12);
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 24px 70px rgba(136, 19, 55, 0.12);
+  }
+
+  .speaker-photo-wrap {
+    overflow: hidden;
+    border-radius: 28px;
+    background: #fff;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.16);
+  }
+
+  .speaker-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .speaker-eyebrow {
+    margin: 0 0 12px;
+    color: #be123c;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .speaker-info h1 {
+    margin: 0;
+    color: #881337;
+    font-size: clamp(2.25rem, 5vw, 4.75rem);
+    line-height: 1;
+  }
+
+  .speaker-position {
+    max-width: 760px;
+    margin: 24px 0 0;
+    color: #475569;
+    font-size: clamp(1.125rem, 2vw, 1.45rem);
+    line-height: 1.6;
+  }
+
+  .speaker-bio {
+    max-width: 860px;
+    margin: 48px auto 0;
+    padding: 40px;
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+  }
+
+  .speaker-bio h2 {
+    margin: 0 0 24px;
+    color: #881337;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .speaker-bio-content {
+    color: #334155;
+    font-size: 1.0625rem;
+    line-height: 1.9;
+    white-space: pre-line;
+  }
+
+  @media (max-width: 780px) {
+    .speaker-page {
+      padding: 48px 0;
+    }
+
+    .speaker-hero {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 24px;
+      border-radius: 24px;
+    }
+
+    .speaker-bio {
+      padding: 28px 22px;
+    }
+  }
+</style>
