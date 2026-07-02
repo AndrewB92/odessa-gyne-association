@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: AndrewB92/odessa-gyne-association
+  branch: main
+  base_url: https://odessa-gyne-association.pages.dev
+  auth_endpoint: /api/auth
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "speakers"
+    label: "Speakers"
+    folder: "src/content/speakers"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", default: 1 }
+      - { label: "Name UA", name: "name", widget: "string" }
+      - { label: "Name EN", name: "nameEn", widget: "string" }
+      - { label: "Role UA", name: "role", widget: "string", required: false }
+      - { label: "Role EN", name: "roleEn", widget: "string", required: false }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - { label: "Bio", name: "body", widget: "markdown", required: false }
