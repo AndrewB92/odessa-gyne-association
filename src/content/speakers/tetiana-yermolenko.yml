@@ -4,22 +4,14 @@ name:
   en: Tetiana Yermolenko
 position:
   uk: доктор медичних наук, професор кафедри акушерства і гінекології ОНМедУ
-  en: Doctor of Medical Sciences, Professor at the Department of Obstetrics and Gynecology of Odesa National Medical University
+  en: Doctor of Medical Sciences, Professor at the Department of Obstetrics and
+    Gynecology of Odesa National Medical University
 biography:
-  uk: 'Єрмоленко Тетяна,
-
-    доктор медичних наук,
-
-    професор кафедри акушерства і гінекології
-
-    Одеського національного медичного університету
-
+  uk: >-
     e-mail: ErmolenkoTA@ukr.net
 
 
-    Загальна інформація
-
-    :
+    Загальна інформація:
 
     • 42 р. лікарьского досвіду, вища категорія
 
@@ -30,46 +22,20 @@ biography:
     • 2008 р.: д.мед.н., тема дисертації «Прогнозування, діагностика, лікування гіпофункції яєчників»
 
 
-    Додаткова інформація
-
-    :
+    Додаткова інформація:
 
     Член спеціалізованої вченої ради Д 41.600.02 з присудження наукового ступеня доктора наук, профіль ради: 14.01.01 «Акушерство та гінекологія», ОНМедУ.
 
     Член редакційної колегії International scientific journal LABORATORY Diagnostics Eastern Europe.
 
-    Член Асоціації акушерів-гінекологів України та Міжнародної федерації
+    Член Асоціації акушерів-гінекологів України та Міжнародної федерації акушерів-гінекологів (FIGO), Асоціації гінекологов - єндокринологів України,
+
+    Української Асоціації кольпоскопії та цервікальної патології,
+
+    Української асоціації остеопороза та Европейської асоціації менопаузи, андропаузи, захворювань кістково-м язовоі системи.
 
 
-    акушерів-гінекологів (FIGO), Асоціації гінекологов - єндокринологів України,
-
-
-    Української
-
-
-    Асоціації кольпоскопії та цервікальної
-
-    патологі
-
-    ї
-
-    ,
-
-    Української
-
-
-    асоціації остеопороза та
-
-
-    Европейської
-
-
-    асоціації менопаузи, андропаузи, захворювань кістково-м язовоі системи.
-
-
-    Інформація про науковця
-
-    :
+    Інформація про науковця:
 
     ORCID:T.Yermolenko Т: http: orcid.org/ORCID: 0000-0002-2806-7376
 
@@ -78,8 +44,9 @@ biography:
 
     Сфера наукових інтересів:
 
-    гінекологія, єндокринологія, ін.'
-  en: 'General information:
+    гінекологія, єндокринологія, ін.
+  en: >-
+    General information:
 
     • 42 years of clinical experience, highest qualification category.
 
@@ -99,6 +66,6 @@ biography:
     Member of the Association of Obstetricians and Gynecologists of Ukraine, FIGO, the Association of Gynecological Endocrinologists of Ukraine, the Ukrainian Association of Colposcopy and Cervical Pathology, the Ukrainian Osteoporosis Association, and the European Menopause and Andropause Society.
 
 
-    Author of numerous scientific publications and professional materials.'
-photo: /src/assets/speakers/tetiana-yermolenko.jpg
+    Author of numerous scientific publications and professional materials.
+photo: /uploads/speakers/tetiana-yermolenko.jpg
 sort: 13
