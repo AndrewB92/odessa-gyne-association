@@ -3,10 +3,13 @@ name:
   uk: Гульсим Манасова
   en: Hulsym Manasova
 position:
-  uk: Заслужений лікар України, д.м.н., професор кафедри акушерства та гінекології ОНМедУ
-  en: Honored Doctor of Ukraine, Doctor of Medical Sciences, Professor at the Department of Obstetrics and Gynecology of Odesa National Medical University
+  uk: Заслужений лікар України, д.м.н., професор кафедри акушерства та гінекології
+    ОНМедУ
+  en: Honored Doctor of Ukraine, Doctor of Medical Sciences, Professor at the
+    Department of Obstetrics and Gynecology of Odesa National Medical University
 biography:
-  uk: 'Гульсим Манасова,
+  uk: >-
+    Гульсим Манасова,
 
 
     Заслужений лікар України
@@ -82,8 +85,9 @@ biography:
 
     Сфера наукових інтересів:
 
-    перинатальна медицина, невідкладне акушерство, перинатальна інфекція, омік технології в акушерстві та гінекології та ін.'
-  en: 'General information:
+    перинатальна медицина, невідкладне акушерство, перинатальна інфекція, омік технології в акушерстві та гінекології та ін.
+  en: >-
+    General information:
 
     • 37 years of clinical experience, highest qualification category.
 
@@ -108,6 +112,6 @@ biography:
 
     Member of the Academic Council of the Faculty of Postgraduate Education at Odesa National Medical University.
 
-    Member of the Association of Obstetricians and Gynecologists of Ukraine and other professional societies.'
-photo: /src/assets/speakers/hulsym-manasova.jpg
+    Member of the Association of Obstetricians and Gynecologists of Ukraine and other professional societies.
+photo: /uploads/speakers/hulsym-manasova.jpg
 sort: 12
