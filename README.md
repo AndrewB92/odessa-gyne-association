@@ -1,62 +1,108 @@
-# Odessa Gynecologists Association
+# Odessa Association of Obstetricians and Gynecologists
 
-Official website of the Odessa Gynecologists Association.
+Modern multilingual website built with Astro for the Odessa Association of Obstetricians and Gynecologists.
 
-Built with **Astro** and deployed on **Cloudflare Pages** with a strong focus on performance, accessibility, maintainability and long-term scalability.
+## Features
+
+- 🇺🇦 Ukrainian & 🇬🇧 English languages
+- Responsive design
+- SEO-first architecture
+- Decap CMS integration
+- Speaker management
+- Dynamic speaker pages
+- Conference and event pages
+- Static generation with Astro
+- Cloudflare Pages deployment
+- Optimized assets and performance
 
 ## Tech Stack
 
-* Astro
-* TypeScript
-* Cloudflare Pages
-* CSS
-* GitHub
+- Astro
+- TypeScript
+- Tailwind CSS
+- Decap CMS
+- Cloudflare Pages
+- GitHub Actions
 
-## Getting Started
+## Project Structure
 
-Install dependencies:
+```text
+src/
+ ├── components/
+ ├── content/
+ │    └── speakers/
+ ├── data/
+ ├── layouts/
+ ├── pages/
+ └── assets/
+
+public/
+ ├── admin/
+ └── uploads/
+```
+
+## CMS
+
+The project uses Decap CMS for managing speaker content.
+
+Available fields:
+
+- Name (UA / EN)
+- Position (UA / EN)
+- Biography (UA / EN)
+- Photo
+- Sort order
+
+Content is stored in:
+
+```text
+src/content/speakers/
+```
+
+Speaker images are uploaded to:
+
+```text
+public/uploads/speakers/
+```
+
+## Development
+
+Install dependencies
 
 ```bash
 npm install
 ```
 
-Start the development server:
+Run locally
 
 ```bash
 npm run dev
 ```
 
-Build the project:
+Build
 
 ```bash
 npm run build
 ```
 
-Preview the production build:
+Preview production build
 
 ```bash
 npm run preview
 ```
 
-Run Astro checks:
-
-```bash
-npx astro check
-```
-
-## Project Goals
-
-* Fast static website
-* Excellent Core Web Vitals
-* Accessible and responsive UI
-* SEO-friendly architecture
-* Clean, reusable component system
-* Easy content management integration in the future
-
 ## Deployment
 
-The project is automatically deployed to **Cloudflare Pages** from the GitHub repository.
+The project is automatically deployed to Cloudflare Pages after every push to the main branch.
 
-## License
+## Roadmap
 
-Private project.
+- [x] Multilingual support
+- [x] Responsive layouts
+- [x] Decap CMS integration
+- [x] Speaker management
+- [x] Dynamic speaker pages
+- [ ] News management
+- [ ] Event management
+- [ ] Gallery management
+- [ ] SEO editor
