@@ -5,18 +5,9 @@ import type { ImageMetadata } from "astro";
 type Speaker = {
   id: string;
   data: {
-    name: {
-      uk: string;
-      en: string;
-    };
-    position: {
-      uk: string;
-      en: string;
-    };
-    biography: {
-      uk: string;
-      en: string;
-    };
+    name: { uk: string; en: string };
+    position: { uk: string; en: string };
+    biography: { uk: string; en: string };
     photo?: string;
     sort: number;
   };
@@ -41,27 +32,29 @@ function getSpeakerImage(photo?: string) {
 ---
 
 <div class="speakers-grid">
-  {speakers.map((speaker) => {
-    const image = getSpeakerImage(speaker.data.photo);
+  {
+    speakers.map((speaker) => {
+      const image = getSpeakerImage(speaker.data.photo);
 
-    return (
-      <article class="speaker-card">
-        {image && (
-          <Image
-            src={image}
-            alt={speaker.data.name[lang]}
-            class="speaker-card__image"
-            widths={[320, 480, 640]}
-            sizes="(max-width: 768px) 100vw, 320px"
-          />
-        )}
+      return (
+        <article class="speaker-card">
+          {image && (
+            <Image
+              src={image}
+              alt={speaker.data.name[lang]}
+              class="speaker-card__image"
+              widths={[320, 480, 640]}
+              sizes="(max-width: 768px) 100vw, 320px"
+            />
+          )}
 
-        <div class="speaker-card__body">
-          <h3>{speaker.data.name[lang]}</h3>
-          <p class="speaker-card__position">{speaker.data.position[lang]}</p>
-          <p>{speaker.data.biography[lang]}</p>
-        </div>
-      </article>
-    );
-  })}
+          <div class="speaker-card__body">
+            <h3>{speaker.data.name[lang]}</h3>
+            <p class="speaker-card__position">{speaker.data.position[lang]}</p>
+            <p>{speaker.data.biography[lang]}</p>
+          </div>
+        </article>
+      );
+    })
+  }
 </div>
