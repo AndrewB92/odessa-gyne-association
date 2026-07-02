@@ -3,24 +3,15 @@ name:
   uk: Запорожченко Марина Борисівна
   en: Maryna Zaporozhchenko
 position:
-  uk: Заслужений лікар України, д.м.н., професор кафедри акушерства та гінекології ОНМедУ; завідувачка гінекологічного відділення КНП «Одеський обласний клінічний медичний центр»
-  en: Honored Doctor of Ukraine, Doctor of Medical Sciences, Professor at the Department of Obstetrics and Gynecology of Odesa National Medical University; Head of the Gynecology Department of the Odesa Regional Clinical Medical Center
+  uk: Заслужений лікар України, д.м.н., професор кафедри акушерства та гінекології
+    ОНМедУ; завідувачка гінекологічного відділення КНП «Одеський обласний
+    клінічний медичний центр»
+  en: Honored Doctor of Ukraine, Doctor of Medical Sciences, Professor at the
+    Department of Obstetrics and Gynecology of Odesa National Medical
+    University; Head of the Gynecology Department of the Odesa Regional Clinical
+    Medical Center
 biography:
-  uk: 'Запорожченко Марина Борисівна
-
-
-    Заслужений лікар України.
-
-
-    д.м.н., професор
-
-
-    кафедри акушерства та гінекології
-
-
-    Одеського національного медичного університету. Завідуюча гінекологічним відділенням КНП «Одеський обласний клінічний медичний центр» при Одеській обласний раді; акушер- гінеколог, онкогінеколог.
-
-
+  uk: >-
     Лікарський стаж 31 рік.
 
 
@@ -36,8 +27,10 @@ biography:
     Є членом Української асоціації лікарів акушерів-гінекологів, Української асоціації лікарів з малоінвазивної та ендоскопічної хірургії, Європейської асоціації гінекологів-ендоскопістів, Української асоціації кольпоскопії та цервікальної патології.
 
 
-    Має державні нагороди: медаль 25 років Незалежності України , Заслужений лікар України'
-  en: 'Obstetrician-gynecologist and gynecologic oncologist with 31 years of clinical experience.
+    Має державні нагороди: медаль 25 років Незалежності України , Заслужений лікар України
+  en: >-
+    Obstetrician-gynecologist and gynecologic oncologist with 31 years of
+    clinical experience.
 
 
     Author of 102 scientific publications and 5 invention patents.
@@ -51,6 +44,6 @@ biography:
     Member of the Ukrainian Association of Obstetricians and Gynecologists, the Ukrainian Association of Minimally Invasive and Endoscopic Surgery, the European Society for Gynecological Endoscopy, and the Ukrainian Association of Colposcopy and Cervical Pathology.
 
 
-    State awards include the medal “25 Years of Independence of Ukraine” and the title Honored Doctor of Ukraine.'
-photo: /src/assets/speakers/maryna-zaporozhchenko.jpg
+    State awards include the medal “25 Years of Independence of Ukraine” and the title Honored Doctor of Ukraine.
+photo: /uploads/speakers/maryna-zaporozhchenko.jpg
 sort: 14

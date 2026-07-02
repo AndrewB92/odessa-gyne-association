@@ -3,10 +3,13 @@ name:
   uk: Нікітенко Раїса Петрівна
   en: Raisa Nikitenko
 position:
-  uk: кандидат медичних наук, доцент кафедри хірургії №1 з післядипломною підготовкою ОНМедУ
-  en: Candidate of Medical Sciences, Associate Professor at the Department of Surgery No. 1 with Postgraduate Training of Odesa National Medical University
+  uk: кандидат медичних наук, доцент кафедри хірургії №1 з післядипломною
+    підготовкою ОНМедУ
+  en: Candidate of Medical Sciences, Associate Professor at the Department of
+    Surgery No. 1 with Postgraduate Training of Odesa National Medical
+    University
 biography:
-  uk: Нікітенко Раїса Петрівна, кандидат медичних наук, доцент кафедр хірургії No1 з післядипломною підготовкою Одеського Національного Медичного Університету
-  en: Candidate of Medical Sciences and Associate Professor at the Department of Surgery No. 1 with Postgraduate Training of Odesa National Medical University.
-photo: /src/assets/speakers/raisa-nikitenko.jpg
+  uk: --
+  en: --
+photo: /uploads/speakers/raisa-nikitenko.jpg
 sort: 17

@@ -3,28 +3,21 @@ name:
   uk: Потапчук Олександр Васильович
   en: Oleksandr Potapchuk
 position:
-  uk: лікар-ендокринолог вищої категорії, к.мед.н., доцент кафедри внутрішньої медицини №1 ОНМедУ
-  en: Highest-category endocrinologist, Candidate of Medical Sciences, Associate Professor at the Department of Internal Medicine No. 1 of Odesa National Medical University
+  uk: лікар-ендокринолог вищої категорії, к.мед.н., доцент кафедри внутрішньої
+    медицини №1 ОНМедУ
+  en: Highest-category endocrinologist, Candidate of Medical Sciences, Associate
+    Professor at the Department of Internal Medicine No. 1 of Odesa National
+    Medical University
 biography:
-  uk: 'ПОТАПЧУК Олександр Васильович
-
-    ,
-
-    лікар-ендокринолог вищої категорії,
-
-    к.мед.н., доцент кафедри внутрішньої медицини №1 ОНМедУ
-
+  uk: |-
     стаж работи - 38 років
-
     Автор 54 публікацій.
 
-
     Наукові інтереси
+    – цукровий діабет, патологія щитовидної залози
+  en: |-
+    He has 38 years of work experience and is the author of 54 publications.
 
-    – цукровий діабет, патологія щитовидної залози'
-  en: 'He has 38 years of work experience and is the author of 54 publications.
-
-
-    Scientific interests: diabetes mellitus and thyroid pathology.'
-photo: /src/assets/speakers/oleksandr-potapchuk.png
+    Scientific interests: diabetes mellitus and thyroid pathology.
+photo: /uploads/speakers/oleksandr-potapchuk.png
 sort: 20

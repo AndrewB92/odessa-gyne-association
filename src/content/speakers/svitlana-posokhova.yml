@@ -3,34 +3,34 @@ name:
   uk: Посохова Світлана Петрівна
   en: Svitlana Posokhova
 position:
-  uk: Заслужений лікар України, д.мед.н., професор кафедри акушерства і гінекології ОНМедУ, лікар акушер-гінеколог вищої кваліфікаційної категорії
-  en: Honored Doctor of Ukraine, Doctor of Medical Sciences, Professor at the Department of Obstetrics and Gynecology of Odesa National Medical University, highest-category obstetrician-gynecologist
+  uk: Заслужений лікар України, д.мед.н., професор кафедри акушерства і
+    гінекології ОНМедУ, лікар акушер-гінеколог вищої кваліфікаційної категорії
+  en: Honored Doctor of Ukraine, Doctor of Medical Sciences, Professor at the
+    Department of Obstetrics and Gynecology of Odesa National Medical
+    University, highest-category obstetrician-gynecologist
 biography:
-  uk: 'Посохова Світлана Петрівна
-
-    ,
-
-    Заслужений лікар України,
-
-    д.мед.н., професор кафедри акушерства і гінекології Одеського національного медичного університету,
-
-    лікар акушер-гінеколог вищої кваліфікаційної категорії.
-
+  uk: >-
     Стаж роботи 45 років.
 
 
     Протягом 25 років була керівником Одеського обласного перинатального центру, де надається допомога вагітним з групи високого ризику.
 
+
     Запровадила новітні технології надання акушерської допомоги вагітним з екстрагенітальною патологією, патологією плацентації, ВІЛ-інфекцією.
+
 
     Як практичний лікар, Посохова С.П. продовжує працювати в обласному перинатальному центрі та надає консультативну амбулаторну допомогу в обласному центрі планування сім’ї та приватній клініці “AIRMED”.
 
+
     Наукова діяльність присвячена актуальним питанням акушерства, питанням невідкладної допомоги у разі критичних станів, перинатології, попередження небажаної вагітності. Являється автором більше 120 публікацій у вітчизняних та зарубіжних виданнях, співавтором 2 монографій, автором 3 патентів на винахід. Неодноразово представляла результати своїх роботи на міжнародних конгресах та конференціях.
+
 
     Член робочої групи МОЗ України по підготовці керівництв та клінічних протоколів з акушерства та гінекології, а також новітньої програми для навчання лікарів-інтернів.
 
-    Член Міжнародної федерації акушерів-гінекологів (FIGO), Європейської асоціації контрацепції (ESC), Української асоціації акушерів-гінекологів, член президії Одеського відділення Асоціації акушерів-гінекологів України.'
-  en: 'She has 45 years of work experience.
+
+    Член Міжнародної федерації акушерів-гінекологів (FIGO), Європейської асоціації контрацепції (ESC), Української асоціації акушерів-гінекологів, член президії Одеського відділення Асоціації акушерів-гінекологів України.
+  en: >-
+    She has 45 years of work experience.
 
 
     For 25 years, she headed the Odesa Regional Perinatal Center, which provides care for high-risk pregnant women.
@@ -44,6 +44,6 @@ biography:
     Her scientific work is devoted to current issues in obstetrics, emergency care in critical conditions, perinatology, and prevention of unwanted pregnancy. She is the author of more than 120 publications in Ukrainian and international journals, co-author of 2 monographs, and author of 3 invention patents. She has repeatedly presented her work at international congresses and conferences.
 
 
-    Member of the Ministry of Health of Ukraine working group for the preparation of obstetric guidelines and clinical protocols.'
-photo: /src/assets/speakers/svitlana-posokhova.jpg
+    Member of the Ministry of Health of Ukraine working group for the preparation of obstetric guidelines and clinical protocols.
+photo: /uploads/speakers/svitlana-posokhova.jpg
 sort: 19

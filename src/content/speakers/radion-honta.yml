@@ -3,14 +3,15 @@ name:
   uk: Гонта Радіон Іванович
   en: Radion Honta
 position:
-  uk: лікар акушер-гінеколог вищої категорії, завідувач пологово-операційним відділенням обласного перинатального центру; к.мед.н., асистент кафедри акушерства і гінекології ОНМедУ
-  en: Highest-category obstetrician-gynecologist, Head of the Delivery and Operating Department of the Regional Perinatal Center; Candidate of Medical Sciences, Assistant at the Department of Obstetrics and Gynecology of Odesa National Medical University
+  uk: лікар акушер-гінеколог вищої категорії, завідувач пологово-операційним
+    відділенням обласного перинатального центру; к.мед.н., асистент кафедри
+    акушерства і гінекології ОНМедУ
+  en: Highest-category obstetrician-gynecologist, Head of the Delivery and
+    Operating Department of the Regional Perinatal Center; Candidate of Medical
+    Sciences, Assistant at the Department of Obstetrics and Gynecology of Odesa
+    National Medical University
 biography:
-  uk: 'Гонта Радіон Іванович, лікар акушер-гінеколог вищої категорії,
-
-    завідувач пологово-операційним відділенням обласного перинатального центру; к. мед. н, асистент кафедри акушерства і гінекології Одеського національного медичного університету
-
-
+  uk: >-
     33 роки лікарського стажу.
 
 
@@ -19,8 +20,9 @@ biography:
     Автор 8 наукових публікацій у фахових журналах (у т.ч. у закордонному видані), 2 патенти на винахід «Спосіб профілактики перинатальний втрат від геморагічних ускладнень нетравматичного генезу у недоношених новонароджених», «Спосіб профілактики маніфестних та загрозливих тромботичних ускладнень у жінок груп ризику їх виникнення після кесарева розтину».
 
 
-    Направлення досліджень: профілактика тромбо-геморагічних ускладнень в акушерстві.'
-  en: 'He has 33 years of clinical experience.
+    Направлення досліджень: профілактика тромбо-геморагічних ускладнень в акушерстві.
+  en: >-
+    He has 33 years of clinical experience.
 
 
     He possesses the full range of operative techniques and professional skills in his specialty.
@@ -28,6 +30,6 @@ biography:
     Author of 8 scientific publications in professional journals, including an international publication, and 2 invention patents: “Method for preventing perinatal losses caused by hemorrhagic complications of non-traumatic origin in premature newborns” and “Method for preventing manifest and threatening thrombotic complications in women at risk after cesarean section”.
 
 
-    Research focus: prevention of thrombohemorrhagic complications in obstetrics.'
-photo: /src/assets/speakers/radion-honta.png
+    Research focus: prevention of thrombohemorrhagic complications in obstetrics.
+photo: /uploads/speakers/radion-honta.png
 sort: 11
