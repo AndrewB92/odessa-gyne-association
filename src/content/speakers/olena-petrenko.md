@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ---
 slug: olena-petrenko
 order: 1
@@ -21,3 +22,20 @@ photo: ""
  30 років стажу роботи на кафедрах медичного університету та лікарська діяльність більше 35 років.
 
 Автор 193 наукових публікацій, 5 монографій та 25 патентів на винахід.
+=======
+name:
+  uk: "Олена Петренко"
+  en: "Olena Petrenko"
+
+position:
+  uk: "Лікар акушер-гінеколог"
+  en: "Obstetrician-gynecologist"
+
+biography:
+  uk: "Короткий опис українською."
+  en: "Short English bio."
+
+photo: "/src/assets/speakers/olena-petrenko.webp"
+
+sort: 10
+>>>>>>> Stashed changes

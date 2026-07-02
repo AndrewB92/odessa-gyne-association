@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+type Speaker = {
+  id: string;
+  data: {
+    name: {
+      uk: string;
+      en: string;
+    };
+    position: {
+      uk: string;
+      en: string;
+    };
+    biography: {
+      uk: string;
+      en: string;
+    };
+    photo?: string;
+    sort: number;
+  };
+};
+
+type Props = {
+  speakers: Speaker[];
+  lang: "uk" | "en";
+};
+
+const { speakers, lang } = Astro.props;
+
+const speakerImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/speakers/*.{png,jpg,jpeg,webp,avif}",
+  { eager: true }
+);
+
+function getSpeakerImage(photo?: string) {
+  if (!photo) return null;
+  return speakerImages[photo]?.default ?? null;
+}
+---
+
+<div class="speakers-grid">
+  {speakers.map((speaker) => {
+    const image = getSpeakerImage(speaker.data.photo);
+
+    return (
+      <article class="speaker-card">
+        {image && (
+          <Image
+            src={image}
+            alt={speaker.data.name[lang]}
+            class="speaker-card__image"
+            widths={[320, 480, 640]}
+            sizes="(max-width: 768px) 100vw, 320px"
+          />
+        )}
+
+        <div class="speaker-card__body">
+          <h3>{speaker.data.name[lang]}</h3>
+          <p class="speaker-card__position">{speaker.data.position[lang]}</p>
+          <p>{speaker.data.biography[lang]}</p>
+        </div>
+      </article>
+    );
+  })}
+</div>

@@ -1,8 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SitePage from '../components/SitePage.astro';
+
+import { getCollection } from "astro:content";
+import SpeakersGrid from "../components/SpeakersGrid.astro";
+
+const speakers = (await getCollection("speakers")).sort(
+  (a, b) => a.data.sort - b.data.sort
+);
 ---
 
 <BaseLayout lang="uk" title="Діяльність ОВ ААГУ">
   <SitePage lang="uk" page="work" currentPath="/work" />
+  <SpeakersGrid speakers={speakers} lang="uk" />
 </BaseLayout>

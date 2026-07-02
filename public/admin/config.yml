@@ -5,21 +5,39 @@ backend:
   base_url: https://odessa-gyne-association.pages.dev
   auth_endpoint: /api/auth
 
-media_folder: "public/uploads"
-public_folder: "/uploads"
+media_folder: "src/assets/speakers"
+public_folder: "/src/assets/speakers"
 
 collections:
   - name: "speakers"
     label: "Speakers"
     folder: "src/content/speakers"
     create: true
-    slug: "{{slug}}"
+    delete: true
+    extension: "yml"
+    format: "yml"
+    slug: "{{fields.name.en}}"
     fields:
-      - { label: "Slug", name: "slug", widget: "string" }
-      - { label: "Order", name: "order", widget: "number", default: 1 }
-      - { label: "Name UA", name: "name", widget: "string" }
-      - { label: "Name EN", name: "nameEn", widget: "string" }
-      - { label: "Role UA", name: "role", widget: "string", required: false }
-      - { label: "Role EN", name: "roleEn", widget: "string", required: false }
+      - label: "Name"
+        name: "name"
+        widget: "object"
+        fields:
+          - { label: "Ukrainian", name: "uk", widget: "string" }
+          - { label: "English", name: "en", widget: "string" }
+
+      - label: "Position"
+        name: "position"
+        widget: "object"
+        fields:
+          - { label: "Ukrainian", name: "uk", widget: "string" }
+          - { label: "English", name: "en", widget: "string" }
+
+      - label: "Biography"
+        name: "biography"
+        widget: "object"
+        fields:
+          - { label: "Ukrainian", name: "uk", widget: "text" }
+          - { label: "English", name: "en", widget: "text" }
+
       - { label: "Photo", name: "photo", widget: "image", required: false }
-      - { label: "Bio", name: "body", widget: "markdown", required: false }
+      - { label: "Sort order", name: "sort", widget: "number", default: 10 }
