@@ -48,13 +48,13 @@ function getSpeakerImage(photo?: string) {
 
       return (
         <a class="speaker-card" href={getSpeakerUrl(speaker)}>
-          {image && (
-            <Image
-              src={image}
+          {speaker.data.photo && (
+            <img
+              src={speaker.data.photo}
               alt={speaker.data.name[lang]}
               class="speaker-card__image"
-              widths={[320, 480, 640]}
-              sizes="(max-width: 768px) 100vw, 320px"
+              loading="lazy"
+              decoding="async"
             />
           )}
 

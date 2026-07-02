@@ -29,15 +29,15 @@ const image = speaker.data.photo
     <a href="/work" class="text-rose-900">← Повернутись</a>
 
     <article class="mt-8 max-w-4xl">
-      {image && (
-        <Image
-          src={image}
-          alt={speaker.data.name.uk}
-          class="rounded-3xl mb-8"
-          widths={[480, 720, 960]}
-          sizes="(max-width: 768px) 100vw, 720px"
-        />
-      )}
+    {speaker.data.photo && (
+    <img
+        src={speaker.data.photo}
+        alt={speaker.data.name.uk}
+        class="rounded-3xl mb-8"
+        loading="lazy"
+        decoding="async"
+    />
+    )}
 
       <h1 class="font-heading text-4xl font-bold text-rose-900">
         {speaker.data.name.uk}

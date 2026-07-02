@@ -5,8 +5,8 @@ backend:
   base_url: https://odessa-gyne-association.pages.dev
   auth_endpoint: /api/auth
 
-media_folder: "src/assets/speakers"
-public_folder: "/src/assets/speakers"
+media_folder: "public/uploads/speakers"
+public_folder: "/uploads/speakers"
 
 collections:
   - name: "speakers"
