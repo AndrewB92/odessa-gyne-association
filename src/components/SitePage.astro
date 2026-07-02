@@ -1,0 +1,621 @@
+---
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+
+const { lang = 'uk', page = 'home', currentPath = '/' } = Astro.props;
+const isEn = lang === 'en';
+const prefix = isEn ? '/en' : '';
+
+const home = {
+  uk: {
+    hero: {
+      badge: 'ОВ ААГУ',
+      title: 'Одеське відділення Асоціації акушерів-гінекологів України',
+      subtitle: "Громадська організація, яка діє на території Одеської області, об'єднує фахівців, зайнятих практичною, педагогічною і науково-дослідною діяльністю в галузі акушерства та гінекології.",
+      cta1: 'Дізнатись більше',
+      cta2: 'Документи',
+    },
+    renaissance: {
+      badge: 'Спільний проект',
+      title: '«ВІДРОДЖЕННЯ»',
+      subtitle: 'Програма медико-психологічного супроводу вагітності, пологів та післяпологового періоду у кризовій ситуації воєнних дій',
+      description: 'Спільний проект Одеського відділення Асоціації акушерів-гінекологів України і Асоціації дитячих, сімейних і перинатальних психологів і педагогів «Психея». Метою проекту є розробка та впровадження програми психологічної допомоги для вагітних / нещодавно вагітних жінок, а також медичного персоналу пологодопомічних установ у кризовий період військових дій в Україні.',
+      cta: 'Дізнатись більше',
+    },
+    about: {
+      badge: 'Про асоціацію',
+      title: 'Сприяємо розвитку акушерства та гінекології',
+      p1: 'Діяльність Відділення Асоціації спрямована на сприяння підвищенню рівня професійної компетентності акушерів-гінекологів Одеської області, створення інформаційної системи та соціально-правовий захист акушерів-гінекологів, членів Асоціації.',
+      p2: 'ОВ ААГУ створено і зареєстровано як регіональне відділення Асоціації акушерів-гінекологів України Міністерством юстиції України 23 вересня 1998 р.',
+      p3: "Основною метою діяльності Асоціації є сприяння науковому-теоретичному і практичному розв'язанню сучасних проблем охорони здоров'я жінки, матері, дитини і сім'ї, безперервному професійному розвитку і підвищенню рівня кваліфікації та захисту спільних інтересів членів Асоціації.",
+      stats: [
+        ['award', '1998', 'Рік заснування'],
+        ['users', '500+', 'Членів асоціації'],
+        ['heart', '25+', 'Років досвіду'],
+        ['file', '№ 2016', 'Провайдер БПР'],
+      ],
+    },
+    activities: {
+      badge: 'Напрямки діяльності',
+      title: 'Основні напрямки діяльності Асоціації',
+      items: [
+        ['heart', "Охорона здоров'я", "Сприяння розробці пріоритетних напрямків розвитку системи охорони здоров'я жінки, матері, дитини та сім'ї у взаємодії з державними органами."],
+        ['book', 'Освіта та навчання', 'Сприяння розробці нових підходів до системи навчання акушерів-гінекологів та їх післядипломної підготовки з метою підвищення професійної компетенції.'],
+        ['award', 'Кваліфікація', 'Сприяння підвищенню і контролю рівня знань і кваліфікації акушерів-гінекологів України — членів Асоціації.'],
+        ['globe', 'Міжнародна співпраця', 'Вивчення і впровадження в практику сучасних досягнень науки, розширення контактів і обмін досвідом з професійними асоціаціями інших країн.'],
+        ['users', 'Просвітницька робота', "Сприяння підвищенню рівня санітарної культури населення з питань охорони здоров'я жінки, зміцнення репродуктивного здоров'я."],
+        ['shield', 'Профілактика', "Пропаганда персоніфікованого підходу та профілактичного напрямку в охороні здоров'я, зниження рівня захворюваності та смертності."],
+      ],
+    },
+    membership: {
+      badge: 'Членство',
+      title: "Права та обов'язки членів асоціації",
+      tabs: [
+        ['general', 'Загальне', 'users', ['Членство в Відділенні Асоціації є індивідуальним.', 'Членство в інших організаціях не заперечує членство в Асоціації.', 'Прийняття у члени Відділення Асоціації здійснюється Президією Асоціації або Виконавчим комітетом за особистою заявою.', 'Членами Асоціації можуть бути громадяни України та інших держав, які досягли 18-річного віку, мають відповідну медичну освіту та поділяють цілі Асоціації.', 'Документом, який засвідчує членство, є членський квиток за установленим зразком.']],
+        ['rights', 'Права', 'shield', ['Обирати і бути обраними до керівних органів Асоціації.', 'Вносити на розгляд керівних органів пропозиції з питань діяльності Асоціації.', 'Користуватися в першочерговому порядку послугами Асоціації.', "Бути членом інших громадських об'єднань.", 'Оскаржувати своє виведення з членів Асоціації Президентові.']],
+        ['obligations', "Обов'язки", 'file', ['Активно сприяти реалізації програми і розв\'язанню завдань Асоціації.', 'Виконувати Статут Асоціації та Положення Одеського відділення.', 'Сплачувати вступні і членські внески.', 'Членство може бути призупинено, якщо діяльність суперечить цілям Асоціації або у випадку несплати внесків.']],
+      ],
+    },
+    presidium: {
+      badge: 'Президія',
+      title: 'Президія Одеського відділення ААГУ',
+      chairman: 'Голова Президії',
+      members: 'Члени Президії',
+      chairmanName: 'Манасова Гульсім Серікбаївна',
+      chairmanTitle: 'д.мед.н., професор кафедри акушерства і гінекології ОНМедУ',
+      membersList: [
+        ['Марічереда Валерія Геннадіївна', 'перший проректор ОНМедУ, д.мед.н., професор'],
+        ['Гладчук Ігор Зіновійович', 'завідуючий кафедри акушерства і гінекології ОНМедУ, д.мед.н., професор'],
+        ['Рожковська Наталія Миколаївна', 'д.мед.н., професор кафедри акушерства і гінекології ОНМедУ'],
+        ['Стасій Яна Олександрівна', 'секретар ГО «ОВ ААГУ», доктор філософії, лікар акушер-гінеколог'],
+      ],
+    },
+    news: {
+      badge: 'Новини',
+      title: 'Анонси та події',
+      co: 'Співорганізатори',
+      register: 'Зареєструватись',
+      event: {
+        tag: 'Фахова школа',
+        title: 'Інфектологія в акушерстві і гінекології: виклики та рішення сьогодення',
+        date: '19–20 грудня 2025 року',
+        location: 'Одеса · офлайн та онлайн',
+        direction: 'Напрямок БПР: Інфекційний контроль',
+        organizer: 'Організатор — ГО «Одеське відділення Асоціації акушерів-гінекологів України», офіційний провайдер БПР № 2016.',
+        coorganizers: ['Департамент охорони здоровʼя Одеської обласної державної адміністрації', 'Одеський національний медичний університет'],
+        points: '13 балів БПР за 2 дні участі',
+        languages: 'Українська та англійська',
+        formats: [
+          ['Онлайн', 'безкоштовно для членів лікарських обʼєднаннь', '13 балів БПР + доступ до записів 1 місяць'],
+          ['Офлайн', '700 грн', '13 балів БПР + записи 3 місяці + кава-брейки'],
+        ],
+      },
+    },
+  },
+  en: {
+    hero: {
+      badge: 'OB AAGU',
+      title: 'Odessa Branch of the Association of Obstetricians and Gynecologists of Ukraine',
+      subtitle: 'A public organization operating in the Odessa region, uniting specialists engaged in practical, pedagogical and research activities in the field of obstetrics and gynecology.',
+      cta1: 'Learn more',
+      cta2: 'Documents',
+    },
+    renaissance: {
+      badge: 'Joint project',
+      title: '"RENAISSANCE"',
+      subtitle: 'Program of medical and psychological support of pregnancy, childbirth and the postpartum period in a crisis situation of hostilities',
+      description: 'A joint project of the Odessa branch of the Association of Obstetricians and Gynecologists of Ukraine and the Association of Child, Family and Perinatal Psychologists and Teachers "Psyche". The aim of the project is to develop and implement a program of psychological assistance for pregnant / recently pregnant women, as well as medical staff of maternity hospitals during the crisis period of hostilities in Ukraine.',
+      cta: 'Learn more',
+    },
+    about: {
+      badge: 'About',
+      title: 'Advancing obstetrics and gynecology',
+      p1: 'The activities of the Branch of the Association are aimed at promoting the level of professional competence of obstetricians and gynecologists of Odessa region, creating an information system and social and legal protection of obstetricians and gynecologists, members of the Association.',
+      p2: 'The Odessa branch was established and registered as a regional branch of the Association of Obstetricians and Gynecologists of Ukraine by the Ministry of Justice of Ukraine on September 23, 1998.',
+      p3: 'The main purpose of the Association is to promote scientific, theoretical and practical solutions to modern health problems of women, mothers, children and families, continuous professional development and training and protection of common interests of members of the Association.',
+      stats: [['award', '1998', 'Founded'], ['users', '500+', 'Members'], ['heart', '25+', 'Years of experience'], ['file', '№ 2016', 'CPD Provider']],
+    },
+    activities: {
+      badge: 'Activities',
+      title: 'Main activities of the Association',
+      items: [
+        ['heart', 'Healthcare', 'Promoting the development of priority areas for the health care system for women, mothers, children and families in cooperation with public health authorities.'],
+        ['book', 'Education & Training', 'Promoting new approaches to the system of training obstetricians and gynecologists, their postgraduate training to increase professional competence.'],
+        ['award', 'Qualification', 'Assisting in raising and controlling the level of knowledge and qualifications of obstetricians and gynecologists of Ukraine — members of the Association.'],
+        ['globe', 'International cooperation', 'Studying and implementing modern scientific achievements, expanding contacts and exchanging experience with professional associations of other countries.'],
+        ['users', 'Public awareness', "Promoting the level of sanitary culture of the population on women's health, strengthening reproductive health."],
+        ['shield', 'Prevention', 'Promotion of a personalized approach and preventive direction in health protection, reduction of morbidity and mortality.'],
+      ],
+    },
+    membership: {
+      badge: 'Membership',
+      title: 'Rights and obligations of Association members',
+      tabs: [
+        ['general', 'General', 'users', ['Membership in the Branch of the Association is individual.', 'Membership in other organizations does not deny membership in the Association.', 'Admission is carried out by the Presidium or Executive Committee at personal request.', 'Members may be citizens of Ukraine and other countries aged 18+, with relevant medical education.', 'The document certifying membership is a membership card.']],
+        ['rights', 'Rights', 'shield', ['Elect and be elected to governing bodies of the Association.', 'Submit proposals on issues within the scope of the Association.', 'Use the services provided by the Association as a priority.', 'Be a member of other public associations.', 'Appeal their withdrawal from the Association to the President.']],
+        ['obligations', 'Obligations', 'file', ["Actively promote the implementation of the Association's program.", 'Comply with the Charter and Regulations of the Odessa branch.', 'Pay entrance and membership fees.', "Membership may be suspended if activities contradict the Association's goals or in case of non-payment."]],
+      ],
+    },
+    presidium: {
+      badge: 'Presidium',
+      title: 'Presidium of the Odessa Branch of AAGU',
+      chairman: 'Chairman of the Presidium',
+      members: 'Members of the Presidium',
+      chairmanName: 'Gulsym S. Manasova',
+      chairmanTitle: 'Doctor of Medical Sciences, Professor of the Department of Obstetrics and Gynecology, ONMedU',
+      membersList: [
+        ['Valeriia G. Marichерeda', 'First Vice-Rector of ONMedU, Doctor of Medical Sciences, Professor'],
+        ['Igor Z. Gladchuk', 'Head of the Department of Obstetrics and Gynecology, ONMedU, Doctor of Medical Sciences, Professor'],
+        ['Nataliia M. Rozhkovska', 'Doctor of Medical Sciences, Professor of Obstetrics and Gynecology, ONMedU'],
+        ['Yana O. Stasii', 'Secretary of the Odessa Branch of AAGU, PhD, Obstetrician-Gynecologist'],
+      ],
+    },
+    news: {
+      badge: 'News',
+      title: 'Announcements & events',
+      co: 'Co-organizers',
+      register: 'Register',
+      event: {
+        tag: 'Professional School',
+        title: 'Infectology in Obstetrics and Gynecology: Challenges and Solutions of Today',
+        date: 'December 19–20, 2025',
+        location: 'Odessa · offline and online',
+        direction: 'CPD Direction: Infection Control',
+        organizer: 'Organizer — Odessa Branch of the Association of Obstetricians and Gynecologists of Ukraine, official CPD provider № 2016.',
+        coorganizers: ['Department of Health, Odessa Regional State Administration', 'Odessa National Medical University'],
+        points: '13 CPD points for 2 days of participation',
+        languages: 'Ukrainian and English',
+        formats: [['Online', 'free for members of medical associations', '13 CPD points + 1 month recordings access'], ['Offline', '700 UAH', '13 CPD points + 3 months recordings + coffee breaks']],
+      },
+    },
+  },
+};
+
+const aboutPage = {
+  uk: {
+    back: 'Повернутись',
+    badge: 'Про нас',
+    title: 'Історія Одеського відділення ААГУ',
+    subtitle: 'ОДЕСЬКОГО ВІДДІЛЕННЯ АСОЦІАЦІЇ АКУШЕРІВ-ГІНЕКОЛОГІВ УКРАЇНИ',
+    history: [
+      "Рішення про створення Асоціації акушерів-гінекологів України було прийнято під час Х з'їзду акушерів-гінекологів України, який проходив 26 вересня 1996 року в м. Одесі. 9 січня 1997 року за №818.а громадська організація була зареєстрована Міністерством юстиції України.",
+      'Одеське відділення Асоціації акушерів-гінекологів пройшло первинну юридичну реєстрацію 23.09.1998 р., за № 15561200000 018 656. Свідоцтво А 00 № 267249.',
+      'Головою Одеського відділення з моменту заснування був обраний і успішно керував до 2019 року професор Олександр Олексійович Зелінський, віце-президент Асоціації акушерів-гінекологів України.',
+      "В 2016 р. у зв'язку зі змінами в законодавстві України оновлено реєстрацію, здійснено зміни в структурі.",
+      'В 2019 р. Головою Одеського відділення було обрано Манасову Гульсим Серікбаївну, Заслуженого лікаря України, д.мед.н., професора кафедри акушерства і гінекології №2 Одеського національного медичного університету.',
+      "Протягом 24 років ОВ ААГУ, у тісній співпраці та за підтримки Одеського національного медичного університету, департаментів охорони здоров'я Одеської міської ради та Одеської обласної державної адміністрації, виконує свої завдання як консолідуючий, методологічний та просвітницький центр.",
+    ],
+    cofoundersTitle: 'Співзасновники Одеського відділення',
+    cofounders: [
+      ['Олександр Олексійович Зелінський', 'Заслужений діяч науки та техніки України, д.мед.н., професор, завідувач кафедри акушерства і гінекології №2 Одеського національного медичного університету.'],
+      ['Шаповал Микола Віталійович', 'д.мед.н., професор кафедри акушерства і гінекології №2 Одеського національного медичного університету.'],
+      ['Лебеденко Володимир Сергійович', "Заслужений лікар України, к.мед.н., головний спеціаліст відділу з питань охорони материнства і дитинства обласного відділу охорони здоров'я Одеської обласної державної адміністрації."],
+    ],
+    activitiesTitle: 'Основні заходи ОВ ААГУ',
+    activities: ['Щорічні регіональні науково-практичні конференції (з 2003 по 2011 рр.) за участю провідних фахівців України', 'Майстер-класи за участю зарубіжних партнерів, провідних світових фахівців з проблем гінекологічної ендокринології (2004–2007 рр.)', 'Щоквартальні дискусійні клуби з основних проблем акушерства і гінекології 2011–2018 рр.', 'Організація і проведення «Школи гінекологічної ендокринології» 2012–2018 рр.', 'Організація міжрегіональних міждисциплінарних конференцій спільно з Миколаївським відділенням ААГУ 2012–2017 рр.', 'Організація з\'їзду Асоціації акушерів-гінекологів України з міжнародною участю (2011 і 2017 рр., м. Одеса)', 'Участь у VI міжнародному медичному конгресі ПСЕМФ та XIV З\'їзді ВУЛТ (м. Одеса, 2015 р.)', 'Щорічні новорічні та різдвяні зустрічі 2003–2018 рр.', 'Регіональні освітні семінари з актуальних проблем акушерства і гінекології (2019–2021 рр.)', "І-а міждисциплінарна науково-практична конференція з міжнародною участю, присвячена пам'яті проф. О.О. Зелінського (квітень 2021 р.)"],
+    prospectsTitle: 'Перспективні напрямки роботи',
+    prospects: ['Участь у процесі безперервної післядипломної освіти та підвищення рівня професійної підготовки', "Реалізація основних напрямів реформи системи охорони здоров'я в акушерстві і гінекології", 'Сприяння розвитку перинатальної допомоги в регіоні', "Організація науково-практичних конференцій, симпозіумів, з'їздів та пленумів", 'Співпраця з іншими громадськими організаціями (ВУЛТ, Асоціація акушерських анестезіологів та ін.)', 'Посилення юридичного захисту лікарів акушерів-гінекологів', 'Створення експертної групи з рецензування медичної документації', 'Видавнича діяльність'],
+  },
+  en: {
+    back: 'Go back',
+    badge: 'About us',
+    title: 'History of the Odessa Branch of AAGU',
+    subtitle: 'ODESSA BRANCH OF THE ASSOCIATION OF OBSTETRICIANS AND GYNECOLOGISTS OF UKRAINE',
+    history: ['The decision to establish the Association of Obstetricians and Gynecologists of Ukraine was made at the X Congress held on September 26, 1996 in Odessa. On January 9, 1997, the public organization was registered by the Ministry of Justice of Ukraine.', 'The Odessa branch underwent primary legal registration on 23.09.1998, under № 15561200000 018 656. Certificate A 00 № 267249.', 'Professor Oleksandr Zelinskyi served as Chairman from its founding until 2019, also serving as Vice-President of the Association.', 'In 2016, registration was updated in line with legislative changes.', 'In 2019, Gulsym Manasova was elected Chairwoman — Honored Physician of Ukraine, Doctor of Medical Sciences, Professor of Obstetrics and Gynecology at ONMedU.', 'For 24 years, the Odessa Branch has served as a consolidating, methodological and educational center for obstetricians and gynecologists of the Odessa region.'],
+    cofoundersTitle: 'Co-founders of the Odessa Branch',
+    cofounders: [['Oleksandr O. Zelinskyi', 'Honored Scientist of Ukraine, Doctor of Medical Sciences, Professor, Head of the Department of Obstetrics and Gynecology №2, ONMedU.'], ['Mykola V. Shapoval', 'Doctor of Medical Sciences, Professor of the Department of Obstetrics and Gynecology №2, ONMedU.'], ['Volodymyr S. Lebedenko', 'Honored Physician of Ukraine, PhD, Chief Specialist of the Department of Maternal and Child Health, Odessa Regional State Administration.']],
+    activitiesTitle: 'Main activities conducted',
+    activities: ['Annual regional scientific-practical conferences (2003–2011) with leading specialists of Ukraine', 'Master classes with international partners on gynecological endocrinology (2004–2007)', 'Quarterly discussion clubs on key issues in obstetrics and gynecology (2011–2018)', 'School of Gynecological Endocrinology (2012–2018)', 'Interregional interdisciplinary conferences with the Mykolaiv branch of AAGU (2012–2017)', 'Congress of the Association of Obstetricians and Gynecologists of Ukraine with international participation (2011 and 2017, Odessa)', 'VI International Medical Congress and XIV Congress of VULT (Odessa, 2015)', 'Annual New Year and Christmas meetings (2003–2018)', 'Regional educational seminars on obstetrics and gynecology (2019–2021)', 'I interdisciplinary conference dedicated to the memory of Prof. O.O. Zelinskyi (April 2021)'],
+    prospectsTitle: 'Future directions',
+    prospects: ['Participation in continuous postgraduate education and professional development', 'Implementation of healthcare reform in obstetrics and gynecology', 'Promotion of perinatal care development in the region', 'Organization of scientific-practical conferences, symposia, congresses and plenums', 'Cooperation with other public organizations (VULT, Association of Obstetric Anesthesiologists, etc.)', 'Strengthening legal protection for obstetricians and gynecologists', 'Establishing an expert group for reviewing medical documentation', 'Publishing activities'],
+  },
+};
+
+const docs = {
+  uk: { back: 'Повернутись', badge: 'Документи', title: 'Документи ОВ ААГУ', subtitle: 'Офіційні документи та корисні матеріали', note: 'Усі документи відкриваються у Google Drive. Для завантаження потрібен доступ до Google-акаунту.' },
+  en: { back: 'Go back', badge: 'Documents', title: 'Documents of the Odessa Branch', subtitle: 'Official documents and useful materials', note: 'All documents open in Google Drive. A Google account is required to download.' },
+};
+const documents = [
+  [{ uk: 'Свідоцтво про реєстрацію', en: 'Registration Certificate' }, 'https://drive.google.com/file/d/18SIjvLX2nhdpUKcxlbWWbTfFOq6InptQ/view?usp=sharing'],
+  [{ uk: 'Положення (СТАТУТ ОВ ААГУ)', en: 'Charter of the Odessa Branch' }, 'https://drive.google.com/file/d/1wq7_BrQpHRdyXx3wLPPjihnbbYlgZdKQ/view?usp=sharing'],
+  [{ uk: 'Положення про запобігання конфлікту інтересів', en: 'Conflict of Interest Prevention Policy' }, 'https://drive.google.com/file/d/1UO8P6YkPozY0LsKYRna5IouOVh9ZA7tE/view?usp=sharing'],
+  [{ uk: 'Положення про методологію оцінювання знань', en: 'Knowledge Assessment Methodology Policy' }, 'https://drive.google.com/file/d/1AIPnUm2EQjrkBxPV469T5xaDCZ5z0ciP/view?usp=sharing'],
+  [{ uk: 'Положення про оцінку БПР', en: 'CPD Assessment Policy' }, 'https://drive.google.com/file/d/1dylx_yFlIYTY_IOKYQRB1GQYQk-n4bHY/view?usp=sharing'],
+  [{ uk: 'Лист центру БПР №283 (1118)', en: 'CPD Centre Letter №283 (1118)' }, 'https://drive.google.com/file/d/1OhlsAhfDSXnvphSY_1ufM-iNqvI_Sixz/view?usp=share_link'],
+  [{ uk: 'ЗАЯВА НА ВСТУП ДО ОВ ААГУ', en: 'Application for Membership' }, 'https://docs.google.com/document/d/1ASuMijWKyQNcsIQhQZWbksoW0knle_KS/edit?usp=sharing'],
+  [{ uk: 'АНКЕТА НА ВСТУП ДО ОВ ААГУ', en: 'Membership Application Form' }, 'https://docs.google.com/document/d/1-Xet6HACC8LjKYN_KGaN1vhpgniv6U5e/edit?usp=sharing'],
+  [{ uk: 'АНКЕТА-ЗАЯВА УМС', en: 'Ukrainian Medical Union Application Form' }, 'https://drive.google.com/file/d/19Gc5af2Pc59EwTIet8oiehXoTsBtmc1C/view?usp=sharing'],
+];
+
+const work = {
+  uk: {
+    back: 'Повернутись',
+    badge: 'Діяльність',
+    title: 'Діяльність ОВ ААГУ',
+    subtitle: 'БЕЗПЕРЕРВНИЙ ПРОФЕСІЙНИЙ РОЗВИТОК',
+    speakers: 'Спікери',
+    watchLabel: 'Переглянути трансляцію',
+    programLabel: 'Програма',
+    confLinkLabel: 'Сайт конференції',
+    events: [
+      ['I', 'Фахова школа-семінар «Особливості акушерсько-гінекологічної допомоги в умовах COVID-19»', '19.11.2020 (онлайн)', null, null, [['Гладчук І.З.', 'Акушерська-гінекологічна допомога в час COVID-пандемії'], ['Рязанцев І.І.', 'Огляд випадків материнської смертності. Case report важких випадків COVID-19 у вагітних'], ['Посохова С.П.', 'Міжнародний досвід «COVID-19 та вагітність»'], ['Буднюк О.О.', 'Особливості ведення вагітних з COVID-19 у відділенні реанімації'], ['Манасова Г.С., Голубенко М.Ю., Шпак І.В.', 'Клініко-епідеміологічні особливості перебігу COVID-19 у вагітних Одеського регіону'], ['Бондаренко Н.І.', 'Маршрут пацієнта з COVID-19 в м. Одесі']]],
+      ['II', 'Фахова школа-семінар «Юридичний супровід медичної практики в Україні»', '', null, 'https://youtu.be/HW15hLN0o4s', [['Гладчук І.З., Манасова Г.С.', 'Вступне слово'], ['Мартиненко Л.В.', 'Правова відповідальність лікаря. Конфлікти та судові спори: практика УМС'], ['Фущич Б.В.', 'Українська медична спілка: забезпечення юридичного захисту лікарів']]],
+      ['III', 'Міждисциплінарна науково-практична конференція з міжнародною участю', '16–17 квітня 2021 р., м. Одеса', "Присвячена пам'яті провідного акушера-гінеколога України та Європи, професора Олександра Олексійовича Зелінського. Захід внесений до Реєстру МОЗ та НАМН України, сертифікований.", 'https://ov.aagu.od.ua/conf', null],
+      ['IV', 'Вебінар «Актуальні питання профілактики ускладнень вагітності»', '27 травня 2021 р. (онлайн)', null, 'https://youtu.be/BpzpCNdZyGk', [['Рязанцев І.І.', 'Кореляція факторів ризику розвитку прееклампсії'], ['Посохова С.П.', 'Сучасні аспекти профілактики прееклампсії'], ['Рибін А.І.', 'Алгоритми менеджменту передраку і раку шийки матки на фоні вагітності']]],
+      ['V', "Регіональний освітній семінар «Актуальні міждисциплінарні проблеми жіночого здоров'я»", '25 листопада 2021 р. (онлайн)', null, 'https://youtu.be/NpVPXxNDNg8', [['Гладчук І.З.', 'Вступне слово'], ['Рязанцев І.І.', 'COVID-19 і материнська смертність в Одеській області'], ['Посохова С.П.', 'Актуальні питання тромботичних ускладнень у вагітних'], ['Єрмоленко Т.О.', 'Лонгковід та клімактерій'], ['Манасова Г.С.', 'Прогнозування та профілактика прееклампсії'], ['Рибін А.І.', 'Пухлинна патологія шийки матки та вагітність']]],
+      ['VI', "Регіональний освітній семінар «Персоніфіковані підходи до проблем жіночого та репродуктивного здоров'я»", '23 грудня 2021 р. (змішаний формат)', null, 'https://youtu.be/-wTGSjQLPHI', [['Рязанцев І.І.', 'Аналіз материнської та перинатальної смертності 2019–2021 рр.'], ['Посохова С.П.', 'Перинатальні аспекти невиношування вагітності'], ['Міщенко В.П.', 'Профілактика невиношування вагітності у сім\'ях груп ризику'], ['Гладчук В.І.', 'Аномалії розвитку матки: від діагностики до лікування'], ['Манасова Г.С.', 'Патогенез передчасних пологів: можливості керування'], ['Єрмоленко Т.О.', 'Менопаузальна терапія: акцент на персоналізацію']]],
+    ],
+    speakersList: ['Гладчук Ігор Зіновійович', 'Гонта Радіон Іванович', 'Манасова Гульсим Серікбаївна', 'Єрмоленко Тетяна Олексіївна', 'Запорожченко Марина Борисівна', "Максимовський В'ячеслав Євгенович", 'Міщенко Валентина Павлівна', 'Нікітенко Раїса Петрівна', 'Петровський Юрій Юрійович', 'Посохова Світлана Петрівна', 'Потапчук Олександр Васильович', 'Процепко Олександр Олексійович', 'Рожковська Наталія Миколаївна'],
+  },
+  en: {
+    back: 'Go back',
+    badge: 'Activities',
+    title: 'Activities of the Odessa Branch',
+    subtitle: 'CONTINUOUS PROFESSIONAL DEVELOPMENT',
+    speakers: 'Speakers',
+    watchLabel: 'Watch recording',
+    programLabel: 'Program',
+    confLinkLabel: 'Conference website',
+    events: [
+      ['I', 'Professional School-Seminar «Obstetric-gynecological care during COVID-19»', '19.11.2020 (online)', null, null, [['Gladchuk I.Z.', 'Obstetric-gynecological care during the COVID pandemic'], ['Ryazantsev I.I.', 'Review of maternal mortality cases. Case report of severe COVID-19 in pregnant women'], ['Posokhova S.P.', 'International experience: COVID-19 and pregnancy'], ['Budniuk O.O.', 'Managing pregnant women with COVID-19 in ICU'], ['Manasova G.S. et al.', 'Clinical and epidemiological features of COVID-19 in pregnant women of the Odessa region'], ['Bondarenko N.I.', 'Patient pathway for COVID-19 in Odessa']]],
+      ['II', 'Professional School-Seminar «Legal support of medical practice in Ukraine»', '', null, 'https://youtu.be/HW15hLN0o4s', [['Gladchuk I.Z., Manasova G.S.', 'Opening remarks'], ['Martynenko L.V.', 'Legal liability of a physician. Conflicts and litigation'], ['Fushchych B.V.', 'Ukrainian Medical Union: legal protection of doctors']]],
+      ['III', 'Interdisciplinary scientific-practical conference with international participation', 'April 16–17, 2021, Odessa', 'Dedicated to the memory of the leading obstetrician-gynecologist of Ukraine and Europe, Professor Oleksandr Zelinskyi. The event is registered in the MoH and NAMS of Ukraine Registry.', 'https://ov.aagu.od.ua/conf', null],
+      ['IV', 'Webinar «Current issues in pregnancy complication prevention»', 'May 27, 2021 (online)', null, 'https://youtu.be/BpzpCNdZyGk', [['Ryazantsev I.I.', 'Correlation of risk factors for preeclampsia'], ['Posokhova S.P.', 'Modern aspects of preeclampsia prevention'], ['Rybin A.I.', 'Management algorithms for cervical cancer and pregnancy']]],
+      ['V', "Regional Educational Seminar «Current interdisciplinary issues in women's health»", 'November 25, 2021 (online)', null, 'https://youtu.be/NpVPXxNDNg8', [['Gladchuk I.Z.', 'Opening remarks'], ['Ryazantsev I.I.', 'COVID-19 and maternal mortality in Odessa region'], ['Posokhova S.P.', 'Thrombotic complications in pregnant women'], ['Yermolenko T.O.', 'Long COVID and climacteric'], ['Manasova G.S.', 'Prediction and prevention of preeclampsia'], ['Rybin A.I.', 'Cervical cancer and pregnancy']]],
+      ['VI', "Regional Educational Seminar «Personalized approaches to women's health»", 'December 23, 2021 (mixed format)', null, 'https://youtu.be/-wTGSjQLPHI', [['Ryazantsev I.I.', 'Analysis of maternal and perinatal mortality 2019–2021'], ['Posokhova S.P.', 'Perinatal aspects of miscarriage'], ['Mishchenko V.P.', 'Prevention of miscarriage in high-risk families'], ['Gladchuk V.I.', 'Uterine developmental anomalies: from diagnosis to treatment'], ['Manasova G.S.', 'Pathogenesis of preterm labor'], ['Yermolenko T.O.', 'Menopausal therapy: emphasis on personalization']]],
+    ],
+    speakersList: ['Igor Z. Gladchuk', 'Radion I. Honta', 'Gulsym S. Manasova', 'Tetyana O. Yermolenko', 'Maryna B. Zaporozhchenko', 'Vyacheslav Ye. Maksymovskyi', 'Valentyna P. Mishchenko', 'Raisa P. Nikitenko', 'Yurii Yu. Petrovskyi', 'Svitlana P. Posokhova', 'Oleksandr V. Potapchuk', 'Oleksandr O. Protsepko', 'Nataliia M. Rozhkovska'],
+  },
+};
+
+const involved = {
+  uk: {
+    back: 'Повернутись', badge: 'Спільнота', title: 'Долучитись до ОВ ААГУ',
+    platformTitle: 'Освітня платформа Accemedin',
+    platformDesc: 'Одеське відділення Асоціації зареєстровано на освітній платформі «Аксемедін», що дозволяє удосконалювати можливості в сфері безперервної післядипломної освіти.',
+    platformAbout: "Аксемедін — Accelerator of Medical Information — це освітня онлайн-платформа виключно для профпесіоналів охорони здоров'я. Навчання проходить за інтерактивною схемою, що сприяє легшому засвоєнню інформації. Платформа дозволяє формувати особисте електронне освітнє портфоліо для атестації/ліцензування медичної практики.",
+    stepsTitle: 'Кроки для підтвердження членства',
+    steps: ['Перейти на платформу accemedin.com та зареєструватись.', 'Заповнити базові дані про освіту в особистому кабінеті.', 'В особистому кабінеті перейти в «Спільноти», знайти ГО «Одеське відділення Асоціації акушерів-гінекологів України» та натиснути «Приєднатися».', 'Чекати підтвердження керівництвом Одеського відділення.'],
+    platformLink: 'Відкрити Accemedin',
+    legalTitle: 'Юридичний супровід членів ОВ ААГУ',
+    legalDesc: 'Членам Одеського відділення надається юридичний захист через Українську Медичну Спілку (УМС). Членам ОВ ААГУ — знижка 20% на членські пакети.',
+    legalStepsTitle: 'Кроки до вступу в УМС',
+    legalSteps: ['Роздрукувати і заповнити анкету-заяву (одна анкета на одну особу).', "Зв'язатися з секретарем відділення — Кузьмин Наталією Василівною (+38097 686 82 36) та надіслати анкету на viber або email: aagu.od@gmail.com.", 'Оплатити членський внесок за обраним пакетом.'],
+    packagesTitle: 'Пакети членства (зі знижкою 20% для членів ОВ ААГУ)',
+    packages: [['Стандартний А', '590 грн', '472 грн'], ['Повний А', '900 грн', '720 грн']],
+    packagesNote: 'Пакети «простий» та «базовий» оплачуються в повному обсязі.',
+    bankTitle: 'Реквізити для оплати',
+    bank: [['Отримувач', 'ГС «Українська Медична Спілка»'], ['IBAN', 'UA96 305299 00000 26008016215925'], ['Банк', 'АТ КБ «ПРИВАТБАНК», КИЇВ'], ['ЄДРПОУ', '40786641']],
+    umsContactsTitle: 'Контакти УМС при виникненні правових питань',
+    important: 'Ваше рішення про вступ до УМС має бути інформованим, індивідуальним та добровільним. Про рішення необхідно проінформувати секретаря відділення в усній формі.',
+  },
+  en: {
+    back: 'Go back', badge: 'Community', title: 'Get involved with the Odessa Branch',
+    platformTitle: 'Accemedin Educational Platform',
+    platformDesc: 'The Odessa Branch of the Association is registered on the Accemedin educational platform, enhancing our capabilities in continuous postgraduate education.',
+    platformAbout: 'Accemedin — Accelerator of Medical Information — is an online educational platform exclusively for healthcare professionals. It offers interactive learning and allows building a personal electronic educational portfolio for attestation/licensing.',
+    stepsTitle: 'Steps to confirm membership',
+    steps: ['Go to accemedin.com and register.', 'Fill in basic education details in your personal account.', "In your account, go to 'Communities', find the Odessa Branch of AAGU and click 'Join'.", 'Wait for confirmation from the Odessa Branch management.'],
+    platformLink: 'Open Accemedin',
+    legalTitle: 'Legal support for OB AAGU members',
+    legalDesc: 'Members of the Odessa Branch receive legal protection through the Ukrainian Medical Union (UMU). OB AAGU members receive a 20% discount on membership packages.',
+    legalStepsTitle: 'Steps to join the UMU',
+    legalSteps: ['Print and fill in the application form (one form per person).', 'Contact the branch secretary — Nataliia V. Kuzmin (+38097 686 82 36) and send the form via Viber or email: aagu.od@gmail.com.', 'Pay the membership fee for the selected package.'],
+    packagesTitle: 'Membership packages (20% discount for OB AAGU members)',
+    packages: [['Standard A', '590 UAH', '472 UAH'], ['Full A', '900 UAH', '720 UAH']],
+    packagesNote: 'Basic and Elementary packages are paid in full.',
+    bankTitle: 'Payment details',
+    bank: [['Recipient', 'Ukrainian Medical Union'], ['IBAN', 'UA96 305299 00000 26008016215925'], ['Bank', "JSC CB 'PRIVATBANK', KYIV"], ['EDRPOU', '40786641']],
+    umsContactsTitle: 'UMU legal contacts',
+    important: 'Your decision to join the UMU must be informed, individual, and voluntary. Notify the branch secretary of your decision verbally.',
+  },
+};
+
+const vid = {
+  uk: {
+    back: 'Повернутись', badge: 'Спільний проект', title: 'ВІДРОДЖЕННЯ',
+    subtitle: 'Програма медико-психологічного супроводу вагітності, пологів та післяпологового периоду у кризовій ситуації воєнних дій',
+    intro: ['Соціально-політичний стан будь-якого суспільства визначає культуру та якість пологової допомоги, зумовлює розвиток та психофізичне здоров\'я нації на покоління вперед.', 'Задоволення психофізіологічних потреб, створення оптимальних умов для сприятливого розвитку внутрішньоутробного плоду, забезпечення безпеки та захисту є природною потребою кожної жінки в період вагітності, пологів та після пологів.', 'На сьогоднішній день у будь-якій точці нашої країни базові потреби в безпеці та захист порушені. Відчуття небезпеки, розпачу, а часом і безнадійності призводять до загальної дезадаптації і можуть сприяти порушенню психофізіології вагітності, пологів та післяпологового периоду.', 'Можливість забезпечити медико-психологічний супровід вагітних жінок і породіль, психологічна та професійна підтримка медичного персоналу пологових закладів є пріоритетним напрямком для акушерів-гінекологів та перинатальних психологів-педагогів в ці важкі часи.'],
+    goalTitle: 'Мета проекту', goal: 'Розробка та впровадження Програми психологічної допомоги для вагітних / нещодавно вагітних жінок, а також медичного персоналу пологодопоміжних закладів у кризовий период військових дій в Україні.',
+    tasksTitle: 'Завдання проекту',
+    tasks: ['Вивчити психосоматичний стан вагітних / нещодавно вагітних жінок, які опинилися в кризових умовах, шляхом проведення он-лайн анкетування.', 'Вивчити психосоматичний стан медичного персоналу пологових будинків шляхом проведення он-лайн анкетування.', 'Провести навчальні семінари для медичного персоналу пологових будинків з основних психофізіологічних особливостей вагітних та породіль в умовах воєнних дій.', 'Забезпечити надання психологічної та гуманітарної адресної допомоги вагітним, роділлям та породіллям.', 'Розробити та впровадити Програму медико-психологічного супроводу у практичну діяльність медичного персоналу пологових установ.'],
+    audienceTitle: 'Цільова аудиторія', audience: ['Вагітні жінки та жінки, які нещодавно народили', 'Медичний персонал пологових будинків, жіночих консультацій, сімейних амбулаторій', 'Перинатальні психологи-педагоги, що мають навики психологічного супроводу'],
+    materialsTitle: 'Корисні матеріали', materials: [['Вся інформація про проект', 'https://drive.google.com/file/d/1OXzAIM7H1_hQ9NV-y09vJCPvgLP0lekW/view?usp=sharing'], ['Анкетування для вагітних', 'https://docs.google.com/forms/d/1Bu-U7KaakwEu-_H7crvus4KuPE8C3eCf6AZMnvrNXSI/edit?usp=sharing'], ['Анкетування для медперсоналу', 'https://docs.google.com/forms/d/1KkMesi7BVgF60rbQKawWGIa0Rd0ocjS53WCM28YxBVQ/edit?usp=sharing']],
+  },
+  en: {
+    back: 'Go back', badge: 'Joint project', title: 'RENAISSANCE',
+    subtitle: 'Program of medical and psychological support of pregnancy, childbirth and the postpartum period in a crisis situation of hostilities',
+    intro: ['The socio-political state of any society determines the culture and quality of maternity care, and shapes the psychophysical health of the nation for generations to come.', 'Meeting psychophysiological needs and ensuring the safety and protection of every woman during pregnancy, childbirth and the postpartum period is a natural necessity.', 'Today, basic safety and security needs are disrupted across Ukraine. Feelings of danger and despair lead to general disadaptation and can disrupt the psychophysiology of pregnancy and childbirth.', 'Providing medico-psychological support for pregnant women and new mothers, as well as psychological and professional support for medical staff, is a priority for obstetricians and perinatal psychologists during these difficult times.'],
+    goalTitle: 'Project goal', goal: 'To develop and implement a Program of psychological assistance for pregnant / recently pregnant women, as well as medical staff of maternity hospitals during the crisis period of hostilities in Ukraine.',
+    tasksTitle: 'Project tasks', tasks: ['Study the psychosomatic state of pregnant women in crisis conditions through online surveys.', 'Study the psychosomatic state of maternity hospital staff through online surveys.', 'Conduct training seminars for maternity hospital staff on psychophysiological needs of pregnant women during wartime.', 'Ensure provision of psychological and humanitarian targeted assistance to pregnant women and new mothers.', 'Develop and implement the Program of medico-psychological support in the practical work of maternity institutions.'],
+    audienceTitle: 'Target audience', audience: ['Pregnant women and recently delivered women', "Medical staff of maternity hospitals, women's clinics, and family practices", 'Perinatal psychologists and educators with skills in psychological support'],
+    materialsTitle: 'Useful materials', materials: [['Full project information', 'https://drive.google.com/file/d/1OXzAIM7H1_hQ9NV-y09vJCPvgLP0lekW/view?usp=sharing'], ['Survey for pregnant women', 'https://docs.google.com/forms/d/1Bu-U7KaakwEu-_H7crvus4KuPE8C3eCf6AZMnvrNXSI/edit?usp=sharing'], ['Survey for medical staff', 'https://docs.google.com/forms/d/1KkMesi7BVgF60rbQKawWGIa0Rd0ocjS53WCM28YxBVQ/edit?usp=sharing']],
+  },
+};
+
+const t = home[lang];
+const about = aboutPage[lang];
+const w = work[lang];
+const inv = involved[lang];
+const v = vid[lang];
+---
+
+<div class="bg-rose-50 min-h-screen">
+  <Header lang={lang} currentPath={currentPath} />
+
+  {page === 'home' && (
+    <>
+      <section class="relative min-h-screen flex items-center overflow-hidden pt-20">
+        <div class="absolute inset-0 bg-gradient-to-br from-rose-50 via-white to-rose-100/50"></div>
+        <div class="absolute top-20 right-[-100px] w-[500px] h-[500px] rounded-full bg-rose-200/30 blur-3xl hero-orb-one"></div>
+        <div class="absolute bottom-0 left-[-200px] w-[600px] h-[600px] rounded-full bg-rose-300/20 blur-3xl hero-orb-two"></div>
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-8 w-full">
+          <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="order-2 lg:order-1">
+              <span class="reveal inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-8">{t.hero.badge}</span>
+              <h1 class="reveal reveal-2 font-heading text-4xl sm:text-5xl lg:text-[3.25rem] font-bold text-rose-900 leading-tight mb-6">{t.hero.title}</h1>
+              <p class="reveal reveal-3 text-lg text-rose-900/60 leading-relaxed mb-10 max-w-xl">{t.hero.subtitle}</p>
+              <div class="reveal reveal-4 flex flex-wrap gap-4">
+                <a href="#about" class="group inline-flex items-center gap-2 px-8 py-4 bg-rose-300 text-white rounded-full font-medium text-sm transition-all duration-300 hover:bg-rose-500 hover:shadow-lg hover:shadow-rose-300/25 hover:scale-[1.02]">{t.hero.cta1}<Icon name="arrow-down" size={16} class="transition-transform duration-300 group-hover:translate-y-0.5" /></a>
+                <a href="#documents" class="group inline-flex items-center gap-2 px-8 py-4 border-2 border-rose-200 text-rose-900 rounded-full font-medium text-sm transition-all duration-300 hover:border-rose-300 hover:bg-rose-50 hover:scale-[1.02]"><Icon name="file" size={16} />{t.hero.cta2}</a>
+              </div>
+            </div>
+            <div class="reveal reveal-2 order-1 lg:order-2">
+              <div class="relative">
+                <div class="absolute inset-0 bg-gradient-to-br from-rose-200/40 to-transparent rounded-[2rem] transform rotate-3"></div>
+                <img src="/assets/hero-clinic.png" alt="Modern medical clinic with warm natural lighting" class="relative rounded-[2rem] w-full object-cover shadow-2xl shadow-rose-200/30" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-bounce"><div class="w-6 h-10 rounded-full border-2 border-rose-300/40 flex justify-center pt-2"><div class="w-1 h-2 rounded-full bg-rose-300/60"></div></div></div>
+      </section>
+
+      <section id="renaissance" class="py-24 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="reveal relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-rose-50 to-rose-100/60">
+            <div class="grid lg:grid-cols-2 gap-0">
+              <div class="relative h-64 lg:h-auto min-h-[320px]"><img src="/assets/supportive-care.png" alt="Supportive care hands" class="absolute inset-0 w-full h-full object-cover" /><div class="absolute inset-0 bg-gradient-to-r from-transparent to-rose-50/30 lg:bg-gradient-to-r lg:from-transparent lg:to-rose-50/50"></div></div>
+              <div class="p-8 lg:p-14 flex flex-col justify-center">
+                <span class="inline-block self-start px-3 py-1 rounded-full bg-rose-200/60 text-rose-600 text-xs font-semibold mb-4">{t.renaissance.badge}</span>
+                <h2 class="font-heading text-3xl lg:text-4xl font-bold text-rose-900 mb-3">{t.renaissance.title}</h2>
+                <p class="text-sm text-rose-300 font-medium mb-6 leading-relaxed">{t.renaissance.subtitle}</p>
+                <p class="text-rose-900/60 leading-relaxed mb-8 text-[15px]">{t.renaissance.description}</p>
+                <a href={`${prefix}/vidrodjenya`} class="group inline-flex items-center gap-2 self-start px-6 py-3 bg-rose-300 text-white rounded-full text-sm font-medium transition-all duration-300 hover:bg-rose-500 hover:shadow-lg hover:shadow-rose-300/25 hover:scale-[1.02]">{t.renaissance.cta}<Icon name="arrow-right" size={16} class="transition-transform duration-300 group-hover:translate-x-1" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="py-24 lg:py-32 relative">
+        <div class="absolute inset-0 opacity-[0.03]"><img src="/assets/about-bg.png" alt="" class="w-full h-full object-cover" /></div>
+        <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <div>
+              <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{t.about.badge}</span>
+              <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight mb-10">{t.about.title}</h2>
+              <div class="grid grid-cols-2 gap-6">
+                {t.about.stats.map(([icon, value, label]) => (
+                  <div class="group p-6 rounded-[1.5rem] bg-white/80 shadow-[0_10px_30px_rgba(74,59,59,0.05)] transition-all duration-300 hover:shadow-[0_15px_40px_rgba(74,59,59,0.1)] hover:scale-[1.02]">
+                    <Icon name={icon} size={24} class="text-rose-300 mb-3 transition-transform duration-300 group-hover:scale-110" />
+                    <p class="font-heading text-2xl font-bold text-rose-900">{value}</p>
+                    <p class="text-sm text-rose-900/50 mt-1">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="lg:pt-16">
+              <p class="text-lg text-rose-900/70 leading-relaxed mb-6">{t.about.p1}</p>
+              <p class="text-lg text-rose-900/70 leading-relaxed mb-6">{t.about.p2}</p>
+              <p class="text-lg text-rose-900/70 leading-relaxed">{t.about.p3}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="activities" class="py-24 lg:py-32 bg-gradient-to-b from-rose-50/50 to-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="text-center mb-16">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{t.activities.badge}</span>
+            <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight max-w-3xl mx-auto">{t.activities.title}</h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {t.activities.items.map(([icon, title, text]) => (
+              <div class="group h-full p-8 rounded-[1.5rem] bg-white shadow-[0_10px_30px_rgba(74,59,59,0.05)] transition-all duration-300 hover:shadow-[0_20px_50px_rgba(74,59,59,0.1)] hover:scale-[1.02] hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center mb-5 transition-all duration-300 group-hover:bg-rose-300 group-hover:scale-110"><Icon name={icon} size={22} class="text-rose-400 transition-colors duration-300 group-hover:text-white" /></div>
+                <h3 class="font-heading text-lg font-semibold text-rose-900 mb-3 transition-colors duration-300 group-hover:text-rose-700">{title}</h3>
+                <p class="text-[15px] text-rose-900/55 leading-relaxed">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="membership" class="py-24 lg:py-32">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+          <div class="text-center mb-14">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{t.membership.badge}</span>
+            <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">{t.membership.title}</h2>
+          </div>
+          <div>
+            <div class="flex justify-center gap-2 mb-10 flex-wrap" data-tabs>
+              {t.membership.tabs.map(([id, label, icon], index) => <button data-tab={id} class={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-all duration-300 ${index === 0 ? 'bg-rose-300 text-white shadow-lg shadow-rose-300/20' : 'bg-rose-50 text-rose-900/60 hover:bg-rose-100 hover:text-rose-900'}`}><Icon name={icon} size={16} />{label}</button>)}
+            </div>
+            {t.membership.tabs.map(([id, , , items], index) => (
+              <div data-panel={id} class={`${index === 0 ? '' : 'hidden'} bg-white rounded-[1.5rem] p-8 lg:p-10 shadow-[0_10px_30px_rgba(74,59,59,0.05)]`}>
+                <ul class="space-y-4">
+                  {items.map((item, i) => <li class="flex gap-4 items-start"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-rose-100 flex items-center justify-center text-xs font-semibold text-rose-400 mt-0.5">{i + 1}</span><p class="text-rose-900/70 leading-relaxed">{item}</p></li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="presidium" class="py-24 lg:py-32 bg-gradient-to-b from-white to-rose-50/50">
+        <div class="max-w-5xl mx-auto px-6 lg:px-8">
+          <div class="text-center mb-16"><span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{t.presidium.badge}</span><h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">{t.presidium.title}</h2></div>
+          <div class="group mb-10 p-8 lg:p-10 rounded-[1.5rem] bg-white shadow-[0_10px_30px_rgba(74,59,59,0.05)] transition-all duration-300 hover:shadow-[0_15px_40px_rgba(74,59,59,0.1)] text-center">
+            <div class="w-20 h-20 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-5 transition-transform duration-300 group-hover:scale-110"><Icon name="users" size={32} class="text-rose-300" /></div>
+            <p class="text-xs font-semibold text-rose-300 uppercase tracking-widest mb-2">{t.presidium.chairman}</p>
+            <h3 class="font-heading text-xl lg:text-2xl font-bold text-rose-900 mb-2">{t.presidium.chairmanName}</h3>
+            <p class="text-rose-900/50 text-sm max-w-md mx-auto">{t.presidium.chairmanTitle}</p>
+          </div>
+          <p class="text-center text-xs font-semibold text-rose-300 uppercase tracking-widest mb-6">{t.presidium.members}</p>
+          <div class="grid sm:grid-cols-2 gap-6">
+            {t.presidium.membersList.map(([name, role]) => <div class="group p-6 rounded-[1.5rem] bg-white shadow-[0_10px_30px_rgba(74,59,59,0.05)] transition-all duration-300 hover:shadow-[0_15px_40px_rgba(74,59,59,0.1)] hover:scale-[1.02]"><div class="flex items-start gap-4"><div class="w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:bg-rose-100"><Icon name="users" size={20} class="text-rose-300" /></div><div><h3 class="font-heading font-semibold text-rose-900 mb-1">{name}</h3><p class="text-sm text-rose-900/50 leading-relaxed">{role}</p></div></div></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section id="news" class="py-24 lg:py-32">
+        <div class="max-w-5xl mx-auto px-6 lg:px-8">
+          <div class="text-center mb-14"><span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{t.news.badge}</span><h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">{t.news.title}</h2></div>
+          <div class="rounded-[2rem] bg-white shadow-[0_10px_40px_rgba(74,59,59,0.06)] overflow-hidden">
+            <div class="bg-gradient-to-r from-rose-300 to-rose-400 p-8 lg:p-10"><span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold mb-4">{t.news.event.tag}</span><h3 class="font-heading text-xl lg:text-2xl font-bold text-white mb-4 leading-snug">{t.news.event.title}</h3><div class="flex flex-wrap gap-4 text-white/90 text-sm"><span class="flex items-center gap-1.5"><Icon name="calendar" size={14} />{t.news.event.date}</span><span class="flex items-center gap-1.5"><Icon name="map" size={14} />{t.news.event.location}</span></div></div>
+            <div class="p-8 lg:p-10">
+              <p class="text-rose-300 font-medium text-sm mb-3">{t.news.event.direction}</p><p class="text-rose-900/70 text-[15px] leading-relaxed mb-4">{t.news.event.organizer}</p>
+              <div class="mb-6"><p class="text-xs font-semibold text-rose-900/40 uppercase tracking-wider mb-2">{t.news.co}</p><ul class="space-y-1">{t.news.event.coorganizers.map((item) => <li class="text-sm text-rose-900/60 flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-rose-200 flex-shrink-0 mt-1.5"></span>{item}</li>)}</ul></div>
+              <div class="flex flex-wrap gap-4 mb-8"><div class="flex items-center gap-2 px-4 py-2 rounded-full bg-rose-50 text-sm text-rose-900/70"><Icon name="award" size={14} class="text-rose-300" />{t.news.event.points}</div><div class="flex items-center gap-2 px-4 py-2 rounded-full bg-rose-50 text-sm text-rose-900/70"><Icon name="globe" size={14} class="text-rose-300" />{t.news.event.languages}</div></div>
+              <div class="grid sm:grid-cols-2 gap-4 mb-8">{t.news.event.formats.map(([type, price, note]) => <div class="p-5 rounded-2xl border border-rose-100 transition-all duration-300 hover:border-rose-200 hover:shadow-sm"><p class="font-heading font-semibold text-rose-900 mb-1">{type}</p><p class="text-rose-300 font-medium text-sm mb-2">{price}</p><p class="text-xs text-rose-900/50">{note}</p></div>)}</div>
+              <a href="https://forms.gle/rjDCf89aZHPec2SKA" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 px-8 py-4 bg-rose-300 text-white rounded-full font-medium text-sm transition-all duration-300 hover:bg-rose-500 hover:shadow-lg hover:shadow-rose-300/25 hover:scale-[1.02]">{t.news.register}<Icon name="arrow-right" size={16} class="transition-transform duration-300 group-hover:translate-x-1" /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )}
+
+  {page === 'about-us' && (
+    <main class="pt-28 pb-24">
+      <div class="max-w-4xl mx-auto px-6 lg:px-8">
+        <a href={isEn ? '/en/' : '/'} class="inline-flex items-center gap-2 text-sm text-rose-900/50 hover:text-rose-300 transition-colors mb-8"><Icon name="arrow-left" size={16} />{about.back}</a>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{about.badge}</span>
+        <h1 class="font-heading text-4xl lg:text-5xl font-bold text-rose-900 leading-tight mb-4">{about.title}</h1>
+        <p class="text-sm text-rose-900/40 uppercase tracking-widest font-medium mb-12">{about.subtitle}</p>
+        <div class="space-y-5 mb-16">{about.history.map((p) => <p class="text-lg text-rose-900/65 leading-relaxed">{p}</p>)}</div>
+        <h2 class="font-heading text-2xl font-bold text-rose-900 mb-8">{about.cofoundersTitle}</h2>
+        <div class="grid sm:grid-cols-3 gap-6 mb-16">{about.cofounders.map(([name, desc], i) => <div class="p-6 rounded-2xl bg-white shadow-[0_8px_25px_rgba(74,59,59,0.06)]"><div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center text-rose-300 font-heading font-bold text-sm mb-4">{i + 1}</div><h3 class="font-heading font-semibold text-rose-900 mb-2 text-sm leading-snug">{name}</h3><p class="text-xs text-rose-900/50 leading-relaxed">{desc}</p></div>)}</div>
+        <h2 class="font-heading text-2xl font-bold text-rose-900 mb-6">{about.activitiesTitle}</h2>
+        <ul class="space-y-3 mb-16">{about.activities.map((item) => <li class="flex gap-3 items-start text-rose-900/65"><span class="w-2 h-2 rounded-full bg-rose-300 flex-shrink-0 mt-2"></span><span class="leading-relaxed">{item}</span></li>)}</ul>
+        <h2 class="font-heading text-2xl font-bold text-rose-900 mb-6">{about.prospectsTitle}</h2>
+        <div class="grid sm:grid-cols-2 gap-4">{about.prospects.map((item, i) => <div class="p-5 rounded-2xl bg-white shadow-[0_8px_25px_rgba(74,59,59,0.06)] flex gap-3 items-start"><span class="w-6 h-6 rounded-full bg-rose-100 flex items-center justify-center text-rose-400 text-xs font-semibold flex-shrink-0 mt-0.5">{i + 1}</span><p class="text-sm text-rose-900/65 leading-relaxed">{item}</p></div>)}</div>
+      </div>
+    </main>
+  )}
+
+  {page === 'docs' && (
+    <main class="pt-28 pb-24">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8">
+        <a href={isEn ? '/en/' : '/'} class="inline-flex items-center gap-2 text-sm text-rose-900/50 hover:text-rose-300 transition-colors mb-8"><Icon name="arrow-left" size={16} />{docs[lang].back}</a>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{docs[lang].badge}</span>
+        <h1 class="font-heading text-4xl lg:text-5xl font-bold text-rose-900 leading-tight mb-3">{docs[lang].title}</h1>
+        <p class="text-rose-900/50 mb-12">{docs[lang].subtitle}</p>
+        <div class="space-y-3">{documents.map(([label, href]) => <a href={href} target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-5 bg-white rounded-2xl shadow-[0_4px_15px_rgba(74,59,59,0.05)] transition-all duration-300 hover:shadow-[0_10px_30px_rgba(74,59,59,0.1)] hover:scale-[1.01]"><div class="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:bg-rose-300"><Icon name="file" size={18} class="text-rose-400 transition-colors duration-300 group-hover:text-white" /></div><span class="font-medium text-rose-900/80 group-hover:text-rose-900 transition-colors duration-300 flex-1">{label[lang]}</span><Icon name="arrow-right" size={16} class="text-rose-300/50 flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></a>)}</div>
+        <p class="mt-10 text-sm text-rose-900/40 text-center">{docs[lang].note}</p>
+      </div>
+    </main>
+  )}
+
+  {page === 'work' && (
+    <main class="pt-28 pb-24">
+      <div class="max-w-4xl mx-auto px-6 lg:px-8">
+        <a href={isEn ? '/en/' : '/'} class="inline-flex items-center gap-2 text-sm text-rose-900/50 hover:text-rose-300 transition-colors mb-8"><Icon name="arrow-left" size={16} />{w.back}</a>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{w.badge}</span>
+        <h1 class="font-heading text-4xl lg:text-5xl font-bold text-rose-900 leading-tight mb-4">{w.title}</h1>
+        <p class="text-sm text-rose-900/40 uppercase tracking-widest font-medium mb-12">{w.subtitle}</p>
+        <div class="space-y-8">
+          {w.events.map(([num, title, date, desc, link, program]) => (
+            <div class="bg-white rounded-2xl shadow-[0_8px_25px_rgba(74,59,59,0.06)] overflow-hidden">
+              <div class="flex items-center gap-4 p-6 border-b border-rose-100"><span class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center font-heading font-bold text-rose-400 text-sm flex-shrink-0">{num}</span><div><h3 class="font-heading font-semibold text-rose-900 leading-snug">{title}</h3>{date && <p class="text-xs text-rose-900/40 mt-1">{date}</p>}</div></div>
+              <div class="p-6">
+                {desc && <p class="text-sm text-rose-900/60 leading-relaxed mb-4">{desc}</p>}
+                {program && <div><p class="text-xs font-semibold text-rose-900/40 uppercase tracking-wider mb-3">{w.programLabel}</p><ul class="space-y-2">{program.map(([speaker, topic]) => <li class="flex gap-3 text-sm"><span class="text-rose-300 font-medium flex-shrink-0">{speaker}</span><span class="text-rose-900/55">— {topic}</span></li>)}</ul></div>}
+                <div class="flex gap-3 mt-4 flex-wrap">
+                  {link && <a href={link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-rose-50 text-rose-400 text-xs font-medium hover:bg-rose-100 transition-colors"><Icon name={program ? 'play' : 'arrow-right'} size={12} />{program ? w.watchLabel : w.confLinkLabel}</a>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="mt-16">
+          <h2 class="font-heading text-2xl font-bold text-rose-900 mb-6">{w.speakers}</h2>
+          <div class="grid sm:grid-cols-2 gap-3">{w.speakersList.map((speaker, i) => <div class="flex items-center gap-3 px-5 py-3 bg-white rounded-xl shadow-[0_4px_15px_rgba(74,59,59,0.05)]"><span class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-xs font-semibold text-rose-400 flex-shrink-0">{i + 1}</span><span class="text-sm text-rose-900/70">{speaker}</span></div>)}</div>
+        </div>
+      </div>
+    </main>
+  )}
+
+  {page === 'involved' && (
+    <main class="pt-28 pb-24">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8">
+        <a href={isEn ? '/en/' : '/'} class="inline-flex items-center gap-2 text-sm text-rose-900/50 hover:text-rose-300 transition-colors mb-8"><Icon name="arrow-left" size={16} />{inv.back}</a>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{inv.badge}</span>
+        <h1 class="font-heading text-4xl lg:text-5xl font-bold text-rose-900 leading-tight mb-12">{inv.title}</h1>
+        <div class="bg-white rounded-2xl shadow-[0_8px_25px_rgba(74,59,59,0.06)] p-8 mb-8">
+          <h2 class="font-heading text-xl font-bold text-rose-900 mb-3">{inv.platformTitle}</h2>
+          <p class="text-rose-900/65 leading-relaxed mb-4">{inv.platformDesc}</p>
+          <p class="text-rose-900/55 text-sm leading-relaxed mb-6">{inv.platformAbout}</p>
+          <h3 class="text-sm font-semibold text-rose-900/40 uppercase tracking-wider mb-4">{inv.stepsTitle}</h3>
+          <ol class="space-y-3 mb-6">{inv.steps.map((step, i) => <li class="flex gap-3 items-start"><span class="w-7 h-7 rounded-full bg-rose-100 flex items-center justify-center text-xs font-bold text-rose-400 flex-shrink-0">{i + 1}</span><p class="text-sm text-rose-900/65 leading-relaxed pt-0.5">{step}</p></li>)}</ol>
+          <a href="https://accemedin.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-rose-300 text-white rounded-full text-sm font-medium transition-all duration-300 hover:bg-rose-500 hover:scale-[1.02]">{inv.platformLink}<Icon name="arrow-right" size={14} /></a>
+        </div>
+        <div class="bg-white rounded-2xl shadow-[0_8px_25px_rgba(74,59,59,0.06)] p-8 mb-8">
+          <h2 class="font-heading text-xl font-bold text-rose-900 mb-3">{inv.legalTitle}</h2>
+          <p class="text-rose-900/65 leading-relaxed mb-6">{inv.legalDesc}</p>
+          <h3 class="text-sm font-semibold text-rose-900/40 uppercase tracking-wider mb-4">{inv.legalStepsTitle}</h3>
+          <ol class="space-y-3 mb-6">{inv.legalSteps.map((step, i) => <li class="flex gap-3 items-start"><span class="w-7 h-7 rounded-full bg-rose-100 flex items-center justify-center text-xs font-bold text-rose-400 flex-shrink-0">{i + 1}</span><p class="text-sm text-rose-900/65 leading-relaxed pt-0.5">{step}</p></li>)}</ol>
+          <h3 class="text-sm font-semibold text-rose-900/40 uppercase tracking-wider mb-4">{inv.packagesTitle}</h3>
+          <div class="grid grid-cols-2 gap-4 mb-3">{inv.packages.map(([name, original, discounted]) => <div class="p-4 rounded-xl bg-rose-50 border border-rose-100"><p class="font-heading font-semibold text-rose-900 text-sm mb-1">{name}</p><p class="text-rose-300 font-bold text-lg">{discounted}</p><p class="text-xs text-rose-900/30 line-through">{original}</p></div>)}</div>
+          <p class="text-xs text-rose-900/40 mb-6">{inv.packagesNote}</p>
+          <h3 class="text-sm font-semibold text-rose-900/40 uppercase tracking-wider mb-3">{inv.bankTitle}</h3>
+          <div class="rounded-xl bg-rose-50 p-4 mb-6 space-y-2">{inv.bank.map(([label, value]) => <div class="flex gap-3 text-sm"><span class="text-rose-900/40 w-24 flex-shrink-0">{label}</span><span class="text-rose-900/70 font-medium">{value}</span></div>)}</div>
+          <h3 class="text-sm font-semibold text-rose-900/40 uppercase tracking-wider mb-3">{inv.umsContactsTitle}</h3>
+          <div class="flex flex-wrap gap-2 mb-6">{['044 528 70 11', '067 642 82 84', '050 100 26 82', 'help@ums.org.ua'].map((contact) => <a href={contact.includes('@') ? `mailto:${contact}` : `tel:${contact.replace(/\s/g, '')}`} class="px-3 py-1.5 rounded-full bg-rose-50 border border-rose-100 text-sm text-rose-600 hover:bg-rose-100 transition-colors">{contact}</a>)}</div>
+          <div class="p-4 rounded-xl bg-amber-50 border border-amber-100"><p class="text-sm text-amber-800/70 leading-relaxed">{inv.important}</p></div>
+        </div>
+      </div>
+    </main>
+  )}
+
+  {page === 'vidrodjenya' && (
+    <main class="pt-28 pb-24">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8">
+        <a href={isEn ? '/en/' : '/'} class="inline-flex items-center gap-2 text-sm text-rose-900/50 hover:text-rose-300 transition-colors mb-8"><Icon name="arrow-left" size={16} />{v.back}</a>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{v.badge}</span>
+        <h1 class="font-heading text-5xl font-bold text-rose-900 mb-4">{v.title}</h1>
+        <p class="text-rose-300 font-medium text-lg leading-relaxed mb-12">{v.subtitle}</p>
+        <div class="rounded-2xl overflow-hidden mb-12 shadow-[0_15px_40px_rgba(74,59,59,0.1)]"><img src="/assets/supportive-care.png" alt="Supportive care" class="w-full h-64 object-cover" /></div>
+        <div class="space-y-4 mb-12">{v.intro.map((p) => <p class="text-lg text-rose-900/65 leading-relaxed">{p}</p>)}</div>
+        <div class="bg-gradient-to-br from-rose-100 to-rose-50 rounded-2xl p-8 mb-8"><h2 class="font-heading text-xl font-bold text-rose-900 mb-4">{v.goalTitle}</h2><p class="text-rose-900/70 leading-relaxed font-medium">{v.goal}</p></div>
+        <div class="bg-white rounded-2xl shadow-[0_8px_25px_rgba(74,59,59,0.06)] p-8 mb-8"><h2 class="font-heading text-xl font-bold text-rose-900 mb-5">{v.tasksTitle}</h2><ul class="space-y-4">{v.tasks.map((task, i) => <li class="flex gap-4 items-start"><span class="w-7 h-7 rounded-full bg-rose-100 flex items-center justify-center text-xs font-bold text-rose-400 flex-shrink-0 mt-0.5">{i + 1}</span><p class="text-rose-900/65 leading-relaxed">{task}</p></li>)}</ul></div>
+        <div class="bg-white rounded-2xl shadow-[0_8px_25px_rgba(74,59,59,0.06)] p-8 mb-8"><h2 class="font-heading text-xl font-bold text-rose-900 mb-5">{v.audienceTitle}</h2><div class="grid gap-4">{v.audience.map((item, i) => <div class="flex gap-4 items-center p-4 rounded-xl bg-rose-50"><span class="w-10 h-10 rounded-full bg-rose-300 flex items-center justify-center text-white font-heading font-bold text-lg flex-shrink-0">{i + 1}</span><p class="text-rose-900/70 font-medium">{item}</p></div>)}</div></div>
+        <div class="bg-white rounded-2xl shadow-[0_8px_25px_rgba(74,59,59,0.06)] p-8"><h2 class="font-heading text-xl font-bold text-rose-900 mb-5">{v.materialsTitle}</h2><div class="flex flex-col gap-3">{v.materials.map(([label, href]) => <a href={href} target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 px-5 py-3 rounded-xl bg-rose-50 border border-rose-100 hover:border-rose-300 transition-colors text-sm font-medium text-rose-700"><Icon name="arrow-right" size={14} class="text-rose-300" />{label}</a>)}</div></div>
+      </div>
+    </main>
+  )}
+
+  <slot />
+  <Footer lang={lang} />
+</div>
+
+<script>
+  document.querySelectorAll('[data-tabs]').forEach((tabs) => {
+    const buttons = Array.from(tabs.querySelectorAll('[data-tab]'));
+    const panels = buttons.map((button) => document.querySelector(`[data-panel="${button.getAttribute('data-tab')}"]`));
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        buttons.forEach((b) => {
+          b.classList.remove('bg-rose-300', 'text-white', 'shadow-lg', 'shadow-rose-300/20');
+          b.classList.add('bg-rose-50', 'text-rose-900/60');
+        });
+        panels.forEach((panel) => panel?.classList.add('hidden'));
+        button.classList.add('bg-rose-300', 'text-white', 'shadow-lg', 'shadow-rose-300/20');
+        button.classList.remove('bg-rose-50', 'text-rose-900/60');
+        panels[index]?.classList.remove('hidden');
+      });
+    });
+  });
+</script>

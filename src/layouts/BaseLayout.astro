@@ -1,87 +1,26 @@
 ---
 import '../styles/global.css';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
-import { defaultLanguage, languageList, type Language } from '../i18n/config';
-import { getRoute, type RouteKey } from '../i18n/routes';
-import { getSite } from '../data/site';
-import { useTranslations } from '../i18n/ui';
-
-type Props = {
-  title?: string;
-  description?: string;
-  canonical?: string;
-  image?: string;
-  noindex?: boolean;
-  bodyClass?: string;
-  lang?: Language;
-  route?: RouteKey;
-};
+import '../styles/extra.css';
 
 const {
-  title,
-  canonical,
-  image,
-  noindex = false,
-  bodyClass,
-  lang = defaultLanguage,
-  route = 'home',
+  title = 'Одеське відділення Асоціації акушерів-гінекологів України',
+  description = 'Громадська організація акушерів-гінекологів Одеської області.',
+  lang = 'uk',
 } = Astro.props;
-
-const site = getSite(lang);
-const t = useTranslations(lang);
-const description = Astro.props.description ?? site.description;
-
-const pageTitle = title ? `${title} | ${site.shortName}` : site.name;
-const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site.url).toString();
-const imageUrl = new URL(image ?? site.defaultOgImage, site.url).toString();
-const alternateLinks = languageList.map((language) => ({
-  lang: language === 'ua' ? 'uk' : language,
-  href: new URL(getRoute(route, language), site.url).toString(),
-}));
 ---
 
 <!doctype html>
-<html lang={site.locale}>
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-
-    <title>{pageTitle}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
-    {alternateLinks.map((link) => (
-      <link rel="alternate" hreflang={link.lang} href={link.href} />
-    ))}
-    <link rel="alternate" hreflang="x-default" href={new URL(getRoute(route, 'ua'), site.url).toString()} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
-
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={site.name} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={imageUrl} />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={imageUrl} />
-
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
   </head>
-
-  <body class={bodyClass}>
-    <a class="skip-link" href="#main-content">{t.common.skipToContent}</a>
-
-    <Header lang={lang} route={route} />
-
-    <main id="main-content" tabindex="-1">
-      <slot />
-    </main>
-
-    <Footer lang={lang} />
+  <body>
+    <slot />
   </body>
 </html>
