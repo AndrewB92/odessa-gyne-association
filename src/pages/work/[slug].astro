@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import type { ImageMetadata } from "astro";
+
+const speakerImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/speakers/*.{png,jpg,jpeg,webp,avif}",
+  { eager: true }
+);
+
+export async function getStaticPaths() {
+  const speakers = await getCollection("speakers");
+
+  return speakers.map((speaker) => ({
+    params: { slug: speaker.data.slug || speaker.id },
+    props: { speaker },
+  }));
+}
+
+const { speaker } = Astro.props;
+const image = speaker.data.photo
+  ? speakerImages[speaker.data.photo]?.default
+  : null;
+---
+
+<BaseLayout lang="uk" title={speaker.data.name.uk}>
+  <main class="container py-16">
+    <a href="/work" class="text-rose-900">← Повернутись</a>
+
+    <article class="mt-8 max-w-4xl">
+      {image && (
+        <Image
+          src={image}
+          alt={speaker.data.name.uk}
+          class="rounded-3xl mb-8"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 768px) 100vw, 720px"
+        />
+      )}
+
+      <h1 class="font-heading text-4xl font-bold text-rose-900">
+        {speaker.data.name.uk}
+      </h1>
+
+      <p class="mt-4 text-lg text-slate-600">
+        {speaker.data.position.uk}
+      </p>
+
+      <div class="mt-8 whitespace-pre-line text-slate-700 leading-8">
+        {speaker.data.biography.uk}
+      </div>
+    </article>
+  </main>
+</BaseLayout>
