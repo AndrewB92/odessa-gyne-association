@@ -2,24 +2,99 @@
 import '../styles/global.css';
 import '../styles/extra.css';
 
+type Lang = 'uk' | 'en';
+type PageType = 'website' | 'article';
+
+type Props = {
+  title?: string;
+  description?: string;
+  lang?: Lang;
+  path?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: PageType;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+};
+
 const {
   title = 'Одеське відділення Асоціації акушерів-гінекологів України',
   description = 'Громадська організація акушерів-гінекологів Одеської області.',
   lang = 'uk',
-} = Astro.props;
+  path = Astro.url.pathname,
+  image = '/og-image.jpg',
+  imageAlt = title,
+  type = 'website',
+  noindex = false,
+  structuredData,
+} = Astro.props as Props;
+
+const site = Astro.site ?? new URL('https://odessa-gyne-association.pages.dev');
+
+const normalizePath = (value: string) => {
+  if (value.startsWith('http')) return value;
+  return value.startsWith('/') ? value : `/${value}`;
+};
+
+const canonicalUrl = new URL(normalizePath(path), site).toString();
+const imageUrl = new URL(normalizePath(image), site).toString();
+
+const isEn = lang === 'en';
+const siteName = isEn ? 'OB AAGU' : 'ОВ ААГУ';
+const locale = isEn ? 'en_US' : 'uk_UA';
+
+const alternateUk = new URL(path.replace(/^\/en/, '') || '/', site).toString();
+const alternateEn = new URL(path.startsWith('/en') ? path : `/en${path === '/' ? '' : path}`, site).toString();
+
+const jsonLd = structuredData
+  ? JSON.stringify(structuredData).replace(/</g, '\\u003c')
+  : null;
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <link rel="alternate" hreflang="uk" href={alternateUk} />
+    <link rel="alternate" hreflang="en" href={alternateEn} />
+    <link rel="alternate" hreflang="x-default" href={alternateUk} />
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta name="theme-color" content="#f9517d" />
+    <meta name="color-scheme" content="light" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+
+    <slot name="head" />
   </head>
+
   <body>
     <slot />
   </body>

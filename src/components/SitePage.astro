@@ -3,7 +3,25 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Icon from './Icon.astro';
 
-const { lang = 'uk', page = 'home', currentPath = '/' } = Astro.props;
+type Lang = 'uk' | 'en';
+
+type PageKey = 'home' | 'about-us' | 'docs' | 'work' | 'involved' | 'vidrodjenya';
+
+type Props = {
+  lang?: Lang;
+  page?: PageKey;
+  currentPath?: string;
+};
+
+type LocalizedLabel = Record<Lang, string>;
+type DocumentLink = readonly [LocalizedLabel, string];
+
+const {
+  lang = 'uk',
+  page = 'home',
+  currentPath = '/',
+} = Astro.props as Props;
+
 const isEn = lang === 'en';
 const prefix = isEn ? '/en' : '';
 
@@ -145,7 +163,7 @@ const home = {
       chairmanName: 'Gulsym S. Manasova',
       chairmanTitle: 'Doctor of Medical Sciences, Professor of the Department of Obstetrics and Gynecology, ONMedU',
       membersList: [
-        ['Valeriia G. Marichерeda', 'First Vice-Rector of ONMedU, Doctor of Medical Sciences, Professor'],
+        ['Valeriia G. Marichereda', 'First Vice-Rector of ONMedU, Doctor of Medical Sciences, Professor'],
         ['Igor Z. Gladchuk', 'Head of the Department of Obstetrics and Gynecology, ONMedU, Doctor of Medical Sciences, Professor'],
         ['Nataliia M. Rozhkovska', 'Doctor of Medical Sciences, Professor of Obstetrics and Gynecology, ONMedU'],
         ['Yana O. Stasii', 'Secretary of the Odessa Branch of AAGU, PhD, Obstetrician-Gynecologist'],
@@ -170,7 +188,7 @@ const home = {
       },
     },
   },
-};
+} as const;
 
 const aboutPage = {
   uk: {
@@ -210,12 +228,12 @@ const aboutPage = {
     prospectsTitle: 'Future directions',
     prospects: ['Participation in continuous postgraduate education and professional development', 'Implementation of healthcare reform in obstetrics and gynecology', 'Promotion of perinatal care development in the region', 'Organization of scientific-practical conferences, symposia, congresses and plenums', 'Cooperation with other public organizations (VULT, Association of Obstetric Anesthesiologists, etc.)', 'Strengthening legal protection for obstetricians and gynecologists', 'Establishing an expert group for reviewing medical documentation', 'Publishing activities'],
   },
-};
+} as const;
 
 const docs = {
   uk: { back: 'Повернутись', badge: 'Документи', title: 'Документи ОВ ААГУ', subtitle: 'Офіційні документи та корисні матеріали', note: 'Усі документи відкриваються у Google Drive. Для завантаження потрібен доступ до Google-акаунту.' },
   en: { back: 'Go back', badge: 'Documents', title: 'Documents of the Odessa Branch', subtitle: 'Official documents and useful materials', note: 'All documents open in Google Drive. A Google account is required to download.' },
-};
+} as const;
 const documents = [
   [{ uk: 'Свідоцтво про реєстрацію', en: 'Registration Certificate' }, 'https://drive.google.com/file/d/18SIjvLX2nhdpUKcxlbWWbTfFOq6InptQ/view?usp=sharing'],
   [{ uk: 'Положення (СТАТУТ ОВ ААГУ)', en: 'Charter of the Odessa Branch' }, 'https://drive.google.com/file/d/1wq7_BrQpHRdyXx3wLPPjihnbbYlgZdKQ/view?usp=sharing'],
@@ -226,7 +244,7 @@ const documents = [
   [{ uk: 'ЗАЯВА НА ВСТУП ДО ОВ ААГУ', en: 'Application for Membership' }, 'https://docs.google.com/document/d/1ASuMijWKyQNcsIQhQZWbksoW0knle_KS/edit?usp=sharing'],
   [{ uk: 'АНКЕТА НА ВСТУП ДО ОВ ААГУ', en: 'Membership Application Form' }, 'https://docs.google.com/document/d/1-Xet6HACC8LjKYN_KGaN1vhpgniv6U5e/edit?usp=sharing'],
   [{ uk: 'АНКЕТА-ЗАЯВА УМС', en: 'Ukrainian Medical Union Application Form' }, 'https://drive.google.com/file/d/19Gc5af2Pc59EwTIet8oiehXoTsBtmc1C/view?usp=sharing'],
-];
+] as const satisfies readonly DocumentLink[];
 
 const work = {
   uk: {
@@ -267,7 +285,7 @@ const work = {
     ],
     speakersList: ['Igor Z. Gladchuk', 'Radion I. Honta', 'Gulsym S. Manasova', 'Tetyana O. Yermolenko', 'Maryna B. Zaporozhchenko', 'Vyacheslav Ye. Maksymovskyi', 'Valentyna P. Mishchenko', 'Raisa P. Nikitenko', 'Yurii Yu. Petrovskyi', 'Svitlana P. Posokhova', 'Oleksandr V. Potapchuk', 'Oleksandr O. Protsepko', 'Nataliia M. Rozhkovska'],
   },
-};
+} as const;
 
 const involved = {
   uk: {
@@ -310,7 +328,7 @@ const involved = {
     umsContactsTitle: 'UMU legal contacts',
     important: 'Your decision to join the UMU must be informed, individual, and voluntary. Notify the branch secretary of your decision verbally.',
   },
-};
+} as const;
 
 const vid = {
   uk: {
@@ -332,13 +350,14 @@ const vid = {
     audienceTitle: 'Target audience', audience: ['Pregnant women and recently delivered women', "Medical staff of maternity hospitals, women's clinics, and family practices", 'Perinatal psychologists and educators with skills in psychological support'],
     materialsTitle: 'Useful materials', materials: [['Full project information', 'https://drive.google.com/file/d/1OXzAIM7H1_hQ9NV-y09vJCPvgLP0lekW/view?usp=sharing'], ['Survey for pregnant women', 'https://docs.google.com/forms/d/1Bu-U7KaakwEu-_H7crvus4KuPE8C3eCf6AZMnvrNXSI/edit?usp=sharing'], ['Survey for medical staff', 'https://docs.google.com/forms/d/1KkMesi7BVgF60rbQKawWGIa0Rd0ocjS53WCM28YxBVQ/edit?usp=sharing']],
   },
-};
+} as const;
 
 const t = home[lang];
 const about = aboutPage[lang];
 const w = work[lang];
 const inv = involved[lang];
 const v = vid[lang];
+const d = docs[lang];
 ---
 
 <div class="bg-rose-50 min-h-screen">
@@ -364,7 +383,7 @@ const v = vid[lang];
             <div class="reveal reveal-2 order-1 lg:order-2">
               <div class="relative">
                 <div class="absolute inset-0 bg-gradient-to-br from-rose-200/40 to-transparent rounded-[2rem] transform rotate-3"></div>
-                <img src="/assets/hero-clinic.png" alt="Modern medical clinic with warm natural lighting" class="relative rounded-[2rem] w-full object-cover shadow-2xl shadow-rose-200/30" />
+                <img src="/assets/hero-clinic.webp" alt="Modern medical clinic with warm natural lighting" class="relative rounded-[2rem] w-full object-cover shadow-2xl shadow-rose-200/30" />
               </div>
             </div>
           </div>
@@ -509,12 +528,12 @@ const v = vid[lang];
   {page === 'docs' && (
     <main class="pt-28 pb-24">
       <div class="max-w-3xl mx-auto px-6 lg:px-8">
-        <a href={isEn ? '/en/' : '/'} class="inline-flex items-center gap-2 text-sm text-rose-900/50 hover:text-rose-300 transition-colors mb-8"><Icon name="arrow-left" size={16} />{docs[lang].back}</a>
-        <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{docs[lang].badge}</span>
-        <h1 class="font-heading text-4xl lg:text-5xl font-bold text-rose-900 leading-tight mb-3">{docs[lang].title}</h1>
-        <p class="text-rose-900/50 mb-12">{docs[lang].subtitle}</p>
+        <a href={isEn ? '/en/' : '/'} class="inline-flex items-center gap-2 text-sm text-rose-900/50 hover:text-rose-300 transition-colors mb-8"><Icon name="arrow-left" size={16} />{d.back}</a>
+        <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{d.badge}</span>
+        <h1 class="font-heading text-4xl lg:text-5xl font-bold text-rose-900 leading-tight mb-3">{d.title}</h1>
+        <p class="text-rose-900/50 mb-12">{d.subtitle}</p>
         <div class="space-y-3">{documents.map(([label, href]) => <a href={href} target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-5 bg-white rounded-2xl shadow-[0_4px_15px_rgba(74,59,59,0.05)] transition-all duration-300 hover:shadow-[0_10px_30px_rgba(74,59,59,0.1)] hover:scale-[1.01]"><div class="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:bg-rose-300"><Icon name="file" size={18} class="text-rose-400 transition-colors duration-300 group-hover:text-white" /></div><span class="font-medium text-rose-900/80 group-hover:text-rose-900 transition-colors duration-300 flex-1">{label[lang]}</span><Icon name="arrow-right" size={16} class="text-rose-300/50 flex-shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></a>)}</div>
-        <p class="mt-10 text-sm text-rose-900/40 text-center">{docs[lang].note}</p>
+        <p class="mt-10 text-sm text-rose-900/40 text-center">{d.note}</p>
       </div>
     </main>
   )}
