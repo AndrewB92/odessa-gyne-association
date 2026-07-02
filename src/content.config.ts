@@ -12,6 +12,7 @@ const speakers = defineCollection({
     base: "./src/content/speakers",
   }),
   schema: z.object({
+    slug: z.string(),
     name: localizedText,
     position: localizedText,
     biography: localizedText,

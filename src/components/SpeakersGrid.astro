@@ -5,6 +5,7 @@ import type { ImageMetadata } from "astro";
 type Speaker = {
   id: string;
   data: {
+    slug: string;
     name: { uk: string; en: string };
     position: { uk: string; en: string };
     biography: { uk: string; en: string };
@@ -31,30 +32,87 @@ function getSpeakerImage(photo?: string) {
 }
 ---
 
-<div class="speakers-grid">
-  {
-    speakers.map((speaker) => {
-      const image = getSpeakerImage(speaker.data.photo);
+<section class="section speakers-section" aria-labelledby="speakers-title">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">{lang === "uk" ? "Спікери" : "Speakers"}</p>
+      <h2 id="speakers-title">
+        {lang === "uk" ? "Спікери заходів" : "Event speakers"}
+      </h2>
+    </div>
 
-      return (
-        <article class="speaker-card">
-          {image && (
-            <Image
-              src={image}
-              alt={speaker.data.name[lang]}
-              class="speaker-card__image"
-              widths={[320, 480, 640]}
-              sizes="(max-width: 768px) 100vw, 320px"
-            />
-          )}
+    <div class="speakers-grid">
+      {
+        speakers.map((speaker) => {
+          const image = getSpeakerImage(speaker.data.photo);
 
-          <div class="speaker-card__body">
-            <h3>{speaker.data.name[lang]}</h3>
-            <p class="speaker-card__position">{speaker.data.position[lang]}</p>
-            <p>{speaker.data.biography[lang]}</p>
-          </div>
-        </article>
-      );
-    })
+          return (
+            <article class="speaker-card">
+              {image && (
+                <Image
+                  src={image}
+                  alt={speaker.data.name[lang]}
+                  class="speaker-card__image"
+                  widths={[320, 480, 640]}
+                  sizes="(max-width: 768px) 100vw, 320px"
+                />
+              )}
+
+              <div class="speaker-card__body">
+                <h3>{speaker.data.name[lang]}</h3>
+                <p class="speaker-card__position">
+                  {speaker.data.position[lang]}
+                </p>
+                <p>{speaker.data.biography[lang]}</p>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .speakers-section {
+    padding: 64px 0;
   }
-</div>
+
+  .speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .speaker-card {
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .speaker-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .speaker-card__body {
+    padding: 24px;
+  }
+
+  .speaker-card__body h3 {
+    margin: 0 0 8px;
+  }
+
+  .speaker-card__position {
+    margin: 0 0 14px;
+    font-weight: 600;
+  }
+
+  .speaker-card__body p:last-child {
+    margin-bottom: 0;
+  }
+</style>

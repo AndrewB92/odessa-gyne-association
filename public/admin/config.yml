@@ -11,33 +11,61 @@ public_folder: "/src/assets/speakers"
 collections:
   - name: "speakers"
     label: "Speakers"
+    label_singular: "Speaker"
     folder: "src/content/speakers"
     create: true
     delete: true
     extension: "yml"
     format: "yml"
-    slug: "{{fields.name.en}}"
+    identifier_field: "name.en"
+    summary: "{{name.en}}"
+    slug: "{{slug}}"
     fields:
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "URL-safe speaker ID, for example: olena-petrenko"
+
       - label: "Name"
         name: "name"
         widget: "object"
         fields:
-          - { label: "Ukrainian", name: "uk", widget: "string" }
-          - { label: "English", name: "en", widget: "string" }
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+          - label: "English"
+            name: "en"
+            widget: "string"
 
       - label: "Position"
         name: "position"
         widget: "object"
         fields:
-          - { label: "Ukrainian", name: "uk", widget: "string" }
-          - { label: "English", name: "en", widget: "string" }
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+          - label: "English"
+            name: "en"
+            widget: "string"
 
       - label: "Biography"
         name: "biography"
         widget: "object"
         fields:
-          - { label: "Ukrainian", name: "uk", widget: "text" }
-          - { label: "English", name: "en", widget: "text" }
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+          - label: "English"
+            name: "en"
+            widget: "text"
 
-      - { label: "Photo", name: "photo", widget: "image", required: false }
-      - { label: "Sort order", name: "sort", widget: "number", default: 10 }
+      - label: "Photo"
+        name: "photo"
+        widget: "image"
+        required: false
+
+      - label: "Sort order"
+        name: "sort"
+        widget: "number"
+        default: 10
+        value_type: "int"
