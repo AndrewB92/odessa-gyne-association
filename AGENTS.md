@@ -1,21 +1,17 @@
 # AGENTS.md
 
-# Odessa Gynecologists Association
-
-This document defines the engineering standards for all AI coding agents working on this repository.
+# Odessa Association of Obstetricians and Gynecologists
 
 ## Project Overview
 
-Official website of the Odessa Gynecologists Association.
+This project is a multilingual static website built with Astro and deployed to Cloudflare Pages.
 
-Primary goals:
+Languages:
 
-- Fast
-- Accessible
-- SEO-friendly
-- Maintainable
-- Easy to extend
-- Minimal client-side JavaScript
+- Ukrainian (default)
+- English
+
+The project is SEO-first and uses static generation whenever possible.
 
 ---
 
@@ -23,276 +19,235 @@ Primary goals:
 
 - Astro
 - TypeScript
-- CSS
+- Tailwind CSS
+- Decap CMS
 - Cloudflare Pages
-
-Future integrations may include:
-
-- Decap CMS or another Git-based CMS
-- Cloudflare Forms / Workers
-- Analytics
-- Search
-
-Do not introduce new frameworks without a clear reason.
+- GitHub
 
 ---
 
-# General Principles
-
-Always prefer:
-
-- simplicity
-- readability
-- maintainability
-- performance
-
-Avoid clever code.
-
-Write code that another developer can understand immediately.
-
----
-
-# Architecture
-
-Prefer:
+# Project Structure
 
 ```
 src/
     assets/
     components/
-        ui/
-        layout/
-        sections/
+    content/
+        speakers/
+    data/
     layouts/
     pages/
-    styles/
-    utils/
-```
 
-Components should have a single responsibility.
+public/
+    admin/
+    uploads/
+        speakers/
 
-Avoid deeply nested components.
-
----
-
-# Astro
-
-Prefer Astro components.
-
-Only hydrate components when interactivity is required.
-
-Use:
-
-client:load
-client:visible
-client:idle
-
-only when necessary.
-
-Static HTML is preferred.
-
----
-
-# TypeScript
-
-Always use TypeScript.
-
-Avoid:
-
-- any
-- @ts-ignore
-
-Prefer explicit interfaces.
-
-Use readonly where appropriate.
-
----
-
-# CSS
-
-Use plain CSS.
-
-Do not introduce Tailwind.
-
-Prefer:
-
-- CSS variables
-- logical properties
-- modern CSS
-
-Avoid:
-
-- !important
-- inline styles
-- duplicated declarations
-
----
-
-# Responsive Design
-
-Mobile-first.
-
-Breakpoints should be minimal.
-
-Avoid creating unnecessary layouts for every breakpoint.
-
----
-
-# Accessibility
-
-Always use semantic HTML.
-
-Every image must have meaningful alt text.
-
-Buttons must be actual `<button>` elements.
-
-Links must be actual `<a>` elements.
-
-All forms must be keyboard accessible.
-
-Maintain proper heading hierarchy.
-
----
-
-# Performance
-
-Every added dependency must be justified.
-
-Avoid unnecessary JavaScript.
-
-Optimize images.
-
-Lazy-load only when beneficial.
-
-Keep bundle size small.
-
----
-
-# Components
-
-Components should be:
-
-- reusable
-- composable
-- predictable
-
-Avoid giant components.
-
-If a component becomes difficult to understand, split it.
-
----
-
-# Code Style
-
-Prefer:
-
-- early returns
-- descriptive names
-- small functions
-- clear interfaces
-
-Avoid:
-
-- nested conditionals
-- duplicated code
-- magic numbers
-
-Extract repeated logic.
-
----
-
-# File Naming
-
-Components:
-
-```
-Hero.astro
-Button.astro
-Footer.astro
-```
-
-Utilities:
-
-```
-formatDate.ts
-slugify.ts
-```
-
-CSS:
-
-```
-button.css
-hero.css
+functions/
+    api/
 ```
 
 ---
 
-# SEO
+# CMS
 
-Every page should include:
+The project uses Decap CMS.
 
-- title
-- description
-- canonical URL
-- Open Graph tags
-- Twitter tags where appropriate
+Authentication:
 
-Use semantic HTML.
+- GitHub OAuth
+- Cloudflare Pages Functions
+
+Configuration:
+
+```
+public/admin/config.yml
+```
+
+OAuth:
+
+```
+functions/api/auth.ts
+functions/api/callback.ts
+```
 
 ---
 
 # Content
 
-Content should remain separate from presentation whenever practical.
+## Speakers
 
-Avoid hardcoding repeated text inside components.
+Speaker data is stored as YAML.
+
+Location:
+
+```
+src/content/speakers/
+```
+
+Example:
+
+```yaml
+slug: "ihor-hladchuk"
+
+name:
+  uk: "..."
+  en: "..."
+
+position:
+  uk: "..."
+  en: "..."
+
+biography:
+  uk: "..."
+  en: "..."
+
+photo: "/uploads/speakers/ihor-hladchuk.webp"
+
+sort: 10
+```
+
+Images:
+
+```
+public/uploads/speakers/
+```
+
+Do NOT place CMS-managed images inside `src/assets`.
 
 ---
 
-# Dependencies
+# Astro Content Collections
 
-Before adding a dependency ask:
+Configuration:
 
-- Can Astro already do this?
-- Can native browser APIs do this?
-- Is the dependency actively maintained?
-- Is the dependency worth its size?
+```
+src/content.config.ts
+```
 
-Prefer native solutions.
+Always use Astro Content Collections.
 
----
+Do not read YAML files manually.
 
-# Git
+Use:
 
-Keep commits focused.
-
-Avoid unrelated changes.
-
-Do not reformat the entire repository unless requested.
+```ts
+getCollection("speakers")
+```
 
 ---
 
-# Pull Requests
+# Routing
 
-Changes should:
+Work page:
 
-- build successfully
-- pass Astro checks
-- avoid regressions
-- preserve existing functionality
+```
+/work
+/en/work
+```
+
+Speaker pages:
+
+```
+/work/[slug]
+/en/work/[slug]
+```
+
+Never hardcode speaker information inside pages.
+
+Speaker pages must be generated from the content collection.
 
 ---
 
-# AI Agent Rules
+# Components
 
-Do not rewrite unrelated code.
+`SitePage.astro`
 
-Do not introduce opinionated patterns without a clear benefit.
+Responsible for rendering page content.
 
-Explain architectural decisions when making significant changes.
+If page-specific dynamic content is required (for example speakers), inject it via props instead of duplicating page layouts.
 
-Prefer improving existing code over replacing it.
+`SpeakersGrid.astro`
 
-Keep generated code production-ready.
+Responsible only for rendering speaker cards.
 
-When uncertain, choose the simplest solution.
+It must not:
+
+- render page headings
+- render section wrappers already provided by `SitePage`
+
+---
+
+# Styling
+
+Prefer:
+
+- existing Tailwind utilities
+- existing design system
+- existing spacing scale
+
+Avoid introducing separate design systems.
+
+---
+
+# Images
+
+CMS uploads:
+
+```
+public/uploads/
+```
+
+Static project assets:
+
+```
+src/assets/
+```
+
+Never mix the two.
+
+---
+
+# SEO
+
+Every new page should include:
+
+- title
+- description
+- canonical
+- OpenGraph
+- proper language alternates
+
+Do not introduce duplicate H1 elements.
+
+---
+
+# Development Rules
+
+Prefer:
+
+- reusable Astro components
+- typed props
+- Content Collections
+- static generation
+
+Avoid:
+
+- duplicated page markup
+- hardcoded content
+- inline JavaScript unless necessary
+
+---
+
+# Future CMS Content
+
+Planned CMS collections:
+
+- Speakers
+- News
+- Events
+- Gallery
+- Partners
+- SEO metadata
+
+Follow the same architecture used by the Speakers collection.
