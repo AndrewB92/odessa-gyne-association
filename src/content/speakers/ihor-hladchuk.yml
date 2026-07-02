@@ -4,9 +4,11 @@ name:
   en: Ihor Hladchuk
 position:
   uk: завідуючий кафедрою акушерства та гінекології ОНМедУ, д.мед.н., професор
-  en: Head of the Department of Obstetrics and Gynecology at Odesa National Medical University, Doctor of Medical Sciences, Professor
+  en: Head of the Department of Obstetrics and Gynecology at Odesa National
+    Medical University, Doctor of Medical Sciences, Professor
 biography:
-  uk: 'Гладчук Ігор Зіновійович,
+  uk: >-
+    Гладчук Ігор Зіновійович,
 
     завідуючий кафедрою акушерства та гінекології ОНМедУ,
 
@@ -33,8 +35,10 @@ biography:
     30 років стажу роботи на кафедрах медичного університету та лікарська діяльність більше 35 років.
 
 
-    Автор 193 наукових публікацій, 5 монографій та 25 патентів на винахід.'
-  en: 'Since 1993, Secretary of the Ukrainian Association of Doctors in Gynecological Endoscopy.
+    Автор 193 наукових публікацій, 5 монографій та 25 патентів на винахід.
+  en: >-
+    Since 1993, Secretary of the Ukrainian Association of Doctors in
+    Gynecological Endoscopy.
 
     Since 1998, Secretary of the Gynecological Section of the Ukrainian Association of Doctors in Minimally Invasive Endoscopic and Laser Technologies.
 
@@ -54,6 +58,6 @@ biography:
     He has 30 years of experience working at medical university departments and more than 35 years of clinical practice.
 
 
-    Author of 193 scientific publications, 5 monographs, and 25 invention patents.'
-photo: /src/assets/speakers/ihor-hladchuk.jpeg
+    Author of 193 scientific publications, 5 monographs, and 25 invention patents.
+photo: /uploads/speakers/ihor-hladchuk.jpeg
 sort: 10
