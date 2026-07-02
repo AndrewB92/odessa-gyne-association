@@ -24,6 +24,8 @@ export const onRequestGet: PagesFunction<{
 
   const tokenData = await tokenResponse.json<{
     access_token?: string;
+    token_type?: string;
+    scope?: string;
     error?: string;
     error_description?: string;
   }>();
@@ -35,20 +37,32 @@ export const onRequestGet: PagesFunction<{
     );
   }
 
-  const script = `
+  const content = `
+<!doctype html>
+<html>
+  <body>
     <script>
-      window.opener.postMessage(
-        'authorization:github:success:${JSON.stringify({
-          token: tokenData.access_token,
-          provider: "github"
-        })}',
-        '*'
-      );
-      window.close();
-    </script>
-  `;
+      (function() {
+        const receiveMessage = function(event) {
+          window.opener.postMessage(
+            'authorization:github:success:${JSON.stringify({
+              token: tokenData.access_token,
+              provider: "github"
+            })}',
+            event.origin
+          );
+          window.removeEventListener("message", receiveMessage, false);
+        };
 
-  return new Response(script, {
+        window.addEventListener("message", receiveMessage, false);
+
+        window.opener.postMessage("authorizing:github", "*");
+      })();
+    </script>
+  </body>
+</html>`;
+
+  return new Response(content, {
     headers: {
       "Content-Type": "text/html;charset=UTF-8",
     },
