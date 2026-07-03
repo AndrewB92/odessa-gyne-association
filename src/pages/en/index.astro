@@ -1,8 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SitePage from '../../components/SitePage.astro';
+import { getNewsCategories, getNewsPosts } from '../../lib/news';
+
+const latestNews = (await getNewsPosts()).slice(0, 3);
+const newsCategories = await getNewsCategories();
 ---
 
 <BaseLayout lang="en" title="Odessa Branch of AAGU">
-  <SitePage lang="en" page="home" currentPath="/en/" />
+  <SitePage
+    lang="en"
+    page="home"
+    currentPath="/en/"
+    latestNews={latestNews}
+    newsCategories={newsCategories}
+  />
 </BaseLayout>

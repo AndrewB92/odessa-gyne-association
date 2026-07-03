@@ -3,6 +3,8 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Icon from './Icon.astro';
 import SpeakersGrid from './SpeakersGrid.astro';
+import NewsCard from './NewsCard.astro';
+import type { CollectionEntry } from 'astro:content';
 
 type Lang = 'uk' | 'en';
 
@@ -13,6 +15,8 @@ type Props = {
   page?: PageKey;
   currentPath?: string;
   speakers?: any[];
+  latestNews?: CollectionEntry<'news'>[];
+  newsCategories?: CollectionEntry<'newsCategories'>[];
 };
 
 type LocalizedLabel = Record<Lang, string>;
@@ -23,10 +27,16 @@ const {
   page = 'home',
   currentPath = '/',
   speakers = [],
+  latestNews = [],
+  newsCategories = [],
 } = Astro.props as Props;
 
 const isEn = lang === 'en';
 const prefix = isEn ? '/en' : '';
+
+const newsCategoryMap = new Map(
+  newsCategories.map((category) => [category.data.slug, category])
+);
 
 const home = {
   uk: {
@@ -97,6 +107,8 @@ const home = {
       title: 'Анонси та події',
       co: 'Співорганізатори',
       register: 'Зареєструватись',
+      all: 'Усі новини',
+      empty: 'Новин поки немає.',
       event: {
         tag: 'Фахова школа',
         title: 'Інфектологія в акушерстві і гінекології: виклики та рішення сьогодення',
@@ -177,6 +189,8 @@ const home = {
       title: 'Announcements & events',
       co: 'Co-organizers',
       register: 'Register',
+      all: 'All news',
+      empty: 'No news posts yet.',
       event: {
         tag: 'Professional School',
         title: 'Infectology in Obstetrics and Gynecology: Challenges and Solutions of Today',
@@ -492,7 +506,7 @@ const d = docs[lang];
         </div>
       </section>
 
-      <section id="news" class="py-24 lg:py-32">
+      {/* <section id="news" class="py-24 lg:py-32">
         <div class="max-w-5xl mx-auto px-6 lg:px-8">
           <div class="text-center mb-14"><span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{t.news.badge}</span><h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">{t.news.title}</h2></div>
           <div class="rounded-[2rem] bg-white shadow-[0_10px_40px_rgba(74,59,59,0.06)] overflow-hidden">
@@ -505,6 +519,45 @@ const d = docs[lang];
               <a href="https://forms.gle/rjDCf89aZHPec2SKA" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 px-8 py-4 bg-rose-300 text-white rounded-full font-medium text-sm transition-all duration-300 hover:bg-rose-500 hover:shadow-lg hover:shadow-rose-300/25 hover:scale-[1.02]">{t.news.register}<Icon name="arrow-right" size={16} class="transition-transform duration-300 group-hover:translate-x-1" /></a>
             </div>
           </div>
+        </div>
+      </section> */}
+      <section id="news" class="py-24 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
+            <div>
+              <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">
+                {t.news.badge}
+              </span>
+
+              <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">
+                {t.news.title}
+              </h2>
+            </div>
+
+            <a
+              href={`${prefix}/news/`}
+              class="group inline-flex items-center gap-2 self-start lg:self-auto px-6 py-3 bg-rose-300 text-white rounded-full text-sm font-medium transition-all duration-300 hover:bg-rose-500 hover:shadow-lg hover:shadow-rose-300/25 hover:scale-[1.02]"
+            >
+              {t.news.all}
+              <Icon name="arrow-right" size={16} class="transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
+          </div>
+
+          {latestNews.length > 0 ? (
+            <div class="grid md:grid-cols-3 gap-6">
+              {latestNews.map((post) => (
+                <NewsCard
+                  post={post}
+                  category={newsCategoryMap.get(post.data.category)}
+                  lang={lang}
+                />
+              ))}
+            </div>
+          ) : (
+            <div class="rounded-[1.5rem] bg-white p-8 shadow-[0_10px_30px_rgba(74,59,59,0.05)]">
+              <p class="text-rose-900/60">{t.news.empty}</p>
+            </div>
+          )}
         </div>
       </section>
     </>
