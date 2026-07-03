@@ -11,7 +11,7 @@ import {
   getPostSlug,
   isExternalNewsPost,
 } from "../../../lib/news";
-import { render } from "astro:content";
+import { renderMarkdown } from "../../../lib/markdown";
 
 export async function getStaticPaths() {
   const posts = await getNewsPosts();
@@ -31,7 +31,7 @@ const lang = "uk";
 const { post } = Astro.props;
 const categories = await getNewsCategories();
 const category = categories.find((item) => item.data.slug === post.data.category);
-const { Content } = await render(post);
+const bodyHtml = renderMarkdown(post.data.bodyUk);
 
 const title = post.data.seoTitle?.uk || post.data.title.uk;
 const description =
@@ -94,7 +94,7 @@ const structuredData = {
 
         <section class="news-content">
           <RichContent>
-            <Content />
+            <Fragment set:html={bodyHtml} />
           </RichContent>
         </section>
       </div>

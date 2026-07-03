@@ -51,6 +51,8 @@ const news = defineCollection({
     draft: z.boolean().default(false),
     seoTitle: localizedText.optional(),
     seoDescription: localizedText.optional(),
+    bodyUk: z.string().optional(),
+    bodyEn: z.string().optional(),
   }),
 });
 
