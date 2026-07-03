@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from "astro:content";
+import NewsCard from "./NewsCard.astro";
+import type { Lang } from "../lib/news";
+
+type Props = {
+  posts: CollectionEntry<"news">[];
+  categories: CollectionEntry<"newsCategories">[];
+  lang: Lang;
+  showFilters?: boolean;
+  activeCategory?: string;
+};
+
+const {
+  posts,
+  categories,
+  lang,
+  showFilters = true,
+  activeCategory,
+} = Astro.props;
+
+const prefix = lang === "en" ? "/en" : "";
+const categoryMap = new Map(categories.map((category) => [category.data.slug, category]));
+const allLabel = lang === "en" ? "All news" : "Усі новини";
+const emptyLabel = lang === "en" ? "No news posts yet." : "Новин поки немає.";
+---
+
+<section class="news-archive">
+  {showFilters && (
+    <nav class="news-filters" aria-label={lang === "en" ? "News categories" : "Категорії новин"}>
+      <a class={!activeCategory ? "is-active" : ""} href={`${prefix}/news/`}>
+        {allLabel}
+      </a>
+
+      {categories.map((category) => (
+        <a
+          class={activeCategory === category.data.slug ? "is-active" : ""}
+          href={`${prefix}/news/${category.data.slug}/`}
+        >
+          {category.data.title[lang]}
+        </a>
+      ))}
+    </nav>
+  )}
+
+  {posts.length > 0 ? (
+    <div class="news-grid">
+      {posts.map((post) => (
+        <NewsCard
+          post={post}
+          category={categoryMap.get(post.data.category)}
+          lang={lang}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="news-empty">{emptyLabel}</p>
+  )}
+</section>
+
+<style>
+  .news-archive {
+    margin-top: 2.5rem;
+  }
+
+  .news-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .news-filters a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.65rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgba(136, 19, 55, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    color: #881337;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+      background 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .news-filters a:hover,
+  .news-filters a.is-active {
+    transform: translateY(-1px);
+    border-color: #f9517d;
+    background: #f9517d;
+    color: #fff;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .news-empty {
+    margin: 0;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    background: #fff;
+    color: #475569;
+    box-shadow: 0 18px 45px rgba(136, 19, 55, 0.08);
+  }
+</style>

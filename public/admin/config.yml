@@ -5,8 +5,8 @@ backend:
   base_url: https://odessa-gyne-association.pages.dev
   auth_endpoint: /api/auth
 
-media_folder: "public/uploads/speakers"
-public_folder: "/uploads/speakers"
+media_folder: "public/uploads"
+public_folder: "/uploads"
 
 collections:
   - name: "speakers"
@@ -20,6 +20,8 @@ collections:
     identifier_field: "name.en"
     summary: "{{name.en}}"
     slug: "{{slug}}"
+    media_folder: "public/uploads/speakers"
+    public_folder: "/uploads/speakers"
     fields:
       - label: "Slug"
         name: "slug"
@@ -90,3 +92,184 @@ collections:
         widget: "number"
         default: 10
         value_type: "int"
+
+  - name: "newsCategories"
+    label: "News Categories"
+    label_singular: "News Category"
+    folder: "src/content/news-categories"
+    create: true
+    delete: true
+    extension: "yml"
+    format: "yml"
+    identifier_field: "title.en"
+    summary: "{{title.en}}"
+    slug: "{{slug}}"
+    fields:
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "Stable URL-safe category ID, for example: events"
+
+      - label: "Title"
+        name: "title"
+        widget: "object"
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+          - label: "English"
+            name: "en"
+            widget: "string"
+
+      - label: "Description"
+        name: "description"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+      - label: "Sort order"
+        name: "sort"
+        widget: "number"
+        default: 10
+        value_type: "int"
+
+  - name: "news"
+    label: "News Posts"
+    label_singular: "News Post"
+    folder: "src/content/news"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "title.en"
+    summary: "{{title.en}} — {{category}}"
+    slug: "{{slug}}"
+    media_folder: "public/uploads/news"
+    public_folder: "/uploads/news"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "object"
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+          - label: "English"
+            name: "en"
+            widget: "string"
+
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        required: false
+        hint: "Optional. If empty, the website generates slug from the post title."
+
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "newsCategories"
+        search_fields:
+          - "title.en"
+          - "title.uk"
+          - "slug"
+        value_field: "slug"
+        display_fields:
+          - "title.en"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+
+      - label: "Main image"
+        name: "image"
+        widget: "image"
+        required: false
+
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+      - label: "External redirect URL"
+        name: "redirectUrl"
+        widget: "string"
+        required: false
+        hint: "If filled, archive cards will link to this URL instead of a local post page."
+
+      - label: "Open external URL in new tab"
+        name: "redirectBlank"
+        widget: "boolean"
+        default: true
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+
+      - label: "SEO title"
+        name: "seoTitle"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+            required: false
+          - label: "English"
+            name: "en"
+            widget: "string"
+            required: false
+
+      - label: "SEO description"
+        name: "seoDescription"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        required: false
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components:
+          - image
+        modes:
+          - rich_text
+          - raw

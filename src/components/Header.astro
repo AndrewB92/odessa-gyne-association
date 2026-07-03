@@ -11,14 +11,14 @@ const navItems = isEn
       { label: "Activities", href: "/work" },
       { label: "Documents", href: "/docs" },
       { label: "Community", href: "/involved" },
-      { label: "News", href: null },
+      { label: "News", href: "/news" },
     ]
   : [
       { label: "Про асоціацію", href: "/about-us" },
       { label: "Діяльність", href: "/work" },
       { label: "Документи", href: "/docs" },
       { label: "Спільнота", href: "/involved" },
-      { label: "Новини", href: null },
+      { label: "Новини", href: "/news" },
     ];
 const route = currentPath.replace(/^\/en(?=\/|$)/, "") || "/";
 const ukHref = route === "/" ? "/" : route;
