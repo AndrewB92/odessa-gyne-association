@@ -544,7 +544,7 @@ const d = docs[lang];
           </div>
 
           {latestNews.length > 0 ? (
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="latest-news-grid">
               {latestNews.map((post) => (
                 <NewsCard
                   post={post}
@@ -697,3 +697,17 @@ const d = docs[lang];
     });
   });
 </script>
+
+<style>
+  .latest-news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .latest-news-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>
