@@ -11,6 +11,7 @@ import {
   getPostSlug,
   isExternalNewsPost,
 } from "../../../../lib/news";
+import { render } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getNewsPosts();
@@ -30,7 +31,7 @@ const lang = "en";
 const { post } = Astro.props;
 const categories = await getNewsCategories();
 const category = categories.find((item) => item.data.slug === post.data.category);
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 const title = post.data.seoTitle?.en || post.data.title.en;
 const description =
