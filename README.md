@@ -1,5 +1,17 @@
 # Odessa Association of Obstetricians and Gynecologists
 
+[![Built with Astro](https://astro.badg.es/v2/built-with-astro/tiny.svg)](https://astro.build)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-06B6D4?logo=tailwindcss&logoColor=white)
+![Decap CMS](https://img.shields.io/badge/Decap-CMS-FF0082)
+![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-2088FF?logo=githubactions&logoColor=white)
+![Deploy](https://img.shields.io/github/actions/workflow/status/AndrewB92/your-repo/deploy.yml?label=Deploy&logo=githubactions)
+![Repo Size](https://img.shields.io/github/repo-size/AndrewB92/your-repo)
+![Issues](https://img.shields.io/github/issues/AndrewB92/your-repo)
+![License](https://img.shields.io/github/license/AndrewB92/your-repo)
+![Last Commit](https://img.shields.io/github/last-commit/AndrewB92/your-repo)
+
 Modern multilingual website built with Astro for the Odessa Association of Obstetricians and Gynecologists.
 
 ## Features
@@ -23,8 +35,6 @@ Modern multilingual website built with Astro for the Odessa Association of Obste
 - Decap CMS
 - Cloudflare Pages
 - GitHub Actions
-
-[![Built with Astro](https://astro.badg.es/v2/built-with-astro/tiny.svg)](https://astro.build)
 
 ## Project Structure
 
