@@ -24,6 +24,8 @@ Modern multilingual website built with Astro for the Odessa Association of Obste
 - Cloudflare Pages
 - GitHub Actions
 
+[![Built with Astro](https://astro.badg.es/v2/built-with-astro/tiny.svg)](https://astro.build)
+
 ## Project Structure
 
 ```text
@@ -102,7 +104,7 @@ The project is automatically deployed to Cloudflare Pages after every push to th
 - [x] Decap CMS integration
 - [x] Speaker management
 - [x] Dynamic speaker pages
-- [ ] News management
+- [x] News management
 - [ ] Event management
 - [ ] Gallery management
 - [ ] SEO editor
