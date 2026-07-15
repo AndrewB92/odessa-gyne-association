@@ -1,0 +1,316 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import EventCard from "../events/EventCard.astro";
+
+import type { SiteLocale } from "../../types/events";
+
+import {
+  getEventEndDate,
+  getEventStartDate,
+  isOngoingEvent,
+  isPastEvent,
+} from "../../utils/eventDates";
+
+interface Props {
+  conferences: CollectionEntry<"conferences">[];
+  locale: SiteLocale;
+}
+
+interface ArchiveLabels {
+  upcomingTitle: string;
+  upcomingDescription: string;
+  pastTitle: string;
+  pastDescription: string;
+  emptyTitle: string;
+  emptyDescription: string;
+}
+
+const labels: Record<SiteLocale, ArchiveLabels> = {
+  uk: {
+    upcomingTitle: "Майбутні конференції",
+    upcomingDescription:
+      "Актуальні конференції, конгреси та професійні зустрічі.",
+    pastTitle: "Минулі конференції",
+    pastDescription:
+      "Архів завершених конференцій та пов’язаних матеріалів.",
+    emptyTitle: "Конференцій поки немає",
+    emptyDescription:
+      "Нові конференції з’являться на цій сторінці після публікації.",
+  },
+
+  en: {
+    upcomingTitle: "Upcoming conferences",
+    upcomingDescription:
+      "Current conferences, congresses and professional meetings.",
+    pastTitle: "Past conferences",
+    pastDescription:
+      "An archive of completed conferences and related materials.",
+    emptyTitle: "No conferences yet",
+    emptyDescription:
+      "New conferences will appear here after publication.",
+  },
+};
+
+const {
+  conferences,
+  locale,
+} = Astro.props;
+
+const copy = labels[locale];
+
+const publishedConferences = conferences.filter(
+  (conference) => !conference.data.draft,
+);
+
+const upcomingConferences = publishedConferences
+  .filter(
+    (conference) =>
+      !isPastEvent(conference.data.schedule),
+  )
+  .sort((first, second) => {
+    const firstIsOngoing = isOngoingEvent(
+      first.data.schedule,
+    );
+
+    const secondIsOngoing = isOngoingEvent(
+      second.data.schedule,
+    );
+
+    if (firstIsOngoing !== secondIsOngoing) {
+      return firstIsOngoing ? -1 : 1;
+    }
+
+    const firstStart = getEventStartDate(
+      first.data.schedule,
+    );
+
+    const secondStart = getEventStartDate(
+      second.data.schedule,
+    );
+
+    if (!firstStart && !secondStart) {
+      return 0;
+    }
+
+    if (!firstStart) {
+      return 1;
+    }
+
+    if (!secondStart) {
+      return -1;
+    }
+
+    return firstStart.getTime() - secondStart.getTime();
+  });
+
+const pastConferences = publishedConferences
+  .filter((conference) =>
+    isPastEvent(conference.data.schedule),
+  )
+  .sort((first, second) => {
+    const firstEnd = getEventEndDate(
+      first.data.schedule,
+    );
+
+    const secondEnd = getEventEndDate(
+      second.data.schedule,
+    );
+
+    if (!firstEnd && !secondEnd) {
+      return 0;
+    }
+
+    if (!firstEnd) {
+      return 1;
+    }
+
+    if (!secondEnd) {
+      return -1;
+    }
+
+    return secondEnd.getTime() - firstEnd.getTime();
+  });
+
+const hasConferences =
+  publishedConferences.length > 0;
+---
+
+<div class="conference-archive">
+  {
+    !hasConferences && (
+      <div class="conference-archive__empty">
+        <h2>{copy.emptyTitle}</h2>
+        <p>{copy.emptyDescription}</p>
+      </div>
+    )
+  }
+
+  {
+    upcomingConferences.length > 0 && (
+      <section
+        class="conference-group"
+        aria-labelledby="upcoming-conferences-title"
+      >
+        <header class="conference-group__header">
+          <h2 id="upcoming-conferences-title">
+            {copy.upcomingTitle}
+          </h2>
+
+          <p>{copy.upcomingDescription}</p>
+        </header>
+
+        <div class="conference-grid">
+          {
+            upcomingConferences.map(
+              (conference) => (
+                <EventCard
+                  type="conference"
+                  locale={locale}
+                  slug={conference.data.slug}
+                  title={conference.data.title}
+                  excerpt={conference.data.excerpt}
+                  schedule={
+                    conference.data.schedule
+                  }
+                  locations={
+                    conference.data.locations
+                  }
+                  format={conference.data.format}
+                  linkMode={
+                    conference.data.linkMode
+                  }
+                  externalUrl={
+                    conference.data.externalUrl
+                  }
+                  externalBlank={
+                    conference.data.externalBlank
+                  }
+                />
+              ),
+            )
+          }
+        </div>
+      </section>
+    )
+  }
+
+  {
+    pastConferences.length > 0 && (
+      <section
+        class="conference-group"
+        aria-labelledby="past-conferences-title"
+      >
+        <header class="conference-group__header">
+          <h2 id="past-conferences-title">
+            {copy.pastTitle}
+          </h2>
+
+          <p>{copy.pastDescription}</p>
+        </header>
+
+        <div class="conference-grid">
+          {
+            pastConferences.map(
+              (conference) => (
+                <EventCard
+                  type="conference"
+                  locale={locale}
+                  slug={conference.data.slug}
+                  title={conference.data.title}
+                  excerpt={conference.data.excerpt}
+                  schedule={
+                    conference.data.schedule
+                  }
+                  locations={
+                    conference.data.locations
+                  }
+                  format={conference.data.format}
+                  linkMode={
+                    conference.data.linkMode
+                  }
+                  externalUrl={
+                    conference.data.externalUrl
+                  }
+                  externalBlank={
+                    conference.data.externalBlank
+                  }
+                />
+              ),
+            )
+          }
+        </div>
+      </section>
+    )
+  }
+</div>
+
+<style>
+  .conference-archive {
+    display: grid;
+    gap: clamp(3.5rem, 7vw, 6rem);
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .conference-group {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .conference-group__header {
+    display: grid;
+    gap: 0.625rem;
+    max-width: 46rem;
+  }
+
+  .conference-group__header h2 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    line-height: 1.15;
+  }
+
+  .conference-group__header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .conference-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+    gap: 1.25rem;
+  }
+
+  .conference-archive__empty {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid #fecdd3;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 78%);
+  }
+
+  .conference-archive__empty h2 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .conference-archive__empty p {
+    max-width: 42rem;
+    margin: 0.75rem 0 0;
+    color: #64748b;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 820px) {
+    .conference-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

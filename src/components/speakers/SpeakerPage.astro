@@ -1,0 +1,422 @@
+---
+import { marked } from "marked";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../Header.astro";
+import Footer from "../Footer.astro";
+import Icon from "../Icon.astro";
+
+import type { CollectionEntry } from "astro:content";
+
+type Lang = "uk" | "en";
+
+interface Props {
+  speaker: CollectionEntry<"speakers">;
+  lang: Lang;
+}
+
+const {
+  speaker,
+  lang,
+} = Astro.props;
+
+const data = speaker.data;
+
+const name = data.name[lang].trim();
+const position = data.position[lang].trim();
+const biographyMarkdown = data.biography[lang]?.trim();
+
+const biographyHtml = biographyMarkdown
+  ? await marked.parse(biographyMarkdown)
+  : "";
+
+const archivePath =
+  lang === "en"
+    ? "/en/speakers/"
+    : "/speakers/";
+
+const currentPath =
+  lang === "en"
+    ? `/en/speakers/${data.slug}/`
+    : `/speakers/${data.slug}/`;
+
+const labels = {
+  uk: {
+    eyebrow: "Спікер",
+    biography: "Біографія",
+    back: "Повернутись до спікерів",
+  },
+
+  en: {
+    eyebrow: "Speaker",
+    biography: "Biography",
+    back: "Back to speakers",
+  },
+}[lang];
+
+const pageTitle =
+  lang === "en"
+    ? `${name} — Speaker of OB AAGU`
+    : `${name} — Спікер ОВ ААГУ`;
+
+const pageDescription =
+  position ||
+  (
+    lang === "en"
+      ? `Speaker of the Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine.`
+      : `Спікер Одеського відділення Асоціації акушерів-гінекологів України.`
+  );
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name,
+  jobTitle: position || undefined,
+  image: data.photo
+    ? new URL(
+        data.photo,
+        Astro.site ??
+          "https://odessa-gyne-association.pages.dev",
+      ).toString()
+    : undefined,
+  url: new URL(
+    currentPath,
+    Astro.site ??
+      "https://odessa-gyne-association.pages.dev",
+  ).toString(),
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={pageTitle}
+  description={pageDescription}
+  path={currentPath}
+  type="article"
+  image={data.photo || "/og-image.jpg"}
+  imageAlt={name}
+  structuredData={structuredData}
+>
+  <Header
+    lang={lang}
+    currentPath={archivePath}
+  />
+
+  <main class="speaker-page">
+    <div class="speaker-container">
+      <nav
+        class="speaker-breadcrumbs"
+        aria-label="Breadcrumb"
+      >
+        <a href={archivePath}>
+          {lang === "en" ? "Speakers" : "Спікери"}
+        </a>
+
+        <Icon
+          name="arrow-right"
+          size={14}
+        />
+
+        <span aria-current="page">
+          {name}
+        </span>
+      </nav>
+
+      <article class="speaker">
+        <header class="speaker-hero">
+          {
+            data.photo && (
+              <div class="speaker-photo-wrap">
+                <img
+                  src={data.photo}
+                  alt={name}
+                  class="speaker-photo"
+                  loading="eager"
+                  decoding="async"
+                  width="760"
+                  height="950"
+                />
+              </div>
+            )
+          }
+
+          <div class="speaker-info">
+            <p class="speaker-eyebrow">
+              {labels.eyebrow}
+            </p>
+
+            <h1>{name}</h1>
+
+            {
+              position && (
+                <p class="speaker-position">
+                  {position}
+                </p>
+              )
+            }
+          </div>
+        </header>
+
+        {
+          biographyHtml && (
+            <section
+              class="speaker-bio"
+              aria-labelledby="speaker-biography-title"
+            >
+              <h2 id="speaker-biography-title">
+                {labels.biography}
+              </h2>
+
+              <div
+                class="speaker-bio-content"
+                set:html={biographyHtml}
+              />
+            </section>
+          )
+        }
+
+        <footer class="speaker-footer">
+          <a
+            href={archivePath}
+            class="speaker-back"
+          >
+            <Icon
+              name="arrow-left"
+              size={18}
+            />
+
+            <span>{labels.back}</span>
+          </a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .speaker-page {
+    min-height: 100vh;
+    padding: 8.5rem 0 5rem;
+    background:
+      radial-gradient(
+        circle at top left,
+        rgba(244, 63, 94, 0.12),
+        transparent 34rem
+      ),
+      linear-gradient(
+        180deg,
+        #fff7f9 0%,
+        #ffffff 45%
+      );
+  }
+
+  .speaker-container {
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  .speaker-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    margin-bottom: 2rem;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+
+  .speaker-breadcrumbs a {
+    color: #be123c;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .speaker-breadcrumbs a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .speaker-breadcrumbs span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .speaker {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .speaker-hero {
+    display: grid;
+    grid-template-columns:
+      minmax(260px, 380px)
+      minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid rgba(136, 19, 55, 0.12);
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow:
+      0 1.5rem 4.5rem rgba(136, 19, 55, 0.12);
+  }
+
+  .speaker-photo-wrap {
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: #fff;
+    box-shadow:
+      0 1.25rem 2.75rem rgba(15, 23, 42, 0.16);
+  }
+
+  .speaker-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .speaker-info {
+    min-width: 0;
+  }
+
+  .speaker-eyebrow {
+    margin: 0 0 0.75rem;
+    color: #be123c;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .speaker-info h1 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(2.25rem, 5vw, 4.75rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+
+  .speaker-position {
+    max-width: 760px;
+    margin: 1.5rem 0 0;
+    color: #475569;
+    font-size: clamp(1.125rem, 2vw, 1.45rem);
+    line-height: 1.6;
+  }
+
+  .speaker-bio {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 1.75rem;
+    background: #fff;
+    box-shadow:
+      0 1.125rem 3.125rem rgba(15, 23, 42, 0.08);
+  }
+
+  .speaker-bio h2 {
+    margin: 0 0 1.5rem;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .speaker-bio-content {
+    color: #334155;
+    font-size: 1.0625rem;
+    line-height: 1.85;
+  }
+
+  .speaker-bio-content :global(:first-child) {
+    margin-top: 0;
+  }
+
+  .speaker-bio-content :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .speaker-bio-content :global(h2),
+  .speaker-bio-content :global(h3) {
+    color: #881337;
+    font-family: Domine, serif;
+    line-height: 1.25;
+  }
+
+  .speaker-bio-content :global(h2) {
+    margin: 2.5rem 0 1rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .speaker-bio-content :global(h3) {
+    margin: 2rem 0 0.75rem;
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+  }
+
+  .speaker-bio-content :global(p),
+  .speaker-bio-content :global(ul),
+  .speaker-bio-content :global(ol),
+  .speaker-bio-content :global(blockquote) {
+    margin: 0 0 1.25rem;
+  }
+
+  .speaker-bio-content :global(ul),
+  .speaker-bio-content :global(ol) {
+    padding-left: 1.5rem;
+  }
+
+  .speaker-bio-content :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  .speaker-bio-content :global(a) {
+    color: #be123c;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+  }
+
+  .speaker-bio-content :global(blockquote) {
+    padding: 1rem 1.25rem;
+    border-left: 4px solid #fb7185;
+    background: #fff1f2;
+  }
+
+  .speaker-footer {
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .speaker-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #be123c;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .speaker-back:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 780px) {
+    .speaker-page {
+      padding-top: 7.25rem;
+    }
+
+    .speaker-hero {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      border-radius: 1.5rem;
+    }
+
+    .speaker-bio {
+      border-radius: 1.5rem;
+    }
+  }
+</style>

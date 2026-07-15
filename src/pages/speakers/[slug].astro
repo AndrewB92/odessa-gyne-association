@@ -1,0 +1,35 @@
+---
+import {
+  getCollection,
+  type CollectionEntry,
+} from "astro:content";
+
+import SpeakerPage from "../../components/speakers/SpeakerPage.astro";
+
+export async function getStaticPaths() {
+  const speakers = await getCollection("speakers");
+
+  return speakers.map((speaker) => ({
+    params: {
+      slug: speaker.data.slug || speaker.id,
+    },
+
+    props: {
+      speaker,
+    },
+  }));
+}
+
+interface Props {
+  speaker: CollectionEntry<"speakers">;
+}
+
+const {
+  speaker,
+} = Astro.props;
+---
+
+<SpeakerPage
+  speaker={speaker}
+  lang="uk"
+/>

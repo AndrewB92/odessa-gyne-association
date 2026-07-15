@@ -1,0 +1,407 @@
+---
+import { marked } from "marked";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../Header.astro";
+import Footer from "../Footer.astro";
+import Icon from "../Icon.astro";
+
+import EventMeta from "../events/EventMeta.astro";
+import EventResources from "../events/EventResources.astro";
+
+import type { CollectionEntry } from "astro:content";
+import type { SiteLocale } from "../../types/events";
+
+interface Props {
+  conference: CollectionEntry<"conferences">;
+  locale: SiteLocale;
+}
+
+const {
+  conference,
+  locale,
+} = Astro.props;
+
+const data = conference.data;
+
+const localizedTitle = data.title[locale].trim();
+const localizedExcerpt = data.excerpt?.[locale]?.trim();
+
+const bodyMarkdown =
+  locale === "en"
+    ? data.bodyEn?.trim()
+    : data.bodyUk?.trim();
+
+const bodyHtml = bodyMarkdown
+  ? await marked.parse(bodyMarkdown)
+  : "";
+
+const archivePath =
+  locale === "en"
+    ? "/en/conferences/"
+    : "/conferences/";
+
+const currentPath =
+  locale === "en"
+    ? `/en/conferences/${data.slug}/`
+    : `/conferences/${data.slug}/`;
+
+const pageTitle =
+  data.seoTitle?.[locale]?.trim() ||
+  `${localizedTitle} — ${locale === "en" ? "OB AAGU" : "ОВ ААГУ"}`;
+
+const pageDescription =
+  data.seoDescription?.[locale]?.trim() ||
+  localizedExcerpt ||
+  (
+    locale === "en"
+      ? "Conference of the Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine."
+      : "Конференція Одеського відділення Асоціації акушерів-гінекологів України."
+  );
+
+const labels = {
+  uk: {
+    archive: "Конференції",
+    back: "Усі конференції",
+    eyebrow: "Конференція",
+  },
+
+  en: {
+    archive: "Conferences",
+    back: "All conferences",
+    eyebrow: "Conference",
+  },
+}[locale];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: localizedTitle,
+  description: pageDescription,
+  eventAttendanceMode:
+    data.format === "online"
+      ? "https://schema.org/OnlineEventAttendanceMode"
+      : data.format === "hybrid"
+        ? "https://schema.org/MixedEventAttendanceMode"
+        : "https://schema.org/OfflineEventAttendanceMode",
+  startDate: data.schedule[0]?.start?.toISOString(),
+  endDate:
+    data.schedule[data.schedule.length - 1]?.end?.toISOString() ??
+    data.schedule[data.schedule.length - 1]?.start?.toISOString(),
+  location: data.locations.map((location) => ({
+    "@type": "Place",
+    name: location[locale],
+  })),
+  url: new URL(
+    currentPath,
+    Astro.site ??
+      "https://odessa-gyne-association.pages.dev",
+  ).toString(),
+};
+---
+
+<BaseLayout
+  lang={locale}
+  title={pageTitle}
+  description={pageDescription}
+  path={currentPath}
+  type="article"
+  structuredData={structuredData}
+>
+  <Header
+    lang={locale}
+    currentPath={archivePath}
+  />
+
+  <main class="conference-page">
+    <div class="conference-container">
+      <nav
+        class="conference-breadcrumbs"
+        aria-label="Breadcrumb"
+      >
+        <a href={archivePath}>
+          {labels.archive}
+        </a>
+
+        <Icon
+          name="arrow-right"
+          size={14}
+        />
+
+        <span aria-current="page">
+          {localizedTitle}
+        </span>
+      </nav>
+
+      <article class="conference">
+        <header class="conference__header">
+          <p class="conference__eyebrow">
+            {labels.eyebrow}
+          </p>
+
+          <h1>
+            {localizedTitle}
+          </h1>
+
+          {
+            localizedExcerpt && (
+              <p class="conference__excerpt">
+                {localizedExcerpt}
+              </p>
+            )
+          }
+
+          <EventMeta
+            locale={locale}
+            schedule={data.schedule}
+            locations={data.locations}
+            format={data.format}
+            class="conference__meta"
+          />
+        </header>
+
+        {
+          bodyHtml && (
+            <div
+              class="conference__content"
+              set:html={bodyHtml}
+            />
+          )
+        }
+
+        <EventResources
+          locale={locale}
+          resources={data.resources}
+          class="conference__resources"
+        />
+
+        <footer class="conference__footer">
+          <a
+            class="conference__back"
+            href={archivePath}
+          >
+            <Icon
+              name="arrow-left"
+              size={18}
+            />
+
+            <span>{labels.back}</span>
+          </a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <Footer lang={locale} />
+</BaseLayout>
+
+<style>
+  .conference-page {
+    min-height: 100vh;
+    padding: 8.5rem 0 5rem;
+    background:
+      radial-gradient(
+        circle at top left,
+        rgba(244, 63, 94, 0.1),
+        transparent 34rem
+      ),
+      linear-gradient(
+        180deg,
+        #fff7f9 0%,
+        #ffffff 34rem
+      );
+  }
+
+  .conference-container {
+    width: min(960px, calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  .conference-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    margin-bottom: 2rem;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+
+  .conference-breadcrumbs a {
+    color: #be123c;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .conference-breadcrumbs a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .conference-breadcrumbs span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .conference {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .conference__header {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .conference__eyebrow {
+    margin: 0;
+    color: #be123c;
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .conference__header h1 {
+    max-width: 900px;
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(2.25rem, 6vw, 4.75rem);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+  }
+
+  .conference__excerpt {
+    max-width: 760px;
+    margin: 0;
+    color: #475569;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.7;
+  }
+
+  .conference__meta {
+    margin-top: 0.75rem;
+  }
+
+  .conference__content {
+    max-width: 760px;
+    color: #334155;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .conference__content :global(:first-child) {
+    margin-top: 0;
+  }
+
+  .conference__content :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .conference__content :global(h2),
+  .conference__content :global(h3) {
+    color: #881337;
+    font-family: Domine, serif;
+    line-height: 1.25;
+  }
+
+  .conference__content :global(h2) {
+    margin: 2.75rem 0 1rem;
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+  }
+
+  .conference__content :global(h3) {
+    margin: 2rem 0 0.75rem;
+    font-size: clamp(1.3rem, 2.5vw, 1.65rem);
+  }
+
+  .conference__content :global(p),
+  .conference__content :global(ul),
+  .conference__content :global(ol),
+  .conference__content :global(blockquote),
+  .conference__content :global(table) {
+    margin: 0 0 1.25rem;
+  }
+
+  .conference__content :global(ul),
+  .conference__content :global(ol) {
+    padding-left: 1.5rem;
+  }
+
+  .conference__content :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  .conference__content :global(a) {
+    color: #be123c;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+  }
+
+  .conference__content :global(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+    border-radius: 1rem;
+  }
+
+  .conference__content :global(blockquote) {
+    padding: 1rem 1.25rem;
+    border-left: 4px solid #fb7185;
+    background: #fff1f2;
+  }
+
+  .conference__content :global(table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+
+  .conference__content :global(th),
+  .conference__content :global(td) {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .conference__content :global(th) {
+    color: #881337;
+    background: #fff1f2;
+  }
+
+  .conference__resources {
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .conference__footer {
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .conference__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #be123c;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .conference__back:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 720px) {
+    .conference-page {
+      padding-top: 7.25rem;
+    }
+  }
+</style>

@@ -6,6 +6,82 @@ const localizedText = z.object({
   en: z.string(),
 });
 
+const optionalLocalizedText = z
+  .object({
+    uk: z.string().optional(),
+    en: z.string().optional(),
+  })
+  .optional();
+
+const eventScheduleItem = z
+  .object({
+    start: z.coerce.date(),
+    end: z.coerce.date().optional(),
+  })
+  .refine(
+    ({ start, end }) => {
+      if (!end) {
+        return true;
+      }
+
+      return end.getTime() >= start.getTime();
+    },
+    {
+      message: "The end date cannot be earlier than the start date.",
+      path: ["end"],
+    },
+  );
+
+const eventLocation = z.object({
+  uk: z.string(),
+  en: z.string(),
+});
+
+const eventResource = z.object({
+  icon: z.string().default("link"),
+  title: localizedText,
+  url: z.string().min(1),
+  newTab: z.boolean().default(true),
+});
+
+const eventFormat = z.enum(["online", "offline", "hybrid"]);
+
+const eventLinkMode = z.enum(["internal", "external"]);
+
+const baseEventFields = {
+  slug: z.string().min(1),
+
+  title: localizedText,
+
+  excerpt: optionalLocalizedText,
+
+  schedule: z.array(eventScheduleItem).min(1),
+
+  locations: z.array(eventLocation).default([]),
+
+  format: eventFormat,
+
+  linkMode: eventLinkMode.default("internal"),
+
+  externalUrl: z.string().optional(),
+
+  externalBlank: z.boolean().default(true),
+
+  resources: z.array(eventResource).default([]),
+
+  bodyUk: z.string().optional(),
+
+  bodyEn: z.string().optional(),
+
+  featured: z.boolean().default(false),
+
+  draft: z.boolean().default(false),
+
+  seoTitle: optionalLocalizedText,
+
+  seoDescription: optionalLocalizedText,
+};
+
 const speakers = defineCollection({
   loader: glob({
     pattern: "**/*.{yml,yaml}",
@@ -56,8 +132,77 @@ const news = defineCollection({
   }),
 });
 
+const conferences = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/conferences",
+  }),
+  schema: z
+    .object({
+      ...baseEventFields,
+    })
+    .superRefine(({ linkMode, externalUrl }, context) => {
+      if (linkMode === "external" && !externalUrl?.trim()) {
+        context.addIssue({
+          code: "custom",
+          message:
+            "External URL is required when the conference uses an external link.",
+          path: ["externalUrl"],
+        });
+      }
+    }),
+});
+
+const bprCategories = defineCollection({
+  loader: glob({
+    pattern: "**/*.{yml,yaml}",
+    base: "./src/content/bpr-categories",
+  }),
+  schema: z.object({
+    slug: z.string().min(1),
+    title: localizedText,
+    description: optionalLocalizedText,
+    sort: z.number().int().default(10),
+    draft: z.boolean().default(false),
+    seoTitle: optionalLocalizedText,
+    seoDescription: optionalLocalizedText,
+  }),
+});
+
+const bprEvents = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/bpr-events",
+  }),
+  schema: z
+    .object({
+      ...baseEventFields,
+
+      category: z.string().min(1),
+
+      bprPoints: z.number().nonnegative().optional(),
+
+      providerNumber: z.string().optional(),
+
+      registrationDeadline: z.coerce.date().optional(),
+    })
+    .superRefine(({ linkMode, externalUrl }, context) => {
+      if (linkMode === "external" && !externalUrl?.trim()) {
+        context.addIssue({
+          code: "custom",
+          message:
+            "External URL is required when the BPR event uses an external link.",
+          path: ["externalUrl"],
+        });
+      }
+    }),
+});
+
 export const collections = {
   speakers,
   newsCategories,
   news,
+  conferences,
+  bprCategories,
+  bprEvents,
 };

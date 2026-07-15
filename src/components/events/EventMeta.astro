@@ -1,0 +1,242 @@
+---
+import Icon from "../Icon.astro";
+
+import type {
+  EventFormat,
+  EventLocation,
+  EventScheduleItem,
+  SiteLocale,
+} from "../../types/events";
+
+import {
+  formatEventSchedule,
+} from "../../utils/eventDates";
+
+import {
+  getEventFormatLabel,
+  getEventLabels,
+} from "../../utils/eventLabels";
+
+interface Props {
+  locale: SiteLocale;
+  schedule: EventScheduleItem[];
+  locations?: EventLocation[];
+  format: EventFormat;
+  bprPoints?: number;
+  providerNumber?: string;
+  compact?: boolean;
+  class?: string;
+}
+
+const {
+  locale,
+  schedule,
+  locations = [],
+  format,
+  bprPoints,
+  providerNumber,
+  compact = false,
+  class: className = "",
+} = Astro.props;
+
+const labels = getEventLabels(locale);
+const formattedDates = formatEventSchedule(schedule, locale);
+
+const localizedLocations = locations
+  .map((location) => location[locale]?.trim())
+  .filter(Boolean);
+
+const hasBprPoints =
+  typeof bprPoints === "number" &&
+  Number.isFinite(bprPoints);
+
+const normalizedProviderNumber = providerNumber?.trim();
+---
+
+<dl
+  class:list={[
+    "event-meta",
+    {
+      "event-meta--compact": compact,
+    },
+    className,
+  ]}
+>
+  <div class="event-meta__item">
+    <dt class="event-meta__label">
+      <Icon name="calendar" size={18} />
+
+      <span>
+        {labels.dates}
+      </span>
+    </dt>
+
+    <dd class="event-meta__value">
+      <ul class="event-meta__list">
+        {
+          formattedDates.map((date) => (
+            <li>{date}</li>
+          ))
+        }
+      </ul>
+    </dd>
+  </div>
+
+  <div class="event-meta__item">
+    <dt class="event-meta__label">
+      <Icon name="globe" size={18} />
+
+      <span>
+        {labels.format}
+      </span>
+    </dt>
+
+    <dd class="event-meta__value">
+      {getEventFormatLabel(format, locale)}
+    </dd>
+  </div>
+
+  {
+    localizedLocations.length > 0 && (
+      <div class="event-meta__item">
+        <dt class="event-meta__label">
+          <Icon name="map" size={18} />
+
+          <span>
+            {
+              localizedLocations.length > 1
+                ? labels.locations
+                : labels.location
+            }
+          </span>
+        </dt>
+
+        <dd class="event-meta__value">
+          <ul class="event-meta__list">
+            {
+              localizedLocations.map((location) => (
+                <li>{location}</li>
+              ))
+            }
+          </ul>
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    hasBprPoints && (
+      <div class="event-meta__item">
+        <dt class="event-meta__label">
+          <Icon name="award" size={18} />
+
+          <span>
+            {labels.bprPoints}
+          </span>
+        </dt>
+
+        <dd class="event-meta__value">
+          {bprPoints}
+        </dd>
+      </div>
+    )
+  }
+
+  {
+    normalizedProviderNumber && (
+      <div class="event-meta__item">
+        <dt class="event-meta__label">
+          <Icon name="file" size={18} />
+
+          <span>
+            {labels.providerNumber}
+          </span>
+        </dt>
+
+        <dd class="event-meta__value">
+          {normalizedProviderNumber}
+        </dd>
+      </div>
+    )
+  }
+</dl>
+
+<style>
+  .event-meta {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, 13rem), 1fr)
+    );
+    gap: 1rem;
+    margin: 0;
+  }
+
+  .event-meta__item {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid var(--color-border, #dfe4e8);
+    border-radius: 0.75rem;
+    background: var(--color-surface, #fff);
+  }
+
+  .event-meta__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.5rem;
+    color: var(--color-text-muted, #5e6a73);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .event-meta__label :global(svg) {
+    flex: 0 0 auto;
+  }
+
+  .event-meta__value {
+    margin: 0;
+    color: var(--color-text, #162129);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .event-meta__list {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .event-meta--compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .event-meta--compact .event-meta__item {
+    display: grid;
+    grid-template-columns: minmax(7rem, auto) 1fr;
+    gap: 0.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .event-meta--compact .event-meta__label {
+    margin: 0;
+  }
+
+  @media (max-width: 34rem) {
+    .event-meta--compact .event-meta__item {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

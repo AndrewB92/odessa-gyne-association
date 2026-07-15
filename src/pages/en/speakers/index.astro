@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+
+import SpeakersArchive from "../../../components/speakers/SpeakersArchive.astro";
+
+const lang = "en";
+
+const speakers = await getCollection("speakers");
+---
+
+<BaseLayout
+  lang={lang}
+  title="Speakers — OB AAGU"
+  description="Specialists and speakers participating in the professional and educational activities of the Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine."
+  path="/en/speakers/"
+>
+  <Header
+    lang={lang}
+    currentPath="/en/speakers"
+  />
+
+  <main>
+    <SpeakersArchive
+      speakers={speakers}
+      lang={lang}
+    />
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

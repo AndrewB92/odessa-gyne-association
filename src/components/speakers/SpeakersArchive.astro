@@ -1,0 +1,161 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import SpeakersGrid from "../SpeakersGrid.astro";
+
+type Lang = "uk" | "en";
+
+interface Props {
+  speakers: CollectionEntry<"speakers">[];
+  lang: Lang;
+}
+
+const {
+  speakers,
+  lang,
+} = Astro.props;
+
+const copy = {
+  uk: {
+    eyebrow: "Професійна спільнота",
+    title: "Спікери",
+    description:
+      "Фахівці у сфері акушерства, гінекології, репродуктивної медицини та суміжних напрямів, які беруть участь у професійних і освітніх заходах ОВ ААГУ.",
+    emptyTitle: "Спікерів поки не додано",
+    emptyDescription:
+      "Інформація про спікерів з’явиться на цій сторінці після публікації.",
+  },
+
+  en: {
+    eyebrow: "Professional community",
+    title: "Speakers",
+    description:
+      "Specialists in obstetrics, gynecology, reproductive medicine and related fields who participate in the professional and educational activities of OB AAGU.",
+    emptyTitle: "No speakers have been added yet",
+    emptyDescription:
+      "Speaker information will appear on this page after publication.",
+  },
+}[lang];
+
+const sortedSpeakers = [...speakers].sort(
+  (first, second) =>
+    first.data.sort - second.data.sort ||
+    first.data.name[lang].localeCompare(
+      second.data.name[lang],
+      lang === "uk" ? "uk-UA" : "en",
+    ),
+);
+
+const hasSpeakers = sortedSpeakers.length > 0;
+---
+
+<section class="speakers-archive">
+  <div class="speakers-container">
+    <header class="speakers-header">
+      <p class="speakers-eyebrow">
+        {copy.eyebrow}
+      </p>
+
+      <h1>{copy.title}</h1>
+
+      <p class="speakers-description">
+        {copy.description}
+      </p>
+    </header>
+
+    {
+      hasSpeakers ? (
+        <SpeakersGrid
+          speakers={sortedSpeakers}
+          lang={lang}
+        />
+      ) : (
+        <div class="speakers-empty">
+          <h2>{copy.emptyTitle}</h2>
+          <p>{copy.emptyDescription}</p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .speakers-archive {
+    min-height: 100vh;
+    padding: 9rem 0 5rem;
+    background:
+      radial-gradient(
+        circle at top left,
+        rgba(244, 63, 94, 0.12),
+        transparent 34rem
+      ),
+      linear-gradient(
+        180deg,
+        #fff7f9 0%,
+        #ffffff 45%
+      );
+  }
+
+  .speakers-container {
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  .speakers-header {
+    display: grid;
+    gap: 1rem;
+    max-width: 880px;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .speakers-eyebrow {
+    margin: 0;
+    color: #be123c;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .speakers-header h1 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    line-height: 1;
+  }
+
+  .speakers-description {
+    max-width: 760px;
+    margin: 0;
+    color: #475569;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.7;
+  }
+
+  .speakers-empty {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid #fecdd3;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 78%);
+  }
+
+  .speakers-empty h2 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .speakers-empty p {
+    max-width: 42rem;
+    margin: 0.75rem 0 0;
+    color: #64748b;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 720px) {
+    .speakers-archive {
+      padding-top: 7.5rem;
+    }
+  }
+</style>

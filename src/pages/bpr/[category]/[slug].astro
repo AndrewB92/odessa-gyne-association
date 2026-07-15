@@ -1,0 +1,74 @@
+---
+import {
+  getCollection,
+  type CollectionEntry,
+} from "astro:content";
+
+import BprEventPage from "../../../components/bpr/BprEventPage.astro";
+
+export async function getStaticPaths() {
+  const [
+    events,
+    categories,
+  ] = await Promise.all([
+    getCollection(
+      "bprEvents",
+      ({ data }) =>
+        !data.draft &&
+        data.linkMode === "internal",
+    ),
+
+    getCollection(
+      "bprCategories",
+      ({ data }) => !data.draft,
+    ),
+  ]);
+
+  const categoryMap = new Map(
+    categories.map((category) => [
+      category.data.slug,
+      category,
+    ]),
+  );
+
+  return events.flatMap((event) => {
+    const category = categoryMap.get(
+      event.data.category,
+    );
+
+    if (!category) {
+      return [];
+    }
+
+    return [
+      {
+        params: {
+          category: category.data.slug,
+          slug: event.data.slug,
+        },
+
+        props: {
+          event,
+          category,
+        },
+      },
+    ];
+  });
+}
+
+interface Props {
+  event: CollectionEntry<"bprEvents">;
+  category: CollectionEntry<"bprCategories">;
+}
+
+const {
+  event,
+  category,
+} = Astro.props;
+---
+
+<BprEventPage
+  event={event}
+  category={category}
+  locale="uk"
+/>

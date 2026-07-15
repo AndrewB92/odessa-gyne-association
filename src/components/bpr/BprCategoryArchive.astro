@@ -1,0 +1,355 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import EventCard from "../events/EventCard.astro";
+
+import type { SiteLocale } from "../../types/events";
+
+import {
+  getEventEndDate,
+  getEventStartDate,
+  isOngoingEvent,
+  isPastEvent,
+} from "../../utils/eventDates";
+
+interface Props {
+  category: CollectionEntry<"bprCategories">;
+  events: CollectionEntry<"bprEvents">[];
+  categories: CollectionEntry<"bprCategories">[];
+  locale: SiteLocale;
+}
+
+const {
+  category,
+  events,
+  categories,
+  locale,
+} = Astro.props;
+
+const copy = {
+  uk: {
+    eyebrow: "Категорія БПР",
+    allEvents: "Усі заходи",
+    upcomingTitle: "Актуальні заходи",
+    pastTitle: "Завершені заходи",
+    emptyTitle: "У цій категорії поки немає заходів",
+    emptyDescription:
+      "Нові заходи з’являться тут після публікації.",
+  },
+
+  en: {
+    eyebrow: "BPR category",
+    allEvents: "All events",
+    upcomingTitle: "Current events",
+    pastTitle: "Completed events",
+    emptyTitle: "There are no events in this category yet",
+    emptyDescription:
+      "New events will appear here after publication.",
+  },
+}[locale];
+
+const publishedCategories = categories
+  .filter((item) => !item.data.draft)
+  .sort(
+    (first, second) =>
+      first.data.sort - second.data.sort,
+  );
+
+const publishedEvents = events.filter(
+  (event) =>
+    !event.data.draft &&
+    event.data.category === category.data.slug,
+);
+
+const upcomingEvents = publishedEvents
+  .filter(
+    (event) =>
+      !isPastEvent(event.data.schedule),
+  )
+  .sort((first, second) => {
+    const firstIsOngoing = isOngoingEvent(
+      first.data.schedule,
+    );
+
+    const secondIsOngoing = isOngoingEvent(
+      second.data.schedule,
+    );
+
+    if (firstIsOngoing !== secondIsOngoing) {
+      return firstIsOngoing ? -1 : 1;
+    }
+
+    const firstStart = getEventStartDate(
+      first.data.schedule,
+    );
+
+    const secondStart = getEventStartDate(
+      second.data.schedule,
+    );
+
+    if (!firstStart && !secondStart) {
+      return 0;
+    }
+
+    if (!firstStart) {
+      return 1;
+    }
+
+    if (!secondStart) {
+      return -1;
+    }
+
+    return firstStart.getTime() - secondStart.getTime();
+  });
+
+const pastEvents = publishedEvents
+  .filter((event) =>
+    isPastEvent(event.data.schedule),
+  )
+  .sort((first, second) => {
+    const firstEnd = getEventEndDate(
+      first.data.schedule,
+    );
+
+    const secondEnd = getEventEndDate(
+      second.data.schedule,
+    );
+
+    if (!firstEnd && !secondEnd) {
+      return 0;
+    }
+
+    if (!firstEnd) {
+      return 1;
+    }
+
+    if (!secondEnd) {
+      return -1;
+    }
+
+    return secondEnd.getTime() - firstEnd.getTime();
+  });
+
+const archivePath =
+  locale === "en"
+    ? "/en/bpr/"
+    : "/bpr/";
+
+const getCategoryPath = (slug: string) =>
+  locale === "en"
+    ? `/en/bpr/${slug}/`
+    : `/bpr/${slug}/`;
+
+const hasEvents = publishedEvents.length > 0;
+---
+
+<div class="bpr-category-archive">
+  <nav
+    class="bpr-category-list"
+    aria-label={
+      locale === "en"
+        ? "BPR categories"
+        : "Категорії БПР"
+    }
+  >
+    <a
+      class="bpr-category-link"
+      href={archivePath}
+    >
+      {copy.allEvents}
+    </a>
+
+    {
+      publishedCategories.map((item) => (
+        <a
+          class:list={[
+            "bpr-category-link",
+            {
+              "bpr-category-link--active":
+                item.data.slug ===
+                category.data.slug,
+            },
+          ]}
+          href={getCategoryPath(item.data.slug)}
+          aria-current={
+            item.data.slug === category.data.slug
+              ? "page"
+              : undefined
+          }
+        >
+          {item.data.title[locale]}
+        </a>
+      ))
+    }
+  </nav>
+
+  {
+    !hasEvents && (
+      <div class="bpr-category-empty">
+        <h2>{copy.emptyTitle}</h2>
+        <p>{copy.emptyDescription}</p>
+      </div>
+    )
+  }
+
+  {
+    upcomingEvents.length > 0 && (
+      <section class="bpr-event-group">
+        <header class="bpr-section-header">
+          <h2>{copy.upcomingTitle}</h2>
+        </header>
+
+        <div class="bpr-event-grid">
+          {
+            upcomingEvents.map((event) => (
+              <EventCard
+                type="bpr"
+                locale={locale}
+                slug={event.data.slug}
+                title={event.data.title}
+                excerpt={event.data.excerpt}
+                schedule={event.data.schedule}
+                locations={event.data.locations}
+                format={event.data.format}
+                linkMode={event.data.linkMode}
+                externalUrl={event.data.externalUrl}
+                externalBlank={
+                  event.data.externalBlank
+                }
+                bprPoints={event.data.bprPoints}
+                providerNumber={
+                  event.data.providerNumber
+                }
+                category={{
+                  slug: category.data.slug,
+                  title: category.data.title,
+                }}
+              />
+            ))
+          }
+        </div>
+      </section>
+    )
+  }
+
+  {
+    pastEvents.length > 0 && (
+      <section class="bpr-event-group">
+        <header class="bpr-section-header">
+          <h2>{copy.pastTitle}</h2>
+        </header>
+
+        <div class="bpr-event-grid">
+          {
+            pastEvents.map((event) => (
+              <EventCard
+                type="bpr"
+                locale={locale}
+                slug={event.data.slug}
+                title={event.data.title}
+                excerpt={event.data.excerpt}
+                schedule={event.data.schedule}
+                locations={event.data.locations}
+                format={event.data.format}
+                linkMode={event.data.linkMode}
+                externalUrl={event.data.externalUrl}
+                externalBlank={
+                  event.data.externalBlank
+                }
+                bprPoints={event.data.bprPoints}
+                providerNumber={
+                  event.data.providerNumber
+                }
+                category={{
+                  slug: category.data.slug,
+                  title: category.data.title,
+                }}
+              />
+            ))
+          }
+        </div>
+      </section>
+    )
+  }
+</div>
+
+<style>
+  .bpr-category-archive {
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .bpr-category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+
+  .bpr-category-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid #fecdd3;
+    border-radius: 999px;
+    color: #9f1239;
+    background: rgb(255 255 255 / 80%);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .bpr-category-link:hover,
+  .bpr-category-link--active {
+    border-color: #be123c;
+    color: #fff;
+    background: #be123c;
+  }
+
+  .bpr-event-group {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .bpr-section-header h2 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .bpr-event-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+    gap: 1.25rem;
+  }
+
+  .bpr-category-empty {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid #fecdd3;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 78%);
+  }
+
+  .bpr-category-empty h2 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+  }
+
+  .bpr-category-empty p {
+    margin: 0.75rem 0 0;
+    color: #64748b;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 820px) {
+    .bpr-event-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

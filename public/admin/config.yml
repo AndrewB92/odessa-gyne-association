@@ -273,3 +273,678 @@ collections:
         modes:
           - rich_text
           - raw
+
+  - name: "conferences"
+    label: "Conferences"
+    label_singular: "Conference"
+    folder: "src/content/conferences"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "title.en"
+    summary: "{{title.en}}"
+    slug: "{{slug}}"
+    fields:
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "Stable URL-safe ID, for example: international-conference-2026"
+
+      - label: "Title"
+        name: "title"
+        widget: "object"
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+
+      - label: "Short description"
+        name: "excerpt"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+      - label: "Dates"
+        name: "schedule"
+        widget: "list"
+        min: 1
+        summary: "{{fields.start}} — {{fields.end}}"
+        hint: "Add one item for each date or date range."
+        fields:
+          - label: "Start date"
+            name: "start"
+            widget: "datetime"
+            date_format: "YYYY-MM-DD"
+            time_format: false
+            format: "YYYY-MM-DD"
+
+          - label: "End date"
+            name: "end"
+            widget: "datetime"
+            date_format: "YYYY-MM-DD"
+            time_format: false
+            format: "YYYY-MM-DD"
+            required: false
+            hint: "Leave empty when the conference takes place on one day."
+
+      - label: "Locations"
+        name: "locations"
+        widget: "list"
+        required: false
+        summary: "{{fields.uk}}"
+        hint: "Locations remain independent from online, offline or hybrid format."
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+
+      - label: "Format"
+        name: "format"
+        widget: "select"
+        default: "offline"
+        options:
+          - label: "Offline"
+            value: "offline"
+
+          - label: "Online"
+            value: "online"
+
+          - label: "Hybrid"
+            value: "hybrid"
+
+      - label: "Card link"
+        name: "linkMode"
+        widget: "select"
+        default: "internal"
+        hint: "Choose whether the archive card opens the local conference page or an external website."
+        options:
+          - label: "Internal conference page"
+            value: "internal"
+
+          - label: "External URL"
+            value: "external"
+
+      - label: "External URL"
+        name: "externalUrl"
+        widget: "string"
+        required: false
+        hint: "Required when Card link is set to External URL."
+
+      - label: "Open external URL in new tab"
+        name: "externalBlank"
+        widget: "boolean"
+        default: true
+
+      - label: "Additional materials"
+        name: "resources"
+        widget: "list"
+        required: false
+        summary: "{{fields.title.en}}"
+        hint: "Add links to registration, programmes, maps, tests, reports, videos and other materials."
+        fields:
+          - label: "Icon"
+            name: "icon"
+            widget: "select"
+            default: "link"
+            options:
+              - label: "Link"
+                value: "link"
+
+              - label: "External link"
+                value: "external-link"
+
+              - label: "Map"
+                value: "map"
+
+              - label: "Calendar"
+                value: "calendar"
+
+              - label: "Registration"
+                value: "user-plus"
+
+              - label: "Document"
+                value: "file-text"
+
+              - label: "Download"
+                value: "download"
+
+              - label: "Programme"
+                value: "list"
+
+              - label: "Presentation"
+                value: "presentation"
+
+              - label: "Test"
+                value: "clipboard-check"
+
+              - label: "Certificate"
+                value: "certificate"
+
+              - label: "Video"
+                value: "video"
+
+              - label: "YouTube"
+                value: "youtube"
+
+              - label: "Photo gallery"
+                value: "images"
+
+              - label: "Website"
+                value: "globe"
+
+          - label: "Title"
+            name: "title"
+            widget: "object"
+            fields:
+              - label: "Ukrainian"
+                name: "uk"
+                widget: "string"
+
+              - label: "English"
+                name: "en"
+                widget: "string"
+
+          - label: "URL"
+            name: "url"
+            widget: "string"
+
+          - label: "Open in new tab"
+            name: "newTab"
+            widget: "boolean"
+            default: true
+
+      - label: "Ukrainian content"
+        name: "bodyUk"
+        widget: "markdown"
+        required: false
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components:
+          - image
+        modes:
+          - rich_text
+          - raw
+
+      - label: "English content"
+        name: "bodyEn"
+        widget: "markdown"
+        required: false
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components:
+          - image
+        modes:
+          - rich_text
+          - raw
+
+      - label: "Featured"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Allows the conference to be highlighted later."
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+
+      - label: "SEO title"
+        name: "seoTitle"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+            required: false
+
+      - label: "SEO description"
+        name: "seoDescription"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+  - name: "bprCategories"
+    label: "BPR Categories"
+    label_singular: "BPR Category"
+    folder: "src/content/bpr-categories"
+    create: true
+    delete: true
+    extension: "yml"
+    format: "yml"
+    identifier_field: "title.en"
+    summary: "{{title.en}}"
+    slug: "{{slug}}"
+    fields:
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "Stable URL-safe category ID, for example: master-classes"
+
+      - label: "Title"
+        name: "title"
+        widget: "object"
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+
+      - label: "Description"
+        name: "description"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+      - label: "Sort order"
+        name: "sort"
+        widget: "number"
+        default: 10
+        value_type: "int"
+        min: 0
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+
+      - label: "SEO title"
+        name: "seoTitle"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+            required: false
+
+      - label: "SEO description"
+        name: "seoDescription"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+  - name: "bprEvents"
+    label: "BPR Events"
+    label_singular: "BPR Event"
+    folder: "src/content/bpr-events"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "title.en"
+    summary: "{{title.en}} — {{category}}"
+    slug: "{{slug}}"
+    fields:
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        hint: "Stable URL-safe event ID, for example: modern-obstetrics-workshop"
+
+      - label: "Title"
+        name: "title"
+        widget: "object"
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "bprCategories"
+        search_fields:
+          - "title.en"
+          - "title.uk"
+          - "slug"
+        value_field: "slug"
+        display_fields:
+          - "title.en"
+
+      - label: "Short description"
+        name: "excerpt"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false
+
+      - label: "Dates"
+        name: "schedule"
+        widget: "list"
+        min: 1
+        summary: "{{fields.start}} — {{fields.end}}"
+        hint: "Add one item for each date or date range."
+        fields:
+          - label: "Start date"
+            name: "start"
+            widget: "datetime"
+            date_format: "YYYY-MM-DD"
+            time_format: false
+            format: "YYYY-MM-DD"
+
+          - label: "End date"
+            name: "end"
+            widget: "datetime"
+            date_format: "YYYY-MM-DD"
+            time_format: false
+            format: "YYYY-MM-DD"
+            required: false
+            hint: "Leave empty when the event takes place on one day."
+
+      - label: "Locations"
+        name: "locations"
+        widget: "list"
+        required: false
+        summary: "{{fields.uk}}"
+        hint: "Locations remain independent from online, offline or hybrid format."
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+
+      - label: "Format"
+        name: "format"
+        widget: "select"
+        default: "offline"
+        options:
+          - label: "Offline"
+            value: "offline"
+
+          - label: "Online"
+            value: "online"
+
+          - label: "Hybrid"
+            value: "hybrid"
+
+      - label: "BPR points"
+        name: "bprPoints"
+        widget: "number"
+        required: false
+        value_type: "float"
+        min: 0
+        hint: "Leave empty when points are not specified."
+
+      - label: "Provider number"
+        name: "providerNumber"
+        widget: "string"
+        required: false
+
+      - label: "Registration deadline"
+        name: "registrationDeadline"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        required: false
+
+      - label: "Card link"
+        name: "linkMode"
+        widget: "select"
+        default: "internal"
+        hint: "Choose whether the archive card opens the local event page or an external website."
+        options:
+          - label: "Internal BPR event page"
+            value: "internal"
+
+          - label: "External URL"
+            value: "external"
+
+      - label: "External URL"
+        name: "externalUrl"
+        widget: "string"
+        required: false
+        hint: "Required when Card link is set to External URL."
+
+      - label: "Open external URL in new tab"
+        name: "externalBlank"
+        widget: "boolean"
+        default: true
+
+      - label: "Additional materials"
+        name: "resources"
+        widget: "list"
+        required: false
+        summary: "{{fields.title.en}}"
+        hint: "Add links to registration, programmes, maps, tests, reports, videos and other materials."
+        fields:
+          - label: "Icon"
+            name: "icon"
+            widget: "select"
+            default: "link"
+            options:
+              - label: "Link"
+                value: "link"
+
+              - label: "External link"
+                value: "external-link"
+
+              - label: "Map"
+                value: "map"
+
+              - label: "Calendar"
+                value: "calendar"
+
+              - label: "Registration"
+                value: "user-plus"
+
+              - label: "Document"
+                value: "file-text"
+
+              - label: "Download"
+                value: "download"
+
+              - label: "Programme"
+                value: "list"
+
+              - label: "Presentation"
+                value: "presentation"
+
+              - label: "Test"
+                value: "clipboard-check"
+
+              - label: "Certificate"
+                value: "certificate"
+
+              - label: "Video"
+                value: "video"
+
+              - label: "YouTube"
+                value: "youtube"
+
+              - label: "Photo gallery"
+                value: "images"
+
+              - label: "Website"
+                value: "globe"
+
+          - label: "Title"
+            name: "title"
+            widget: "object"
+            fields:
+              - label: "Ukrainian"
+                name: "uk"
+                widget: "string"
+
+              - label: "English"
+                name: "en"
+                widget: "string"
+
+          - label: "URL"
+            name: "url"
+            widget: "string"
+
+          - label: "Open in new tab"
+            name: "newTab"
+            widget: "boolean"
+            default: true
+
+      - label: "Ukrainian content"
+        name: "bodyUk"
+        widget: "markdown"
+        required: false
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components:
+          - image
+        modes:
+          - rich_text
+          - raw
+
+      - label: "English content"
+        name: "bodyEn"
+        widget: "markdown"
+        required: false
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components:
+          - image
+        modes:
+          - rich_text
+          - raw
+
+      - label: "Featured"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Allows the BPR event to be highlighted later."
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+
+      - label: "SEO title"
+        name: "seoTitle"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "string"
+            required: false
+
+      - label: "SEO description"
+        name: "seoDescription"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "text"
+            required: false
+
+          - label: "English"
+            name: "en"
+            widget: "text"
+            required: false

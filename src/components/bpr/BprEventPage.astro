@@ -1,0 +1,530 @@
+---
+import { marked } from "marked";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../Header.astro";
+import Footer from "../Footer.astro";
+import Icon from "../Icon.astro";
+
+import EventMeta from "../events/EventMeta.astro";
+import EventResources from "../events/EventResources.astro";
+
+import type { CollectionEntry } from "astro:content";
+import type { SiteLocale } from "../../types/events";
+
+import {
+  getBprCategoryPath,
+} from "../../utils/eventLinks";
+
+interface Props {
+  event: CollectionEntry<"bprEvents">;
+  category: CollectionEntry<"bprCategories">;
+  locale: SiteLocale;
+}
+
+const {
+  event,
+  category,
+  locale,
+} = Astro.props;
+
+const data = event.data;
+
+const localizedTitle = data.title[locale].trim();
+const localizedExcerpt = data.excerpt?.[locale]?.trim();
+const localizedCategoryTitle =
+  category.data.title[locale].trim();
+
+const bodyMarkdown =
+  locale === "en"
+    ? data.bodyEn?.trim()
+    : data.bodyUk?.trim();
+
+const bodyHtml = bodyMarkdown
+  ? await marked.parse(bodyMarkdown)
+  : "";
+
+const archivePath =
+  locale === "en"
+    ? "/en/bpr/"
+    : "/bpr/";
+
+const categoryPath = getBprCategoryPath(
+  category.data.slug,
+  locale,
+);
+
+const currentPath =
+  locale === "en"
+    ? `/en/bpr/${category.data.slug}/${data.slug}/`
+    : `/bpr/${category.data.slug}/${data.slug}/`;
+
+const pageTitle =
+  data.seoTitle?.[locale]?.trim() ||
+  `${localizedTitle} — ${
+    locale === "en"
+      ? "BPR OB AAGU"
+      : "БПР ОВ ААГУ"
+  }`;
+
+const pageDescription =
+  data.seoDescription?.[locale]?.trim() ||
+  localizedExcerpt ||
+  (
+    locale === "en"
+      ? "Continuing professional development event of the Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine."
+      : "Захід безперервного професійного розвитку Одеського відділення Асоціації акушерів-гінекологів України."
+  );
+
+const labels = {
+  uk: {
+    archive: "БПР",
+    category: localizedCategoryTitle,
+    eyebrow: "Захід БПР",
+    back: "Усі заходи категорії",
+    registrationDeadline: "Реєстрація до",
+  },
+
+  en: {
+    archive: "BPR",
+    category: localizedCategoryTitle,
+    eyebrow: "BPR event",
+    back: "All events in this category",
+    registrationDeadline: "Registration deadline",
+  },
+}[locale];
+
+const registrationDeadline = data.registrationDeadline
+  ? new Intl.DateTimeFormat(
+      locale === "en" ? "en-GB" : "uk-UA",
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      },
+    ).format(data.registrationDeadline)
+  : null;
+
+const validSchedule = [...data.schedule].sort(
+  (first, second) =>
+    first.start.getTime() - second.start.getTime(),
+);
+
+const firstScheduleItem = validSchedule[0];
+const lastScheduleItem =
+  validSchedule[validSchedule.length - 1];
+
+const startDate =
+  firstScheduleItem?.start?.toISOString();
+
+const endDate =
+  lastScheduleItem?.end?.toISOString() ??
+  lastScheduleItem?.start?.toISOString();
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "EducationEvent",
+  name: localizedTitle,
+  description: pageDescription,
+  eventAttendanceMode:
+    data.format === "online"
+      ? "https://schema.org/OnlineEventAttendanceMode"
+      : data.format === "hybrid"
+        ? "https://schema.org/MixedEventAttendanceMode"
+        : "https://schema.org/OfflineEventAttendanceMode",
+  startDate,
+  endDate,
+  location: data.locations.map((location) => ({
+    "@type": "Place",
+    name: location[locale],
+  })),
+  url: new URL(
+    currentPath,
+    Astro.site ??
+      "https://odessa-gyne-association.pages.dev",
+  ).toString(),
+};
+---
+
+<BaseLayout
+  lang={locale}
+  title={pageTitle}
+  description={pageDescription}
+  path={currentPath}
+  type="article"
+  structuredData={structuredData}
+>
+  <Header
+    lang={locale}
+    currentPath={archivePath}
+  />
+
+  <main class="bpr-event-page">
+    <div class="bpr-event-container">
+      <nav
+        class="bpr-event-breadcrumbs"
+        aria-label="Breadcrumb"
+      >
+        <a href={archivePath}>
+          {labels.archive}
+        </a>
+
+        <Icon
+          name="arrow-right"
+          size={14}
+        />
+
+        <a href={categoryPath}>
+          {labels.category}
+        </a>
+
+        <Icon
+          name="arrow-right"
+          size={14}
+        />
+
+        <span aria-current="page">
+          {localizedTitle}
+        </span>
+      </nav>
+
+      <article class="bpr-event">
+        <header class="bpr-event__header">
+          <a
+            class="bpr-event__category"
+            href={categoryPath}
+          >
+            {localizedCategoryTitle}
+          </a>
+
+          <p class="bpr-event__eyebrow">
+            {labels.eyebrow}
+          </p>
+
+          <h1>
+            {localizedTitle}
+          </h1>
+
+          {
+            localizedExcerpt && (
+              <p class="bpr-event__excerpt">
+                {localizedExcerpt}
+              </p>
+            )
+          }
+
+          <EventMeta
+            locale={locale}
+            schedule={data.schedule}
+            locations={data.locations}
+            format={data.format}
+            bprPoints={data.bprPoints}
+            providerNumber={data.providerNumber}
+            class="bpr-event__meta"
+          />
+
+          {
+            registrationDeadline && (
+              <div class="bpr-event__deadline">
+                <Icon
+                  name="calendar"
+                  size={18}
+                />
+
+                <span>
+                  <strong>
+                    {labels.registrationDeadline}:
+                  </strong>{" "}
+                  {registrationDeadline}
+                </span>
+              </div>
+            )
+          }
+        </header>
+
+        {
+          bodyHtml && (
+            <div
+              class="bpr-event__content"
+              set:html={bodyHtml}
+            />
+          )
+        }
+
+        <EventResources
+          locale={locale}
+          resources={data.resources}
+          class="bpr-event__resources"
+        />
+
+        <footer class="bpr-event__footer">
+          <a
+            class="bpr-event__back"
+            href={categoryPath}
+          >
+            <Icon
+              name="arrow-left"
+              size={18}
+            />
+
+            <span>{labels.back}</span>
+          </a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <Footer lang={locale} />
+</BaseLayout>
+
+<style>
+  .bpr-event-page {
+    min-height: 100vh;
+    padding: 8.5rem 0 5rem;
+    background:
+      radial-gradient(
+        circle at top left,
+        rgba(244, 63, 94, 0.1),
+        transparent 34rem
+      ),
+      linear-gradient(
+        180deg,
+        #fff7f9 0%,
+        #ffffff 34rem
+      );
+  }
+
+  .bpr-event-container {
+    width: min(960px, calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  .bpr-event-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    margin-bottom: 2rem;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+
+  .bpr-event-breadcrumbs a {
+    color: #be123c;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .bpr-event-breadcrumbs a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .bpr-event-breadcrumbs span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bpr-event {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .bpr-event__header {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .bpr-event__category {
+    justify-self: start;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    color: #9f1239;
+    background: #ffe4e6;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .bpr-event__category:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .bpr-event__eyebrow {
+    margin: 0;
+    color: #be123c;
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .bpr-event__header h1 {
+    max-width: 900px;
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(2.25rem, 6vw, 4.75rem);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+  }
+
+  .bpr-event__excerpt {
+    max-width: 760px;
+    margin: 0;
+    color: #475569;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.7;
+  }
+
+  .bpr-event__meta {
+    margin-top: 0.75rem;
+  }
+
+  .bpr-event__deadline {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #fecdd3;
+    border-radius: 0.75rem;
+    color: #881337;
+    background: #fff1f2;
+    line-height: 1.5;
+  }
+
+  .bpr-event__deadline :global(svg) {
+    flex: 0 0 auto;
+  }
+
+  .bpr-event__content {
+    max-width: 760px;
+    color: #334155;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .bpr-event__content :global(:first-child) {
+    margin-top: 0;
+  }
+
+  .bpr-event__content :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .bpr-event__content :global(h2),
+  .bpr-event__content :global(h3) {
+    color: #881337;
+    font-family: Domine, serif;
+    line-height: 1.25;
+  }
+
+  .bpr-event__content :global(h2) {
+    margin: 2.75rem 0 1rem;
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+  }
+
+  .bpr-event__content :global(h3) {
+    margin: 2rem 0 0.75rem;
+    font-size: clamp(1.3rem, 2.5vw, 1.65rem);
+  }
+
+  .bpr-event__content :global(p),
+  .bpr-event__content :global(ul),
+  .bpr-event__content :global(ol),
+  .bpr-event__content :global(blockquote),
+  .bpr-event__content :global(table) {
+    margin: 0 0 1.25rem;
+  }
+
+  .bpr-event__content :global(ul),
+  .bpr-event__content :global(ol) {
+    padding-left: 1.5rem;
+  }
+
+  .bpr-event__content :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  .bpr-event__content :global(a) {
+    color: #be123c;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+  }
+
+  .bpr-event__content :global(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+    border-radius: 1rem;
+  }
+
+  .bpr-event__content :global(blockquote) {
+    padding: 1rem 1.25rem;
+    border-left: 4px solid #fb7185;
+    background: #fff1f2;
+  }
+
+  .bpr-event__content :global(table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+
+  .bpr-event__content :global(th),
+  .bpr-event__content :global(td) {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .bpr-event__content :global(th) {
+    color: #881337;
+    background: #fff1f2;
+  }
+
+  .bpr-event__resources {
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .bpr-event__footer {
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .bpr-event__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #be123c;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .bpr-event__back:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 720px) {
+    .bpr-event-page {
+      padding-top: 7.25rem;
+    }
+
+    .bpr-event-breadcrumbs {
+      align-items: flex-start;
+    }
+  }
+</style>

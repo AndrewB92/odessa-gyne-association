@@ -29,10 +29,10 @@ const speakerImages = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 const isEn = lang === "en";
-const basePath = isEn ? "/en/work" : "/work";
+const basePath = isEn ? "/en/speakers" : "/speakers";
 
 function getSpeakerUrl(speaker: Speaker) {
-  return `${basePath}/${speaker.data.slug || speaker.id}`;
+  return `${basePath}/${speaker.data.slug || speaker.id}/`;
 }
 
 function getSpeakerImage(photo?: string) {

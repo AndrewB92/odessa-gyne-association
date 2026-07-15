@@ -1,0 +1,40 @@
+---
+import {
+  getCollection,
+  type CollectionEntry,
+} from "astro:content";
+
+import ConferencePage from "../../components/conferences/ConferencePage.astro";
+
+export async function getStaticPaths() {
+  const conferences = await getCollection(
+    "conferences",
+    ({ data }) =>
+      !data.draft &&
+      data.linkMode === "internal",
+  );
+
+  return conferences.map((conference) => ({
+    params: {
+      slug: conference.data.slug,
+    },
+
+    props: {
+      conference,
+    },
+  }));
+}
+
+interface Props {
+  conference: CollectionEntry<"conferences">;
+}
+
+const {
+  conference,
+} = Astro.props;
+---
+
+<ConferencePage
+  conference={conference}
+  locale="uk"
+/>

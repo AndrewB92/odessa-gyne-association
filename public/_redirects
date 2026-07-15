@@ -1,0 +1,7 @@
+/work /speakers 301
+/work/ /speakers/ 301
+/work/* /speakers/:splat 301
+
+/en/work /en/speakers 301
+/en/work/ /en/speakers/ 301
+/en/work/* /en/speakers/:splat 301

@@ -1,0 +1,223 @@
+---
+import Icon from "../Icon.astro";
+
+import type {
+  EventResource,
+  SiteLocale,
+} from "../../types/events";
+
+import {
+  getEventLabels,
+} from "../../utils/eventLabels";
+
+interface Props {
+  locale: SiteLocale;
+  resources?: EventResource[];
+  title?: string;
+  class?: string;
+}
+
+const {
+  locale,
+  resources = [],
+  title,
+  class: className = "",
+} = Astro.props;
+
+const labels = getEventLabels(locale);
+
+const normalizedResources = resources
+  .map((resource) => ({
+    ...resource,
+    url: resource.url?.trim(),
+    label: resource.title?.[locale]?.trim(),
+  }))
+  .filter(
+    (
+      resource,
+    ): resource is EventResource & {
+      url: string;
+      label: string;
+    } => Boolean(resource.url && resource.label),
+  );
+
+const hasResources = normalizedResources.length > 0;
+---
+
+{
+  hasResources && (
+    <section
+      class:list={["event-resources", className]}
+      aria-labelledby="event-resources-title"
+    >
+      <div class="event-resources__header">
+        <h2
+          id="event-resources-title"
+          class="event-resources__title"
+        >
+          {title ?? labels.materials}
+        </h2>
+      </div>
+
+      <ul class="event-resources__list">
+        {
+          normalizedResources.map((resource) => {
+            const shouldOpenInNewTab =
+              resource.newTab !== false;
+
+            return (
+              <li class="event-resources__item">
+                <a
+                  class="event-resources__link"
+                  href={resource.url}
+                  target={
+                    shouldOpenInNewTab
+                      ? "_blank"
+                      : undefined
+                  }
+                  rel={
+                    shouldOpenInNewTab
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                >
+                  <span
+                    class="event-resources__icon"
+                    aria-hidden="true"
+                  >
+                    <Icon
+                      name={resource.icon || "link"}
+                      size={22}
+                    />
+                  </span>
+
+                  <span class="event-resources__label">
+                    {resource.label}
+                  </span>
+
+                  {
+                    shouldOpenInNewTab && (
+                      <Icon
+                        name="external-link"
+                        size={16}
+                        class="event-resources__external"
+                      />
+                    )
+                  }
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .event-resources {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .event-resources__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .event-resources__title {
+    margin: 0;
+    color: var(--color-text, #162129);
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    line-height: 1.2;
+  }
+
+  .event-resources__list {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, 16rem), 1fr)
+    );
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .event-resources__item {
+    min-width: 0;
+  }
+
+  .event-resources__link {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 4.25rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--color-border, #dfe4e8);
+    border-radius: 0.75rem;
+    color: var(--color-text, #162129);
+    background: var(--color-surface, #fff);
+    text-decoration: none;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  .event-resources__link:hover {
+    border-color: var(--color-primary, #325d50);
+    box-shadow: 0 0.5rem 1.5rem rgb(22 33 41 / 8%);
+    transform: translateY(-1px);
+  }
+
+  .event-resources__link:focus-visible {
+    outline: 3px solid
+      color-mix(
+        in srgb,
+        var(--color-primary, #325d50) 35%,
+        transparent
+      );
+    outline-offset: 3px;
+  }
+
+  .event-resources__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    color: var(--color-primary, #325d50);
+    background:
+      color-mix(
+        in srgb,
+        var(--color-primary, #325d50) 10%,
+        white
+      );
+  }
+
+  .event-resources__label {
+    min-width: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .event-resources__external {
+    color: var(--color-text-muted, #5e6a73);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .event-resources__link {
+      transition: none;
+    }
+
+    .event-resources__link:hover {
+      transform: none;
+    }
+  }
+</style>

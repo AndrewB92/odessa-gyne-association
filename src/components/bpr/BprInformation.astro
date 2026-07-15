@@ -1,0 +1,269 @@
+---
+import Icon from "../Icon.astro";
+
+type Lang = "uk" | "en";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const content = {
+  uk: {
+    eyebrow: "Провайдер БПР",
+    providerTitle:
+      "ОВ ААГУ — зареєстрований провайдер безперервного професійного розвитку",
+    providerNumberLabel:
+      "Реєстраційний номер провайдера",
+    providerNumber: "1118",
+
+    aboutTitle: "Що таке БПР?",
+    aboutText:
+      "Безперервний професійний розвиток — це систематичне навчання та вдосконалення професійних компетентностей працівників сфери охорони здоров’я протягом усієї професійної діяльності.",
+    aboutSecondText:
+      "Участь у заходах БПР допомагає медичним фахівцям підтримувати актуальність знань, опановувати сучасні методи діагностики й лікування та підтверджувати професійний розвиток.",
+    sourceLabel:
+      "Докладніше про систему БПР на сайті МОЗ України",
+  },
+
+  en: {
+    eyebrow: "CPD provider",
+    providerTitle:
+      "OB AAGU is a registered continuing professional development provider",
+    providerNumberLabel:
+      "Provider registration number",
+    providerNumber: "1118",
+
+    aboutTitle: "What is continuing professional development?",
+    aboutText:
+      "Continuing professional development is the systematic improvement of the professional knowledge and competencies of healthcare professionals throughout their careers.",
+    aboutSecondText:
+      "Participation in CPD activities helps medical specialists keep their knowledge current, learn modern diagnostic and treatment approaches, and document their professional development.",
+    sourceLabel:
+      "Learn more about the CPD system on the website of the Ministry of Health of Ukraine",
+  },
+}[lang];
+
+const ministryUrl =
+  "https://moz.gov.ua/uk/news/elektronna-sistema-zabezpechennya-bezperervnogo-profesijnogo-rozvitku-pracivnikiv-sferi-ohoroni-zdorov-ya";
+---
+
+<section
+  class="bpr-information"
+  aria-labelledby="bpr-information-title"
+>
+  <article class="bpr-provider">
+    <div class="bpr-provider__icon">
+      <Icon name="certificate" size={28} />
+    </div>
+
+    <div class="bpr-provider__content">
+      <p class="bpr-provider__eyebrow">
+        {content.eyebrow}
+      </p>
+
+      <h2 id="bpr-information-title">
+        {content.providerTitle}
+      </h2>
+
+      <div class="bpr-provider__number">
+        <span>
+          {content.providerNumberLabel}
+        </span>
+
+        <strong>
+          {content.providerNumber}
+        </strong>
+      </div>
+    </div>
+  </article>
+
+  <article class="bpr-explanation">
+    <div class="bpr-explanation__heading">
+      <span class="bpr-explanation__icon">
+        <Icon name="book" size={22} />
+      </span>
+
+      <h2>{content.aboutTitle}</h2>
+    </div>
+
+    <div class="bpr-explanation__content">
+      <p>{content.aboutText}</p>
+      <p>{content.aboutSecondText}</p>
+
+      <a
+        href={ministryUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bpr-explanation__link"
+      >
+        <span>{content.sourceLabel}</span>
+
+        <Icon
+          name="external-link"
+          size={15}
+        />
+      </a>
+    </div>
+  </article>
+</section>
+
+<style>
+  .bpr-information {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 0.9fr)
+      minmax(0, 1.1fr);
+    gap: 1.25rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .bpr-provider,
+  .bpr-explanation {
+    border: 1px solid rgba(136, 19, 55, 0.13);
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow:
+      0 1.25rem 3.5rem rgba(136, 19, 55, 0.08);
+  }
+
+  .bpr-provider {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.98),
+        rgba(255, 228, 230, 0.78)
+      );
+  }
+
+  .bpr-provider__icon,
+  .bpr-explanation__icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    color: #be123c;
+    background: #ffe4e6;
+  }
+
+  .bpr-provider__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+  }
+
+  .bpr-provider__content {
+    min-width: 0;
+  }
+
+  .bpr-provider__eyebrow {
+    margin: 0 0 0.625rem;
+    color: #be123c;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bpr-provider h2,
+  .bpr-explanation h2 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    line-height: 1.25;
+  }
+
+  .bpr-provider h2 {
+    font-size: clamp(1.35rem, 3vw, 1.875rem);
+  }
+
+  .bpr-provider__number {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    align-items: center;
+    margin-top: 1.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+
+  .bpr-provider__number strong {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    color: #fff;
+    background: #be123c;
+    font-size: 1rem;
+  }
+
+  .bpr-explanation {
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+  }
+
+  .bpr-explanation__heading {
+    display: flex;
+    gap: 0.875rem;
+    align-items: center;
+  }
+
+  .bpr-explanation__icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.875rem;
+  }
+
+  .bpr-explanation h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .bpr-explanation__content {
+    margin-top: 1.25rem;
+    color: #475569;
+    line-height: 1.7;
+  }
+
+  .bpr-explanation__content p {
+    margin: 0;
+  }
+
+  .bpr-explanation__content p + p {
+    margin-top: 0.875rem;
+  }
+
+  .bpr-explanation__link {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1.25rem;
+    color: #be123c;
+    font-size: 0.875rem;
+    font-weight: 800;
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .bpr-explanation__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 820px) {
+    .bpr-information {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .bpr-provider {
+      flex-direction: column;
+    }
+  }
+</style>
