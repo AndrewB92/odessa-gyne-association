@@ -282,6 +282,10 @@ menu {
   margin: 0;
   padding: 0;
 }
+main ol,
+main ul{
+  list-style: inherit;
+}
 dialog {
   padding: 0;
 }

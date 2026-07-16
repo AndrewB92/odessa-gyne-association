@@ -165,12 +165,21 @@ const normalizedProviderNumber = providerNumber?.trim();
   .event-meta {
     display: grid;
     grid-template-columns: repeat(
-      auto-fit,
+      2,
       minmax(min(100%, 13rem), 1fr)
     );
     gap: 1rem;
     margin: 0;
   }
+
+@media screen and (max-width: 550px){
+  .event-meta {
+    grid-template-columns: repeat(
+      1,
+      minmax(min(100%, 13rem), 1fr)
+    );
+  }
+}
 
   .event-meta__item {
     min-width: 0;
