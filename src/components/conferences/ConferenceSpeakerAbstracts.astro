@@ -1,0 +1,39 @@
+---
+import type { SiteLocale } from "../../types/events";
+import type { ConferenceSpeakerAbstract } from "../../types/events";
+
+interface Props {
+  locale: SiteLocale;
+  abstracts?: ConferenceSpeakerAbstract[];
+}
+
+const { locale, abstracts = [] } = Astro.props;
+const items = abstracts.filter((item) => item.name?.[locale]?.trim() || item.description?.[locale]?.trim());
+const title = locale === "en" ? "Speaker abstracts" : "Резюме доповідачів";
+---
+
+{
+  items.length > 0 && (
+    <section class="speaker-abstracts" aria-labelledby="speaker-abstracts-title">
+      <h2 id="speaker-abstracts-title">{title}</h2>
+      <dl class="speaker-abstracts__list">
+        {items.map((item) => (
+          <div class="speaker-abstracts__item">
+            {item.name[locale]?.trim() && <dt>{item.name[locale]}</dt>}
+            {item.description[locale]?.trim() && <dd>{item.description[locale]}</dd>}
+          </div>
+        ))}
+      </dl>
+    </section>
+  )
+}
+
+<style>
+  .speaker-abstracts { display: grid; gap: 1.5rem; }
+  .speaker-abstracts h2 { margin: 0; color: #881337; font-family: Domine, serif; font-size: clamp(1.65rem, 3vw, 2.25rem); line-height: 1.25; }
+  .speaker-abstracts__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.25rem; margin: 0; }
+  .speaker-abstracts__item { padding: 1.1rem 1.2rem; border-left: 3px solid #fb7185; border-radius: 0 .75rem .75rem 0; background: #fff7f8; }
+  .speaker-abstracts__item dt { color: #881337; font-family: Domine, serif; font-weight: 700; line-height: 1.35; }
+  .speaker-abstracts__item dd { margin: .45rem 0 0; color: #475569; line-height: 1.6; }
+  @media (max-width: 620px) { .speaker-abstracts__list { grid-template-columns: 1fr; } }
+</style>

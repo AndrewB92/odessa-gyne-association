@@ -1,0 +1,58 @@
+---
+import type { SiteLocale } from "../../types/events";
+import type { ConferenceKeySpeaker } from "../../types/events";
+
+interface Props {
+  locale: SiteLocale;
+  speakers?: ConferenceKeySpeaker[];
+}
+
+const { locale, speakers = [] } = Astro.props;
+
+const normalizedSpeakers = speakers.filter(
+  (speaker) => speaker.name?.[locale]?.trim() || speaker.description?.[locale]?.trim(),
+);
+
+const title = locale === "en" ? "Key speakers" : "Ключові спікери";
+---
+
+{
+  normalizedSpeakers.length > 0 && (
+    <section class="key-speakers" aria-labelledby="key-speakers-title">
+      <h2 id="key-speakers-title">{title}</h2>
+
+      <div class="key-speakers__grid">
+        {normalizedSpeakers.map((speaker) => (
+          <article class="key-speakers__card">
+            {speaker.photo && (
+              <img
+                class="key-speakers__photo"
+                src={speaker.photo}
+                alt={speaker.name[locale]}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+            <div class="key-speakers__body">
+              {speaker.name[locale]?.trim() && <h3>{speaker.name[locale]}</h3>}
+              {speaker.description[locale]?.trim() && <p>{speaker.description[locale]}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .key-speakers { display: grid; gap: 1.5rem; }
+  .key-speakers h2 { margin: 0; color: #881337; font-family: Domine, serif; font-size: clamp(1.65rem, 3vw, 2.25rem); line-height: 1.25; }
+  .key-speakers__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .key-speakers__card { display: grid; grid-template-columns: minmax(8rem, 10rem) minmax(0, 1fr); overflow: hidden; border: 1px solid rgba(136, 19, 55, .14); border-radius: 1rem; background: #fff; box-shadow: 0 14px 36px rgba(136, 19, 55, .07); }
+  .key-speakers__photo { width: 100%; height: 100%; min-height: 12rem; object-fit: cover; }
+  .key-speakers__body { align-self: center; padding: 1.25rem; }
+  .key-speakers__body h3 { margin: 0 0 .5rem; color: #881337; font-family: Domine, serif; font-size: 1.2rem; line-height: 1.3; }
+  .key-speakers__body p { margin: 0; color: #475569; line-height: 1.65; }
+  @media (max-width: 700px) { .key-speakers__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 420px) { .key-speakers__card { grid-template-columns: 1fr; } .key-speakers__photo { aspect-ratio: 16 / 9; min-height: 0; } }
+</style>

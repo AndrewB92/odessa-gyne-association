@@ -8,6 +8,9 @@ import Icon from "../Icon.astro";
 
 import EventMeta from "../events/EventMeta.astro";
 import EventResources from "../events/EventResources.astro";
+import ConferenceKeySpeakers from "./ConferenceKeySpeakers.astro";
+import ConferenceProgramme from "./ConferenceProgramme.astro";
+import ConferenceSpeakerAbstracts from "./ConferenceSpeakerAbstracts.astro";
 
 import type { CollectionEntry } from "astro:content";
 import type { SiteLocale } from "../../types/events";
@@ -34,6 +37,15 @@ const bodyMarkdown =
 
 const bodyHtml = bodyMarkdown
   ? await marked.parse(bodyMarkdown)
+  : "";
+
+const committeeMarkdown =
+  locale === "en"
+    ? data.organizingCommitteeEn?.trim()
+    : data.organizingCommitteeUk?.trim();
+
+const committeeHtml = committeeMarkdown
+  ? await marked.parse(committeeMarkdown)
   : "";
 
 const archivePath =
@@ -160,20 +172,50 @@ const structuredData = {
           />
         </header>
 
-        {
-          bodyHtml && (
-            <div
-              class="conference__content"
-              set:html={bodyHtml}
-            />
-          )
-        }
-
         <EventResources
           locale={locale}
           resources={data.resources}
           class="conference__resources"
         />
+
+        {
+          committeeHtml && (
+            <section
+              class="conference__committee conference__content"
+              aria-labelledby="conference-committee-title"
+            >
+              <h2 id="conference-committee-title">
+                {locale === "en" ? "Organizing Committee" : "Організаційний комітет"}
+              </h2>
+              <div set:html={committeeHtml} />
+            </section>
+          )
+        }
+
+        <ConferenceKeySpeakers
+          locale={locale}
+          speakers={data.keySpeakers}
+        />
+
+        <ConferenceProgramme
+          locale={locale}
+          programme={data.programme}
+        />
+
+        <ConferenceSpeakerAbstracts
+          locale={locale}
+          abstracts={data.speakerAbstracts}
+        />
+
+        {
+          bodyHtml && (
+            <section
+              class="conference__content conference__additional-content"
+              aria-label={locale === "en" ? "Additional information" : "Додаткова інформація"}
+              set:html={bodyHtml}
+            />
+          )
+        }
 
         <footer class="conference__footer">
           <a
@@ -376,6 +418,20 @@ const structuredData = {
   }
 
   .conference__resources {
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .conference__committee {
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .conference__committee h2 {
+    margin-top: 0;
+  }
+
+  .conference__additional-content {
     padding-top: 2rem;
     border-top: 1px solid #e2e8f0;
   }

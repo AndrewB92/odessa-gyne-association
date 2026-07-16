@@ -471,6 +471,145 @@ collections:
             widget: "boolean"
             default: true
 
+      - label: "Organizing Committee"
+        name: "organizingCommitteeUk"
+        widget: "markdown"
+        required: false
+        hint: "Ukrainian text. The page title is added automatically; use paragraphs and lists, without H1 or H2 headings."
+        buttons:
+          - bold
+          - italic
+          - link
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components: []
+        modes:
+          - rich_text
+          - raw
+
+      - label: "Organizing Committee (English)"
+        name: "organizingCommitteeEn"
+        widget: "markdown"
+        required: false
+        hint: "English text. The page title is added automatically; use paragraphs and lists, without H1 or H2 headings."
+        buttons:
+          - bold
+          - italic
+          - link
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components: []
+        modes:
+          - rich_text
+          - raw
+
+      - label: "Key speakers"
+        name: "keySpeakers"
+        widget: "list"
+        required: false
+        summary: "{{fields.name.uk}}"
+        fields:
+          - label: "Photo"
+            name: "photo"
+            widget: "image"
+            required: false
+          - label: "Name"
+            name: "name"
+            widget: "object"
+            fields:
+              - { label: "Ukrainian", name: "uk", widget: "string" }
+              - { label: "English", name: "en", widget: "string" }
+          - label: "Description"
+            name: "description"
+            widget: "object"
+            fields:
+              - { label: "Ukrainian", name: "uk", widget: "text" }
+              - { label: "English", name: "en", widget: "text" }
+
+      - label: "Programme by hour"
+        name: "programme"
+        widget: "list"
+        required: false
+        summary: "{{fields.day.uk}}"
+        hint: "Add a day, then its sessions and breaks. The page shows a separate tab and timeline for each day."
+        fields:
+          - label: "Conference day"
+            name: "day"
+            widget: "object"
+            fields:
+              - { label: "Ukrainian", name: "uk", widget: "string" }
+              - { label: "English", name: "en", widget: "string" }
+          - label: "Timeline entries"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.start}} — {{fields.title.uk}}"
+            fields:
+              - label: "Entry type"
+                name: "type"
+                widget: "select"
+                default: "session"
+                options:
+                  - { label: "Session / entry", value: "session" }
+                  - { label: "Break", value: "break" }
+              - label: "Start time"
+                name: "start"
+                widget: "string"
+                required: false
+                hint: "For example: 09:00"
+              - label: "End time"
+                name: "end"
+                widget: "string"
+                required: false
+                hint: "Optional. Leave empty for a single time."
+              - label: "Title"
+                name: "title"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Ukrainian", name: "uk", widget: "string", required: false }
+                  - { label: "English", name: "en", widget: "string", required: false }
+              - label: "Description"
+                name: "description"
+                widget: "object"
+                required: false
+                fields:
+                  - label: "Ukrainian"
+                    name: "uk"
+                    widget: "markdown"
+                    required: false
+                    buttons: [bold, italic, link, bulleted-list, numbered-list, quote]
+                    editor_components: []
+                  - label: "English"
+                    name: "en"
+                    widget: "markdown"
+                    required: false
+                    buttons: [bold, italic, link, bulleted-list, numbered-list, quote]
+                    editor_components: []
+
+      - label: "Speaker abstracts"
+        name: "speakerAbstracts"
+        widget: "list"
+        required: false
+        summary: "{{fields.name.uk}}"
+        hint: "Displayed as a two-column list on the conference page."
+        fields:
+          - label: "Name"
+            name: "name"
+            widget: "object"
+            fields:
+              - { label: "Ukrainian", name: "uk", widget: "string" }
+              - { label: "English", name: "en", widget: "string" }
+          - label: "Description"
+            name: "description"
+            widget: "object"
+            fields:
+              - { label: "Ukrainian", name: "uk", widget: "text" }
+              - { label: "English", name: "en", widget: "text" }
+
       - label: "Ukrainian content"
         name: "bodyUk"
         widget: "markdown"

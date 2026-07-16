@@ -48,6 +48,30 @@ const eventFormat = z.enum(["online", "offline", "hybrid"]);
 
 const eventLinkMode = z.enum(["internal", "external"]);
 
+const conferenceKeySpeaker = z.object({
+  photo: z.string().optional(),
+  name: localizedText,
+  description: localizedText,
+});
+
+const conferenceProgrammeItem = z.object({
+  type: z.enum(["session", "break"]),
+  start: z.string().optional(),
+  end: z.string().optional(),
+  title: optionalLocalizedText,
+  description: optionalLocalizedText,
+});
+
+const conferenceProgrammeDay = z.object({
+  day: localizedText,
+  items: z.array(conferenceProgrammeItem).default([]),
+});
+
+const conferenceSpeakerAbstract = z.object({
+  name: localizedText,
+  description: localizedText,
+});
+
 const baseEventFields = {
   slug: z.string().min(1),
 
@@ -140,6 +164,11 @@ const conferences = defineCollection({
   schema: z
     .object({
       ...baseEventFields,
+      organizingCommitteeUk: z.string().optional(),
+      organizingCommitteeEn: z.string().optional(),
+      keySpeakers: z.array(conferenceKeySpeaker).default([]),
+      programme: z.array(conferenceProgrammeDay).default([]),
+      speakerAbstracts: z.array(conferenceSpeakerAbstract).default([]),
     })
     .superRefine(({ linkMode, externalUrl }, context) => {
       if (linkMode === "external" && !externalUrl?.trim()) {

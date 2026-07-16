@@ -50,7 +50,39 @@ export interface BaseEventData {
   seoDescription?: OptionalLocalizedText;
 }
 
-export interface ConferenceData extends BaseEventData {}
+export type ConferenceProgrammeItemType = "session" | "break";
+
+export interface ConferenceKeySpeaker {
+  photo?: string;
+  name: LocalizedText;
+  description: LocalizedText;
+}
+
+export interface ConferenceProgrammeItem {
+  type: ConferenceProgrammeItemType;
+  start?: string;
+  end?: string;
+  title?: OptionalLocalizedText;
+  description?: OptionalLocalizedText;
+}
+
+export interface ConferenceProgrammeDay {
+  day: LocalizedText;
+  items: ConferenceProgrammeItem[];
+}
+
+export interface ConferenceSpeakerAbstract {
+  name: LocalizedText;
+  description: LocalizedText;
+}
+
+export interface ConferenceData extends BaseEventData {
+  organizingCommitteeUk?: string;
+  organizingCommitteeEn?: string;
+  keySpeakers: ConferenceKeySpeaker[];
+  programme: ConferenceProgrammeDay[];
+  speakerAbstracts: ConferenceSpeakerAbstract[];
+}
 
 export interface BprEventData extends BaseEventData {
   category: string;
