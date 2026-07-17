@@ -20,8 +20,8 @@ collections:
     identifier_field: "name.en"
     summary: "{{name.en}}"
     slug: "{{slug}}"
-    media_folder: "public/uploads/speakers"
-    public_folder: "/uploads/speakers"
+    # media_folder: "public/uploads/speakers"
+    # public_folder: "/uploads/speakers"
     fields:
       - label: "Slug"
         name: "slug"
@@ -152,8 +152,8 @@ collections:
     identifier_field: "title.en"
     summary: "{{title.en}} — {{category}}"
     slug: "{{slug}}"
-    media_folder: "public/uploads/news"
-    public_folder: "/uploads/news"
+    # media_folder: "public/uploads/news"
+    # public_folder: "/uploads/news"
     fields:
       - label: "Title"
         name: "title"
