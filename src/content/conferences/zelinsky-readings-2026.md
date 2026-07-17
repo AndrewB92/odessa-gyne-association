@@ -3,7 +3,7 @@ slug: zelinsky-readings-2026
 title:
   uk: "V читання ім. професора Олександра Зелінського: від інновацій в акушерстві,
     гінекології і репродуктології до персоналізованої медицини"
-  en: "Professor Oleksandr Zelinsky Readings: From Innovation in Obstetrics,
+  en: "Fifth Professor Oleksandr Zelinsky Readings: From Innovation in Obstetrics,
     Gynecology and Reproductology to Personalized Medicine"
 excerpt:
   uk: V міждисциплінарна науково-практична конференція з міжнародною участю, 8–9
