@@ -1,0 +1,197 @@
+---
+interface Props {
+  locale: "uk" | "en";
+}
+
+const { locale } = Astro.props;
+const label = locale === "en" ? "On this page" : "На цій сторінці";
+---
+
+<nav
+  class="conference-toc"
+  aria-label={label}
+  data-conference-toc
+  hidden
+>
+  <div class="conference-toc__inner">
+    <span class="conference-toc__label">{label}</span>
+    <div class="conference-toc__links" data-conference-toc-links></div>
+  </div>
+</nav>
+
+<script>
+  const createId = (heading, index, usedIds) => {
+    const existingId = heading.id.trim();
+
+    if (existingId && !usedIds.has(existingId)) {
+      usedIds.add(existingId);
+      return existingId;
+    }
+
+    let id = `conference-section-${index + 1}`;
+    let duplicateIndex = 2;
+
+    while (usedIds.has(id) || document.getElementById(id)) {
+      id = `conference-section-${index + 1}-${duplicateIndex}`;
+      duplicateIndex += 1;
+    }
+
+    heading.id = id;
+    usedIds.add(id);
+    return id;
+  };
+
+  document.querySelectorAll("[data-conference-toc]").forEach((toc) => {
+    const article = toc.closest(".conference");
+    const linksContainer = toc.querySelector("[data-conference-toc-links]");
+
+    if (!article || !linksContainer) return;
+
+    const headings = [...article.querySelectorAll("h2")];
+
+    if (headings.length < 2) return;
+
+    const usedIds = new Set();
+    const links = headings.map((heading, index) => {
+      const id = createId(heading, index, usedIds);
+      const link = document.createElement("a");
+
+      link.href = `#${id}`;
+      link.textContent = heading.textContent?.trim() || `Section ${index + 1}`;
+      link.dataset.conferenceTocLink = id;
+
+      return { heading, id, link };
+    });
+
+    links.forEach(({ link }) => linksContainer.append(link));
+    toc.hidden = false;
+
+    const setActiveLink = (id) => {
+      links.forEach(({ id: linkId, link }) => {
+        const isActive = linkId === id;
+        link.classList.toggle("is-active", isActive);
+
+        if (isActive) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    setActiveLink(links[0].id);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleHeading = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((first, second) => first.boundingClientRect.top - second.boundingClientRect.top)[0];
+
+        if (visibleHeading) setActiveLink(visibleHeading.target.id);
+      },
+      {
+        rootMargin: "-7rem 0px -60%",
+        threshold: 0,
+      },
+    );
+
+    links.forEach(({ heading }) => observer.observe(heading));
+  });
+</script>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  :global(.conference h2) {
+    scroll-margin-top: 7rem;
+  }
+
+  .conference-toc {
+    position: sticky;
+    top: 5rem;
+    z-index: 20;
+    margin: 0 -0.75rem;
+    border-top: 1px solid rgba(190, 24, 93, 0.12);
+    border-bottom: 1px solid rgba(190, 24, 93, 0.12);
+    background: rgb(255 255 255 / 92%);
+    backdrop-filter: blur(12px);
+  }
+
+  .conference-toc__inner {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    min-width: 0;
+    padding: 0.7rem 0.75rem;
+  }
+
+  .conference-toc__label {
+    flex: 0 0 auto;
+    color: #881337;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .conference-toc__links {
+    display: flex;
+    gap: 0.35rem;
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    scroll-padding-inline: 0.25rem;
+  }
+
+  .conference-toc__links a {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-decoration: none;
+    transition: background-color 160ms ease, color 160ms ease;
+    white-space: nowrap;
+  }
+
+  .conference-toc__links a:hover,
+  .conference-toc__links a.is-active {
+    color: #9f1239;
+    background: #fff1f2;
+  }
+
+  .conference-toc__links a:focus-visible {
+    outline: 3px solid rgba(251, 113, 133, 0.45);
+    outline-offset: -1px;
+  }
+
+  @media (max-width: 600px) {
+    .conference-toc {
+      margin: 0 -1rem;
+    }
+
+    .conference-toc__inner {
+      gap: 0.5rem;
+      padding-inline: 1rem;
+    }
+
+    .conference-toc__label {
+      font-size: 0.6875rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) {
+      scroll-behavior: auto;
+    }
+
+    .conference-toc__links a {
+      transition: none;
+    }
+  }
+</style>
