@@ -172,12 +172,6 @@ const structuredData = {
           />
         </header>
 
-        <EventResources
-          locale={locale}
-          resources={data.resources}
-          class="conference__resources"
-        />
-
         {
           committeeHtml && (
             <section
@@ -217,6 +211,12 @@ const structuredData = {
           )
         }
 
+        <EventResources
+          locale={locale}
+          resources={data.resources}
+          class="conference__resources"
+        />
+
         <footer class="conference__footer">
           <a
             class="conference__back"
@@ -255,7 +255,7 @@ const structuredData = {
   }
 
   .conference-container {
-    width: min(960px, calc(100% - 32px));
+    width: min(1120px, calc(100% - 32px));
     margin: 0 auto;
   }
 

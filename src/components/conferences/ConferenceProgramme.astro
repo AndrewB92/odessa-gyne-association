@@ -12,10 +12,21 @@ interface Props {
 }
 
 const { locale, programme = [] } = Astro.props;
-const days = programme.filter((day) => day.day?.[locale]?.trim() && day.items?.length > 0);
-const labels = locale === "en"
-  ? { title: "Programme by hour", break: "Break", timeline: "Programme timeline" }
-  : { title: "Погодинний виклад змісту заходу", break: "Перерва", timeline: "Розклад заходу" };
+const days = programme.filter(
+  (day) => day.day?.[locale]?.trim() && day.items?.length > 0,
+);
+const labels =
+  locale === "en"
+    ? {
+        title: "Programme by hour",
+        break: "Break",
+        timeline: "Programme timeline",
+      }
+    : {
+        title: "Погодинний виклад змісту заходу",
+        break: "Перерва",
+        timeline: "Розклад заходу",
+      };
 
 function timeLabel(item: ConferenceProgrammeItem) {
   const start = item.start?.trim();
@@ -26,30 +37,71 @@ function timeLabel(item: ConferenceProgrammeItem) {
 
 {
   days.length > 0 && (
-    <section class="conference-programme" aria-labelledby="conference-programme-title">
+    <section
+      class="conference-programme"
+      aria-labelledby="conference-programme-title"
+    >
       <h2 id="conference-programme-title">{labels.title}</h2>
-      <div class="conference-programme__tabs" role="tablist" aria-label={labels.timeline}>
+      <div
+        class="conference-programme__tabs"
+        role="tablist"
+        aria-label={labels.timeline}
+      >
         {days.map((day, index) => (
-          <button class="conference-programme__tab" type="button" role="tab" id={`programme-tab-${index}`} aria-controls={`programme-panel-${index}`} aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1} data-programme-tab={index}>
+          <button
+            class="conference-programme__tab"
+            type="button"
+            role="tab"
+            id={`programme-tab-${index}`}
+            aria-controls={`programme-panel-${index}`}
+            aria-selected={index === 0 ? "true" : "false"}
+            tabindex={index === 0 ? 0 : -1}
+            data-programme-tab={index}
+          >
             {day.day[locale]}
           </button>
         ))}
       </div>
       {days.map((day, dayIndex) => (
-        <div class="conference-programme__panel" role="tabpanel" id={`programme-panel-${dayIndex}`} aria-labelledby={`programme-tab-${dayIndex}`} hidden={dayIndex !== 0} data-programme-panel={dayIndex}>
+        <div
+          class="conference-programme__panel"
+          role="tabpanel"
+          id={`programme-panel-${dayIndex}`}
+          aria-labelledby={`programme-tab-${dayIndex}`}
+          hidden={dayIndex !== 0}
+          data-programme-panel={dayIndex}
+        >
           <ol class="conference-programme__timeline">
             {day.items.map(async (item) => {
               const isBreak = item.type === "break";
-              const title = item.title?.[locale]?.trim() || (isBreak ? labels.break : "");
+              const title =
+                item.title?.[locale]?.trim() || (isBreak ? labels.break : "");
               const description = item.description?.[locale]?.trim();
-              const descriptionHtml = description ? await marked.parse(description) : "";
+              const descriptionHtml = description
+                ? await marked.parse(description)
+                : "";
               return (
-                <li class:list={["conference-programme__item", { "conference-programme__item--break": isBreak }]}>
-                  <div class="conference-programme__time">{timeLabel(item)}</div>
-                  <div class="conference-programme__marker" aria-hidden="true"></div>
+                <li
+                  class:list={[
+                    "conference-programme__item",
+                    { "conference-programme__item--break": isBreak },
+                  ]}
+                >
+                  <div class="conference-programme__time">
+                    {timeLabel(item)}
+                  </div>
+                  <div
+                    class="conference-programme__marker"
+                    aria-hidden="true"
+                  />
                   <div class="conference-programme__card">
                     {title && <h3>{title}</h3>}
-                    {descriptionHtml && <div class="conference-programme__description" set:html={descriptionHtml} />}
+                    {descriptionHtml && (
+                      <div
+                        class="conference-programme__description"
+                        set:html={descriptionHtml}
+                      />
+                    )}
                   </div>
                 </li>
               );
@@ -66,34 +118,180 @@ function timeLabel(item: ConferenceProgrammeItem) {
     const tabs = [...programme.querySelectorAll("[data-programme-tab]")];
     const panels = [...programme.querySelectorAll("[data-programme-panel]")];
     const select = (selectedIndex) => {
-      tabs.forEach((tab, index) => { const active = index === selectedIndex; tab.setAttribute("aria-selected", String(active)); tab.tabIndex = active ? 0 : -1; });
-      panels.forEach((panel, index) => { panel.hidden = index !== selectedIndex; });
+      tabs.forEach((tab, index) => {
+        const active = index === selectedIndex;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((panel, index) => {
+        panel.hidden = index !== selectedIndex;
+      });
     };
-    tabs.forEach((tab, index) => tab.addEventListener("click", () => select(index)));
+    tabs.forEach((tab, index) =>
+      tab.addEventListener("click", () => select(index)),
+    );
   });
 </script>
 
 <style>
-  .conference-programme { display: grid; gap: 1.5rem; }
-  .conference-programme h2 { margin: 0; color: #881337; font-family: Domine, serif; font-size: clamp(1.65rem, 3vw, 2.25rem); line-height: 1.25; }
-  .conference-programme__tabs { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .25rem; }
-  .conference-programme__tab { flex: 0 0 auto; padding: .7rem 1rem; border: 1px solid #fecdd3; border-radius: 999px; color: #9f1239; background: #fff; font: inherit; font-weight: 700; cursor: pointer; }
-  .conference-programme__tab[aria-selected="true"] { color: #fff; border-color: #9f1239; background: #9f1239; }
-  .conference-programme__tab:focus-visible { outline: 3px solid rgba(251, 113, 133, .45); outline-offset: 2px; }
-  .conference-programme__timeline { position: relative; display: grid; gap: 1rem; margin: 0; padding: .25rem 0 .25rem 8rem; list-style: none; }
-  .conference-programme__timeline::before { position: absolute; top: 0; bottom: 0; left: 7.1rem; width: 2px; content: ""; background: #fecdd3; }
-  .conference-programme__item { position: relative; display: grid; grid-template-columns: 6.2rem 1.8rem minmax(0, 1fr); align-items: start; }
-  .conference-programme__time { padding-top: 1.15rem; color: #9f1239; font-size: .875rem; font-weight: 800; line-height: 1.35; text-align: right; }
-  .conference-programme__marker { position: relative; z-index: 1; width: .8rem; height: .8rem; margin: 1.45rem auto 0; border: 3px solid #fff; border-radius: 50%; background: #e11d48; box-shadow: 0 0 0 2px #fda4af; }
-  .conference-programme__card { min-width: 0; padding: 1rem 1.125rem; border: 1px solid #f1e3e6; border-radius: .9rem; background: #fff; box-shadow: 0 8px 24px rgba(136, 19, 55, .05); }
-  .conference-programme__card h3 { margin: 0; color: #881337; font-family: Domine, serif; font-size: 1.1rem; line-height: 1.35; }
-  .conference-programme__item--break .conference-programme__card { border-style: dashed; color: #64748b; background: #fffafb; }
-  .conference-programme__item--break .conference-programme__marker { background: #fff; }
-  .conference-programme__description { margin-top: .6rem; color: #475569; line-height: 1.65; }
-  .conference-programme__description :global(:first-child) { margin-top: 0; }
-  .conference-programme__description :global(:last-child) { margin-bottom: 0; }
-  .conference-programme__description :global(p), .conference-programme__description :global(ul), .conference-programme__description :global(ol) { margin: 0 0 .75rem; }
-  .conference-programme__description :global(ul), .conference-programme__description :global(ol) { padding-left: 1.25rem; }
-  .conference-programme__description :global(a) { color: #be123c; text-decoration: underline; }
-  @media (max-width: 580px) { .conference-programme__timeline { padding-left: 0; } .conference-programme__timeline::before { left: .4rem; } .conference-programme__item { grid-template-columns: 1.25rem minmax(0, 1fr); gap: .75rem; } .conference-programme__time { grid-column: 2; grid-row: 1; padding: 0; text-align: left; } .conference-programme__marker { grid-column: 1; grid-row: 1 / span 2; margin-top: .25rem; } .conference-programme__card { grid-column: 2; grid-row: 2; } }
+  .conference-programme {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .conference-programme h2 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    line-height: 1.25;
+  }
+  .conference-programme__tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+  .conference-programme__tab {
+    flex: 0 0 auto;
+    padding: 0.7rem 1rem;
+    border: 1px solid #fecdd3;
+    border-radius: 999px;
+    color: #9f1239;
+    background: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .conference-programme__tab[aria-selected="true"] {
+    color: #fff;
+    border-color: #9f1239;
+    background: #9f1239;
+  }
+  .conference-programme__tab:focus-visible {
+    outline: 3px solid rgba(251, 113, 133, 0.45);
+    outline-offset: 2px;
+  }
+  .conference-programme__timeline {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.25rem 0 0.25rem 0;
+    list-style: none;
+  }
+  .conference-programme__timeline::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0px;
+    width: 2px;
+    content: "";
+    background: #fecdd3;
+  }
+  .conference-programme__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7.3rem 2rem minmax(0, 1fr);
+    align-items: start;
+  }
+  .conference-programme__time {
+    padding-top: 1.15rem;
+    color: #9f1239;
+    font-size: 0.875rem;
+    font-weight: 800;
+    line-height: 1.35;
+    text-align: right;
+  }
+  .conference-programme__marker {
+    position: relative;
+    z-index: 1;
+    width: 1rem;
+    height: 1rem;
+    margin: 1.2rem auto 0;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #e11d48;
+    box-shadow: 0 0 0 2px #fda4af;
+  }
+  .conference-programme__card {
+    min-width: 0;
+    padding: 1rem 1.125rem;
+    border: 1px solid #f1e3e6;
+    border-radius: 0.9rem;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(136, 19, 55, 0.05);
+  }
+  .conference-programme__card h3 {
+    margin: 0;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: 1.1rem;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+  .conference-programme__item--break .conference-programme__card {
+    border-style: dashed;
+    color: #64748b;
+    background: #fffafb;
+  }
+  .conference-programme__item--break .conference-programme__marker {
+    background: #fff;
+  }
+  .conference-programme__description {
+    margin-top: 0.6rem;
+    color: #475569;
+    line-height: 1.65;
+  }
+  .conference-programme__description :global(:first-child) {
+    margin-top: 0;
+  }
+  .conference-programme__description :global(:last-child) {
+    margin-bottom: 0;
+  }
+  .conference-programme__description :global(p),
+  .conference-programme__description :global(ul),
+  .conference-programme__description :global(ol) {
+    margin: 0 0 0.75rem;
+  }
+  .conference-programme__description :global(ul),
+  .conference-programme__description :global(ol) {
+    padding-left: 1.25rem;
+  }
+  .conference-programme__description :global(ul) {
+    list-style-type: disc;
+  }
+  .conference-programme__description :global(ol) {
+    list-style-type: decimal;
+  }
+  .conference-programme__description :global(a) {
+    color: #be123c;
+    text-decoration: underline;
+  }
+  @media (max-width: 580px) {
+    .conference-programme__timeline {
+      padding-left: 0;
+    }
+    .conference-programme__timeline::before {
+      left: 0.4rem;
+    }
+    .conference-programme__item {
+      grid-template-columns: 1.25rem minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+    .conference-programme__time {
+      grid-column: 2;
+      grid-row: 1;
+      padding: 0;
+      text-align: left;
+    }
+    .conference-programme__marker {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      margin-top: 0.25rem;
+    }
+    .conference-programme__card {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
 </style>
