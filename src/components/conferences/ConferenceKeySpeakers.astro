@@ -15,6 +15,7 @@ const normalizedSpeakers = speakers.filter(
 );
 
 const title = locale === "en" ? "Key speakers" : "Ключові спікери";
+const speakerPlaceholder = "/assets/person-placeholder.webp";
 ---
 
 {
@@ -25,15 +26,14 @@ const title = locale === "en" ? "Key speakers" : "Ключові спікери"
       <div class="key-speakers__grid">
         {normalizedSpeakers.map((speaker) => (
           <article class="key-speakers__card">
-            {speaker.photo && (
-              <img
-                class="key-speakers__photo"
-                src={speaker.photo}
-                alt={speaker.name[locale]}
-                loading="lazy"
-                decoding="async"
-              />
-            )}
+            <img
+              class="key-speakers__photo"
+              src={speaker.photo?.trim() || speakerPlaceholder}
+              alt={speaker.name?.[locale]?.trim() || title}
+              loading="lazy"
+              decoding="async"
+              onerror={`this.onerror=null;this.src='${speakerPlaceholder}';`}
+            />
             <div class="key-speakers__body">
               {speaker.name[locale]?.trim() && <h3>{speaker.name[locale]}</h3>}
               {speaker.description[locale]?.trim() && (

@@ -6,6 +6,7 @@ import Header from "../Header.astro";
 import Footer from "../Footer.astro";
 import Icon from "../Icon.astro";
 
+import ConferenceTableOfContents from "./ConferenceTableOfContents.astro";
 import EventMeta from "../events/EventMeta.astro";
 import EventResources from "../events/EventResources.astro";
 import ConferenceKeySpeakers from "./ConferenceKeySpeakers.astro";
@@ -171,6 +172,8 @@ const structuredData = {
             class="conference__meta"
           />
         </header>
+
+        <ConferenceTableOfContents locale={locale} />
 
         {
           committeeHtml && (
