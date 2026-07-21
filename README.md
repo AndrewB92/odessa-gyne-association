@@ -114,6 +114,6 @@ The project is automatically deployed to Cloudflare Pages after every push to th
 - [x] Speaker management
 - [x] Dynamic speaker pages
 - [x] News management
-- [ ] Event management
-- [ ] Gallery management
-- [ ] SEO editor
+- [x] Event management
+- [x] Gallery management
+- [x] SEO editor
