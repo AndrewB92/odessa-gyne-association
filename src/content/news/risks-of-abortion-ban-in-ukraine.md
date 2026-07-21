@@ -4,7 +4,7 @@ title:
   en: What an Abortion Ban in Ukraine Could Lead To
 slug: risks-of-abortion-ban-in-ukraine
 category: women-health
-date: '2017-04-03 09:00:00+03:00'
+publishedAt: '2017-04-03 09:00:00+03:00'
 image: https://static.tildacdn.com/tild3836-6465-4938-b238-626566313362/16867223_303.jpeg
 excerpt:
   uk: Матеріал про можливі медичні та соціальні наслідки повної заборони абортів.

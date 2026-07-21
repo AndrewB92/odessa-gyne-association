@@ -4,7 +4,7 @@ title:
   en: Christmas Meeting of Doctors of the Odesa Branch of the Ukrainian Medical Association
 slug: christmas-meeting-vult-2022
 category: association-news
-date: '2023-01-06 10:00:00+02:00'
+publishedAt: '2023-01-06 10:00:00+02:00'
 image: https://static.tildacdn.com/tild6636-6436-4534-a138-353565383062/chad-madden-SUTfFCAH.jpeg
 excerpt:
   uk: Звіт про 17-ту Різдвяну зустріч лікарів Одещини, що відбулася 23 грудня 2022 року.

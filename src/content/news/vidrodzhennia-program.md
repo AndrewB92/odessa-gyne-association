@@ -4,7 +4,7 @@ title:
   en: 'Vidrodzhennia: Medical and Psychological Support during the War'
 slug: vidrodzhennia-program
 category: projects
-date: '2022-04-11 14:00:00+03:00'
+publishedAt: '2022-04-11 14:00:00+03:00'
 image: https://static.tildacdn.com/tild6263-3331-4134-b565-306466313063/22334345.jpg
 excerpt:
   uk: Спільна програма підтримки вагітних, породіль і медичного персоналу в умовах воєнної кризи.

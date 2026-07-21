@@ -18,6 +18,7 @@ const isExternal = isExternalNewsPost(post);
 const href = getNewsPostUrl(post, lang);
 const title = post.data.title[lang];
 const excerpt = post.data.excerpt?.[lang];
+const imageAlt = post.data.imageAlt?.[lang] || title;
 ---
 
 <a
@@ -30,7 +31,7 @@ const excerpt = post.data.excerpt?.[lang];
     <img
       class="news-card__image"
       src={post.data.image}
-      alt={title}
+      alt={imageAlt}
       loading="lazy"
       decoding="async"
     />
@@ -39,8 +40,8 @@ const excerpt = post.data.excerpt?.[lang];
   <div class="news-card__body">
     <div class="news-card__meta">
       {category && <span>{category.data.title[lang]}</span>}
-      <time datetime={post.data.date.toISOString()}>
-        {formatNewsDate(post.data.date, lang)}
+      <time datetime={post.data.publishedAt.toISOString()}>
+        {formatNewsDate(post.data.publishedAt, lang)}
       </time>
     </div>
 

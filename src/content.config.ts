@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { getYouTubeVideoId } from "./utils/youtube";
 
 const localizedText = z.object({
   uk: z.string(),
@@ -12,6 +13,22 @@ const optionalLocalizedText = z
     en: z.string().optional(),
   })
   .optional();
+
+const newsGalleryItem = z.object({
+  image: z.string().min(1),
+  alt: localizedText,
+  caption: optionalLocalizedText,
+});
+
+const newsVideo = z.object({
+  url: z
+    .string()
+    .url()
+    .refine((url) => getYouTubeVideoId(url) !== null, {
+      message: "Enter a valid YouTube video URL.",
+    }),
+  title: optionalLocalizedText,
+});
 
 const eventScheduleItem = z
   .object({
@@ -143,7 +160,17 @@ const news = defineCollection({
     title: localizedText,
     slug: z.string().optional(),
     category: z.string(),
-    date: z.coerce.date(),
+    publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
+    image: z.string().optional(),
+    imageAlt: optionalLocalizedText,
+    excerpt: localizedText.optional(),
+    redirectUrl: z.string().optional(),
+    redirectBlank: z.boolean().default(true),
+    gallery: z.array(newsGalleryItem).default([]),
+    videos: z.array(newsVideo).default([]),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
     image: z.string().optional(),
     excerpt: localizedText.optional(),
     redirectUrl: z.string().optional(),

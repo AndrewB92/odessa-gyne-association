@@ -1,3 +1,8 @@
+:root {
+  --color-primary: #881337;
+  --color-text-muted : #5e6a73;
+}
+
 @keyframes copiedReveal {
   from {
     opacity: 0;

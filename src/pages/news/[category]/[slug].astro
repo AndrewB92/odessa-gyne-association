@@ -3,6 +3,9 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
 import RichContent from "../../../components/RichContent.astro";
+import NewsGallery from "../../../components/news/NewsGallery.astro";
+import NewsVideos from "../../../components/news/NewsVideos.astro";
+import NewsShare from "../../../components/news/NewsShare.astro";
 import {
   formatNewsDate,
   getNewsCategories,
@@ -39,14 +42,23 @@ const description =
   post.data.excerpt?.uk ||
   "Новина Одеського відділення Асоціації акушерів-гінекологів України.";
 
+const path = getNewsPostUrl(post, lang);
+const site = Astro.site ?? new URL("https://odessa-gyne-association.pages.dev");
+const canonicalUrl = new URL(path, site).toString();
+
+const imageAlt = post.data.imageAlt?.uk || post.data.title.uk;
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "NewsArticle",
-  headline: post.data.title.uk,
+  headline: post.data.title.uk, // use .en on English page
   description,
-  datePublished: post.data.date.toISOString(),
-  image: post.data.image ? [post.data.image] : undefined,
-  mainEntityOfPage: getNewsPostUrl(post, lang),
+  datePublished: post.data.publishedAt.toISOString(),
+  dateModified: post.data.updatedAt?.toISOString(),
+  image: post.data.image
+    ? [new URL(post.data.image, site).toString()]
+    : undefined,
+  mainEntityOfPage: canonicalUrl,
 };
 ---
 
@@ -54,9 +66,9 @@ const structuredData = {
   lang={lang}
   title={title}
   description={description}
-  path={getNewsPostUrl(post, lang)}
+  path={path}
   image={post.data.image}
-  imageAlt={post.data.title.uk}
+  imageAlt={imageAlt}
   type="article"
   structuredData={structuredData}
 >
@@ -72,9 +84,16 @@ const structuredData = {
         <header class="news-header">
           <div class="news-meta">
             {category && <span>{category.data.title.uk}</span>}
-            <time datetime={post.data.date.toISOString()}>
+            <time datetime={post.data.publishedAt.toISOString()}>
               {formatNewsDate(post.data.date, lang)}
             </time>
+            {
+              post.data.updatedAt && (
+                <time datetime={post.data.updatedAt.toISOString()}>
+                  Оновлено {formatNewsDate(post.data.updatedAt, lang)}
+                </time>
+              )
+            }
           </div>
 
           <h1>{post.data.title.uk}</h1>
@@ -89,6 +108,7 @@ const structuredData = {
             alt={post.data.title.uk}
             loading="eager"
             decoding="async"
+            alt={imageAlt}
           />
         )}
 
@@ -97,6 +117,9 @@ const structuredData = {
             <Fragment set:html={bodyHtml} />
           </RichContent>
         </section>
+        <NewsGallery gallery={post.data.gallery} lang={lang} />
+        <NewsVideos videos={post.data.videos} lang={lang} />
+        <NewsShare url={canonicalUrl} title={post.data.title.uk} lang={lang} />
       </div>
     </article>
   </main>

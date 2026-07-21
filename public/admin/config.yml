@@ -180,17 +180,41 @@ collections:
         display_fields:
           - "title.en"
 
-      - label: "Date"
-        name: "date"
+      - label: "Published date"
+        name: "publishedAt"
         widget: "datetime"
         date_format: "YYYY-MM-DD"
         time_format: false
         format: "YYYY-MM-DD"
 
-      - label: "Main image"
+      - label: "Last updated"
+        name: "updatedAt"
+        widget: "datetime"
+        required: false
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        hint: "Leave empty unless a published article has been substantively updated."
+
+      - label: "Cover image"
         name: "image"
         widget: "image"
         required: false
+
+      - label: "Cover image alternative text"
+        name: "imageAlt"
+        widget: "object"
+        required: false
+        hint: "Describe the image for readers using screen readers. If omitted, the post title is used."
+        fields:
+          - label: "Ukrainian"
+            name: "uk"
+            widget: "string"
+            required: false
+          - label: "English"
+            name: "en"
+            widget: "string"
+            required: false
 
       - label: "Excerpt"
         name: "excerpt"
@@ -216,6 +240,78 @@ collections:
         name: "redirectBlank"
         widget: "boolean"
         default: true
+
+      - label: "Photo gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        collapsed: true
+        summary: "{{fields.alt.en}}"
+        hint: "Optional. Images are displayed after the article text. Each image needs alternative text."
+        fields:
+          - label: "Image"
+            name: "image"
+            widget: "image"
+
+          - label: "Alternative text"
+            name: "alt"
+            widget: "object"
+            fields:
+              - label: "Ukrainian"
+                name: "uk"
+                widget: "string"
+              - label: "English"
+                name: "en"
+                widget: "string"
+
+          - label: "Caption"
+            name: "caption"
+            widget: "object"
+            required: false
+            fields:
+              - label: "Ukrainian"
+                name: "uk"
+                widget: "text"
+                required: false
+              - label: "English"
+                name: "en"
+                widget: "text"
+                required: false
+
+      - label: "YouTube videos"
+        name: "videos"
+        widget: "list"
+        required: false
+        collapsed: true
+        summary: "{{fields.title.en}}"
+        hint: "Optional. Paste a full YouTube, youtu.be, Shorts or live-video URL. Videos are displayed after the article text."
+        fields:
+          - label: "YouTube URL"
+            name: "url"
+            widget: "string"
+            pattern:
+              - "^https?:\\/\\/(www\\.|m\\.)?(youtube\\.com|youtu\\.be)\\/.+"
+              - "Enter a valid YouTube URL."
+
+          - label: "Title / caption"
+            name: "title"
+            widget: "object"
+            required: false
+            fields:
+              - label: "Ukrainian"
+                name: "uk"
+                widget: "string"
+                required: false
+              - label: "English"
+                name: "en"
+                widget: "string"
+                required: false
+
+      - label: "Featured post"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Reserve for posts that should be highlighted elsewhere on the site."
 
       - label: "Draft"
         name: "draft"
@@ -250,10 +346,32 @@ collections:
             widget: "text"
             required: false
 
-      - label: "Body"
-        name: "body"
+      - label: "Article body"
+        name: "bodyUk"
         widget: "markdown"
         required: false
+        hint: "Ukrainian version."
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+        editor_components:
+          - image
+        modes:
+          - rich_text
+          - raw
+
+      - label: "Article body"
+        name: "bodyEn"
+        widget: "markdown"
+        required: false
+        hint: "English version."
         buttons:
           - bold
           - italic

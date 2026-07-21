@@ -4,7 +4,7 @@ title:
   en: Two Important Professional Events in Autumn 2023
 slug: two-important-events-autumn-2023
 category: association-news
-date: '2023-10-08 12:00:00+03:00'
+publishedAt: '2023-10-08 12:00:00+03:00'
 image: https://static.tildacdn.com/tild3735-3466-4733-a331-306364613431/view-of-dry-autumn-l.jpg
 excerpt:
   uk: Короткий огляд участі ОВ ААГУ у щорічній конференції ААГУ та XXIV Всесвітньому конгресі FIGO.

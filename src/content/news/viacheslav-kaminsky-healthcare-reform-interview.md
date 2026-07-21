@@ -6,7 +6,7 @@ title:
     That Has Been Achieved”"
 slug: viacheslav-kaminsky-healthcare-reform-interview
 category: professional-community
-date: 2017-03-30 09:00:00+03:00
+publishedAt: 2017-03-30 09:00:00+03:00
 image: /uploads/kaminskyj.webp
 excerpt:
   uk: Інтерв’ю про реформу охорони здоров’я, акушерську допомогу, кадри та

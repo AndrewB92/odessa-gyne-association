@@ -4,8 +4,88 @@ title:
   en: Participation in the EBCOG Congress
 slug: ebcog-congress-2023
 category: professional-community
-date: '2023-05-22 14:02:00+03:00'
+publishedAt: '2023-05-22 14:02:00+03:00'
 image: https://static.tildacdn.com/tild6536-3164-4538-b532-623230633930/telegram-cloud-photo.jpg
+imageAlt:
+  uk: Учасники конгресу EBCOG у Кракові
+  en: Participants at the EBCOG Congress in Kraków
+
+gallery:
+  - image: https://static.tildacdn.com/tild6238-3666-4932-b336-396434613735/telegram-cloud-photo.jpg
+    alt:
+      uk: Фото з конгресу EBCOG у Кракові
+      en: Photo from the EBCOG Congress in Kraków
+
+  - image: https://static.tildacdn.com/tild3162-6232-4363-b666-376133363636/telegram-cloud-photo.jpg
+    alt:
+      uk: Учасники конгресу EBCOG у Кракові
+      en: EBCOG Congress participants in Kraków
+
+  - image: https://static.tildacdn.com/tild6332-6635-4131-b537-363733336364/telegram-cloud-photo.jpg
+    alt:
+      uk: Українська делегація на конгресі EBCOG
+      en: Ukrainian delegation at the EBCOG Congress
+    caption:
+      uk: Наша делегація
+      en: Our delegation
+
+  - image: https://static.tildacdn.com/tild3338-6236-4132-b832-323461643131/telegram-cloud-photo.jpg
+    alt:
+      uk: Церемонія відкриття конгресу EBCOG
+      en: EBCOG Congress opening ceremony
+    caption:
+      uk: Церемонія відкриття конгресу
+      en: Congress opening ceremony
+
+  - image: https://static.tildacdn.com/tild3561-6463-4662-b337-336462383337/telegram-cloud-photo.jpg
+    alt:
+      uk: Українська делегація в День вишиванки
+      en: Ukrainian delegation on Vyshyvanka Day
+    caption:
+      uk: День вишиванки збігся з днем відкриття конгресу
+      en: Vyshyvanka Day coincided with the congress opening
+
+  - image: https://static.tildacdn.com/tild3761-3063-4934-b334-383030643665/telegram-cloud-photo.jpg
+    alt:
+      uk: Представники FIGO висловлюють підтримку Україні
+      en: FIGO representatives showing support for Ukraine
+    caption:
+      uk: 'FIGO підтримує Україну: Jeanne Conry, президентка FIGO, та Philippe Descamps, віцепрезидент'
+      en: 'FIGO supports Ukraine: Jeanne Conry, FIGO President, and Philippe Descamps, Vice-President'
+
+  - image: https://static.tildacdn.com/tild3835-3865-4736-b334-313161646334/telegram-cloud-photo.jpg
+    alt:
+      uk: Професор В'ячеслав Камінський під час доповіді
+      en: Professor Viacheslav Kaminsky giving a presentation
+    caption:
+      uk: Проф. Камінський В. В. — доповідь на українській секції
+      en: Prof. Viacheslav Kaminsky presenting at the Ukrainian section
+
+  - image: https://static.tildacdn.com/tild6361-6562-4665-b132-366666313566/telegram-cloud-photo.jpg
+    alt:
+      uk: Професор Роман Ткаченко на конгресі EBCOG
+      en: Professor Roman Tkachenko at the EBCOG Congress
+    caption:
+      uk: Проф. Ткаченко Р. О.
+      en: Prof. Roman Tkachenko
+
+  - image: https://static.tildacdn.com/tild3265-6465-4930-b439-393461383566/telegram-cloud-photo.jpg
+    alt:
+      uk: Доцент Андрій Бербець під час участі в конгресі
+      en: Associate Professor Andrii Berbets participating in the congress
+    caption:
+      uk: Доцент Андрій Бербець — безпосередньо з передової
+      en: Associate Professor Andrii Berbets — joining directly from the frontline
+
+  - image: https://static.tildacdn.com/tild6335-6461-4764-b237-663430383634/telegram-cloud-photo.jpg
+    alt:
+      uk: Професорка Гульсим Манасова на конгресі EBCOG
+      en: Professor Hulsym Manasova at the EBCOG Congress
+    caption:
+      uk: Проф. Манасова Г. С.
+      en: Prof. Hulsym Manasova
+videos: []
+featured: false
 excerpt:
   uk: Звіт про участь української делегації у конгресі EBCOG у Кракові, 18–20 травня 2023 року.
   en: A report on the Ukrainian delegation at the EBCOG congress in Kraków on 18–20 May 2023.
@@ -27,46 +107,6 @@ bodyUk: |-
   Високий науковий рівень, новітні технології, практична спрямованість конгресу – основні напрямки конгресу.
 
   Головне резюме: ми – це частина Світової лікарської професійної спільноти акушерів-гінекологів, ми – це Європа, ми – рівні серед рівних!
-
-  [Відео](https://static.tildacdn.com/tild6238-3666-4932-b336-396434613735/telegram-cloud-photo.jpg)
-
-  [Відео](https://static.tildacdn.com/tild3162-6232-4363-b666-376133363636/telegram-cloud-photo.jpg)
-
-  Наша делегація
-
-  [Відео](https://static.tildacdn.com/tild6332-6635-4131-b537-363733336364/telegram-cloud-photo.jpg)
-
-  Церемонія відкриття - підкреслюються складності трафіку для українців...
-
-  [Відео](https://static.tildacdn.com/tild3338-6236-4132-b832-323461643131/telegram-cloud-photo.jpg)
-
-  День вишиванки збігся з днем відкриття Конгресу...
-
-  [Відео](https://static.tildacdn.com/tild3561-6463-4662-b337-336462383337/telegram-cloud-photo.jpg)
-
-  FIGO is supporting Ukraine.
-  Jeanne Conry, president FIGO;
-  Philippe Descamps, Vice-President.
-
-  [Відео](https://static.tildacdn.com/tild3761-3063-4934-b334-383030643665/telegram-cloud-photo.jpg)
-
-  Проф. Камінський В.В. - доповідь на нашій секції..
-
-  [Відео](https://static.tildacdn.com/tild3835-3865-4736-b334-313161646334/telegram-cloud-photo.jpg)
-
-  Проф. Ткаченко Р.О.
-
-  [Відео](https://static.tildacdn.com/tild6361-6562-4665-b132-366666313566/telegram-cloud-photo.jpg)
-
-  Доцент Бербець Андрей - безпосередньо з передової
-
-  [Відео](https://static.tildacdn.com/tild3265-6465-4930-b439-393461383566/telegram-cloud-photo.jpg)
-
-  Проф. Манасова Г.С.
-
-  [Відео](https://static.tildacdn.com/tild6335-6461-4764-b237-663430383634/telegram-cloud-photo.jpg)
-
-  На згадку про проф. Ткаченка Андрія... - окрема доповідь
 bodyEn: |-
   ## Participation in the EBCOG Congress
 

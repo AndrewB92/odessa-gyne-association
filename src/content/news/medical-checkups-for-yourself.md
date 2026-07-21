@@ -4,7 +4,7 @@ title:
   en: “Have Medical Check-ups for Yourself, Not as a Formality,” Says a Gynecologist from Lutsk
 slug: medical-checkups-for-yourself
 category: women-health
-date: '2020-08-19 09:00:00+03:00'
+publishedAt: '2020-08-19 09:00:00+03:00'
 image: https://static.tildacdn.com/tild6564-3731-4338-b733-353336663365/IMG_3834w.jpeg
 excerpt:
   uk: Інтерв’ю про аномальні маткові кровотечі, їх причини, діагностику та важливість регулярних оглядів.

@@ -104,7 +104,9 @@ export async function getNewsPosts(options?: {
     return true;
   });
 
-  return posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  return posts.sort(
+    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+  );
 }
 
 export async function getNewsCategoryMap() {

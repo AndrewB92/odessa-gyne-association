@@ -1,0 +1,148 @@
+---
+import type { Lang } from "../../lib/news";
+import Icon from "../Icon.astro";
+
+type Props = {
+  url: string;
+  title: string;
+  lang: Lang;
+};
+
+const { url, title, lang } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const heading = lang === "en" ? "Share this article" : "Поділитися новиною";
+const nativeLabel = lang === "en" ? "Share" : "Поділитися";
+const emailLabel = lang === "en" ? "Email" : "Електронна пошта";
+const emailBody = encodeURIComponent(`${title}\n\n${url}`);
+---
+
+<section class="news-share" aria-labelledby="news-share-title">
+  <h2 id="news-share-title">{heading}</h2>
+
+  <div class="news-share__links">
+    <button
+      class="news-share__button"
+      type="button"
+      data-native-share
+      data-share-title={title}
+      data-share-url={url}
+      hidden
+    >
+      <Icon name="send" size={18} />
+      <span>{nativeLabel}</span>
+    </button>
+
+    <a
+      class="news-share__link"
+      href={`https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Icon name="telegram" size={18} />
+      <span>Telegram</span>
+    </a>
+
+    <a
+      class="news-share__link"
+      href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Icon name="facebook" size={18} />
+      <span>Facebook</span>
+    </a>
+
+    <a
+      class="news-share__link"
+      href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="news-share__x" aria-hidden="true">X</span>
+      <span>X</span>
+    </a>
+
+    <a class="news-share__link" href={`mailto:?subject=${encodedTitle}&body=${emailBody}`}>
+      <Icon name="mail" size={18} />
+      <span>{emailLabel}</span>
+    </a>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-native-share]").forEach((button) => {
+    if (!navigator.share) return;
+
+    button.hidden = false;
+
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.share({
+          title: button.dataset.shareTitle || document.title,
+          url: button.dataset.shareUrl || window.location.href,
+        });
+      } catch (error) {
+        if ((error as DOMException).name !== "AbortError") {
+          console.error("Unable to open the share dialog.", error);
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .news-share {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(136, 19, 55, 0.14);
+  }
+
+  .news-share h2 {
+    margin: 0 0 1rem;
+    color: #881337;
+    font-family: Domine, serif;
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+  }
+
+  .news-share__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .news-share__link,
+  .news-share__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.6rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid rgba(136, 19, 55, 0.18);
+    border-radius: 999px;
+    background: #fff;
+    color: #881337;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+  }
+
+  .news-share__link:hover,
+  .news-share__button:hover {
+    border-color: #f9517d;
+    background: #f9517d;
+    color: #fff;
+  }
+
+  .news-share__x {
+    display: inline-grid;
+    width: 1.1rem;
+    place-items: center;
+    font-size: 1rem;
+    font-weight: 900;
+  }
+</style>
