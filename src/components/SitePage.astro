@@ -4,7 +4,12 @@ import Footer from './Footer.astro';
 import Icon from './Icon.astro';
 import SpeakersGrid from './SpeakersGrid.astro';
 import NewsCard from './NewsCard.astro';
+import EventsOverview from './events/EventsOverview.astro';
 import type { CollectionEntry } from 'astro:content';
+import type {
+  EventStatistics,
+  NormalizedEvent,
+} from '../lib/events';
 
 type Lang = 'uk' | 'en';
 
@@ -14,9 +19,11 @@ type Props = {
   lang?: Lang;
   page?: PageKey;
   currentPath?: string;
-  speakers?: any[];
+  speakers?: CollectionEntry<'speakers'>[];
   latestNews?: CollectionEntry<'news'>[];
   newsCategories?: CollectionEntry<'newsCategories'>[];
+  events?: NormalizedEvent[];
+  eventStatistics?: EventStatistics;
 };
 
 type LocalizedLabel = Record<Lang, string>;
@@ -29,6 +36,8 @@ const {
   speakers = [],
   latestNews = [],
   newsCategories = [],
+  events = [],
+  eventStatistics,
 } = Astro.props as Props;
 
 const isEn = lang === 'en';
@@ -65,7 +74,7 @@ const home = {
         ['award', '1998', 'Рік заснування'],
         ['users', '500+', 'Членів асоціації'],
         ['heart', '25+', 'Років досвіду'],
-        ['file', '№ 2016', 'Провайдер БПР'],
+        ['file', '1118', 'Провайдер БПР'],
       ],
     },
     activities: {
@@ -531,26 +540,6 @@ const d = docs[lang];
         </div>
       </section>
 
-      {/* <section id="membership" class="py-24 lg:py-32">
-        <div class="max-w-4xl mx-auto px-6 lg:px-8">
-          <div class="text-center mb-14">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-rose-100 text-rose-500 text-xs font-semibold tracking-widest uppercase mb-6">{t.membership.badge}</span>
-            <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">{t.membership.title}</h2>
-          </div>
-          <div>
-            <div class="flex justify-center gap-2 mb-10 flex-wrap" data-tabs>
-              {t.membership.tabs.map(([id, label, icon], index) => <button data-tab={id} class={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-all duration-300 ${index === 0 ? 'bg-rose-300 text-white shadow-lg shadow-rose-300/20' : 'bg-rose-50 text-rose-900/60 hover:bg-rose-100 hover:text-rose-900'}`}><Icon name={icon} size={16} />{label}</button>)}
-            </div>
-            {t.membership.tabs.map(([id, , , items], index) => (
-              <div data-panel={id} class={`${index === 0 ? '' : 'hidden'} bg-white rounded-[1.5rem] p-8 lg:p-10 shadow-[0_10px_30px_rgba(74,59,59,0.05)]`}>
-                <ul class="space-y-4">
-                  {items.map((item, i) => <li class="flex gap-4 items-start"><span class="flex-shrink-0 w-6 h-6 rounded-full bg-rose-100 flex items-center justify-center text-xs font-semibold text-rose-400 mt-0.5">{i + 1}</span><p class="text-rose-900/70 leading-relaxed">{item}</p></li>)}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
       <section id="membership" class="py-24 lg:py-32">
         <div class="max-w-4xl mx-auto px-6 lg:px-8">
           <div class="text-center mb-14">
@@ -567,6 +556,7 @@ const d = docs[lang];
             <div class="flex justify-center gap-2 mb-10 flex-wrap" data-tabs>
               {t.membership.tabs.map(([id, label, icon], index) => (
                 <button
+                  type="button"
                   data-tab={id}
                   class={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
                     index === 0
@@ -630,6 +620,16 @@ const d = docs[lang];
           </div>
         </div>
       </section>
+
+      {
+        eventStatistics && (
+          <EventsOverview
+            lang={lang}
+            events={events}
+            statistics={eventStatistics}
+          />
+        )
+      }
 
       <section id="news" class="py-24 lg:py-32">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -790,22 +790,101 @@ const d = docs[lang];
 </div>
 
 <script>
-  document.querySelectorAll('[data-tabs]').forEach((tabs) => {
-    const buttons = Array.from(tabs.querySelectorAll('[data-tab]'));
-    const panels = buttons.map((button) => document.querySelector(`[data-panel="${button.getAttribute('data-tab')}"]`));
-    buttons.forEach((button, index) => {
-      button.addEventListener('click', () => {
-        buttons.forEach((b) => {
-          b.classList.remove('bg-rose-300', 'text-white', 'shadow-lg', 'shadow-rose-300/20');
-          b.classList.add('bg-rose-50', 'text-rose-900/60');
+  function initialiseTabs(): void {
+    document
+      .querySelectorAll<HTMLElement>('[data-tabs]')
+      .forEach((tabs) => {
+        if (tabs.dataset.tabsReady === 'true') {
+          return;
+        }
+
+        tabs.dataset.tabsReady = 'true';
+
+        const buttons = Array.from(
+          tabs.querySelectorAll<HTMLButtonElement>('[data-tab]'),
+        );
+
+        const container = tabs.parentElement;
+
+        if (!container || buttons.length === 0) {
+          return;
+        }
+
+        const panels = buttons.map((button) => {
+          const tabId = button.dataset.tab;
+
+          if (!tabId) {
+            return null;
+          }
+
+          return container.querySelector<HTMLElement>(
+            `[data-panel="${CSS.escape(tabId)}"]`,
+          );
         });
-        panels.forEach((panel) => panel?.classList.add('hidden'));
-        button.classList.add('bg-rose-300', 'text-white', 'shadow-lg', 'shadow-rose-300/20');
-        button.classList.remove('bg-rose-50', 'text-rose-900/60');
-        panels[index]?.classList.remove('hidden');
+
+        function activateTab(activeIndex: number): void {
+          buttons.forEach((button, index) => {
+            const isActive = index === activeIndex;
+
+            button.classList.toggle('bg-rose-300', isActive);
+            button.classList.toggle('text-white', isActive);
+            button.classList.toggle('shadow-lg', isActive);
+            button.classList.toggle('shadow-rose-300/20', isActive);
+            button.classList.toggle('bg-rose-50', !isActive);
+            button.classList.toggle('text-rose-900/60', !isActive);
+
+            button.setAttribute('aria-selected', String(isActive));
+            button.tabIndex = isActive ? 0 : -1;
+            panels[index]?.classList.toggle('hidden', !isActive);
+          });
+        }
+
+        buttons.forEach((button, index) => {
+          button.setAttribute('role', 'tab');
+
+          const tabId = button.dataset.tab;
+          const panel = panels[index];
+
+          if (tabId && panel) {
+            const buttonId = `membership-tab-${tabId}`;
+            const panelId = `membership-panel-${tabId}`;
+
+            button.id = buttonId;
+            button.setAttribute('aria-controls', panelId);
+
+            panel.id = panelId;
+            panel.setAttribute('role', 'tabpanel');
+            panel.setAttribute('aria-labelledby', buttonId);
+          }
+
+          button.addEventListener('click', () => {
+            activateTab(index);
+          });
+
+          button.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+              return;
+            }
+
+            event.preventDefault();
+
+            const direction = event.key === 'ArrowRight' ? 1 : -1;
+            const nextIndex =
+              (index + direction + buttons.length) % buttons.length;
+
+            activateTab(nextIndex);
+            buttons[nextIndex]?.focus();
+          });
+        });
+
+        tabs.setAttribute('role', 'tablist');
+        activateTab(0);
       });
-    });
-  });
+  }
+
+  initialiseTabs();
+
+  document.addEventListener('astro:page-load', initialiseTabs);
 </script>
 
 <style>

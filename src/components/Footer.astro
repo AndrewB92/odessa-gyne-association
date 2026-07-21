@@ -1,57 +1,89 @@
 ---
 import Icon from './Icon.astro';
 
-const { lang = 'uk' } = Astro.props;
+interface Props {
+  lang?: 'uk' | 'en';
+}
+
+interface FooterContact {
+  role: string;
+  name?: string;
+  phone: string;
+  phoneHref: string;
+  email?: string;
+}
+
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
+const { lang = 'uk' } = Astro.props as Props;
+
 const isEn = lang === 'en';
 const prefix = isEn ? '/en' : '';
 const currentYear = new Date().getFullYear();
-const footer = isEn
+
+const portfolioUrl = 'https://your-portfolio.vercel.app';
+
+const footerContent = isEn
   ? {
       brand:
-        "Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine",
-      brandShort: "OB AAGU",
-      nav: "Navigation",
-      contacts: "Contacts",
-      copyright:
-        `© ${currentYear} OB AAGU. All rights reserved.`,
+        'Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine',
+      brandShort: 'OB AAGU',
+      description:
+        'Professional education, medical cooperation and development of the obstetrics and gynecology community.',
+      navigation: 'Navigation',
+      contacts: 'Contacts',
+      social: 'Follow our work',
+      youtubeLabel: 'OB AAGU on YouTube',
+      copyright: `© ${currentYear} OB AAGU. All rights reserved.`,
+      madeBy: 'Made with',
+      author: 'Andrew Bielous',
       links: [
-        ["About", "/about-us"],
-        ["News", "/news"],
-        ["Conferences", "/conferences"],
-        ["BPR", "/bpr"],
-        ["Speakers", "/speakers"],
-        ["Documents", "/docs"],
-        ["Community", "/involved"],
-        ["Contacts", "/contacts"],
-      ],
+        { label: 'About', href: '/about-us' },
+        { label: 'News', href: '/news' },
+        { label: 'Conferences', href: '/conferences' },
+        { label: 'BPR', href: '/bpr' },
+        { label: 'Speakers', href: '/speakers' },
+        { label: 'Documents', href: '/docs' },
+        { label: 'Community', href: '/involved' },
+        { label: 'Contacts', href: '/contacts' },
+      ] satisfies FooterLink[],
     }
   : {
       brand:
-        "Одеське відділення Асоціації акушерів-гінекологів України",
-      brandShort: "ОВ ААГУ",
-      nav: "Навігація",
-      contacts: "Контакти",
-      copyright:
-        `© ${currentYear} ОВ ААГУ. Усі права захищені.`,
+        'Одеське відділення Асоціації акушерів-гінекологів України',
+      brandShort: 'ОВ ААГУ',
+      description:
+        'Професійна освіта, медична співпраця та розвиток спільноти акушерів-гінекологів.',
+      navigation: 'Навігація',
+      contacts: 'Контакти',
+      social: 'Стежте за нашою роботою',
+      youtubeLabel: 'ОВ ААГУ на YouTube',
+      copyright: `© ${currentYear} ОВ ААГУ. Усі права захищені.`,
+      madeBy: 'Створено з',
+      author: 'Andrew Bielous',
       links: [
-        ["Про асоціацію", "/about-us"],
-        ["Новини", "/news"],
-        ["Конференції", "/conferences"],
-        ["БПР", "/bpr"],
-        ["Спікери", "/speakers"],
-        ["Документи", "/docs"],
-        ["Спільнота", "/involved"],
-        ["Контакти", "/contacts"],
-      ],
+        { label: 'Про асоціацію', href: '/about-us' },
+        { label: 'Новини', href: '/news' },
+        { label: 'Конференції', href: '/conferences' },
+        { label: 'БПР', href: '/bpr' },
+        { label: 'Спікери', href: '/speakers' },
+        { label: 'Документи', href: '/docs' },
+        { label: 'Спільнота', href: '/involved' },
+        { label: 'Контакти', href: '/contacts' },
+      ] satisfies FooterLink[],
     };
-const contacts = [
+
+const contacts: FooterContact[] = [
   {
     role: isEn ? 'Chair of Presidium' : 'Голова Президії',
     name: isEn
       ? 'Gulsim Serikbaivna Manasova'
       : 'Манасова Гульсим Серікбаївна',
     phone: '+38 (050) 502 70 58',
-    href: 'tel:+380505027058',
+    phoneHref: 'tel:+380505027058',
   },
   {
     role: isEn ? 'Secretary' : 'Секретар',
@@ -59,77 +91,635 @@ const contacts = [
       ? 'Nataliia Vasylivna Kuzmyn'
       : 'Кузьмин Наталія Василівна',
     phone: '+38 (097) 686 82 36',
-    href: 'tel:+380976868236',
+    phoneHref: 'tel:+380976868236',
   },
   {
-    role: isEn ? 'OB AAGU contacts' : 'Контакти ОВ ААГУ',
+    role: isEn ? 'OB AAGU' : 'ОВ ААГУ',
+    name: isEn
+      ? 'Office'
+      : 'Офіс',
     phone: '+38 (048) 705 99 78',
-    href: 'tel:+380487059978',
+    phoneHref: 'tel:+380487059978',
     email: 'aagu.od@gmail.com',
   },
 ];
+
+const homeUrl = isEn ? '/en/' : '/';
 ---
 
-<footer class="bg-rose-900 text-white/80">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-24">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-      <div class="lg:col-span-1">
-        <a href={isEn ? '/en/' : '/'} class="flex items-center gap-3 mb-6">
-          <svg
-            class="w-10 h-10 transition-transform duration-300 group-hover:scale-105"
-            viewBox="0 0 512 512"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-hidden="true"
-          >
-            <path fill="#034bec" d="M313.5 9.5c-10.3-2-20.6-3.2-31-3.5 40.5 10.5 70.3 34.3 89.5 71.5 15 37.9 13.6 75.2-4 112-19.9 35.1-49.8 56.6-89.5 64.5-53-3.4-95.5 15.8-127.5 57.5-22.4 36.6-26.7 75.2-13 116 14.3 33.8 38.1 58.1 71.5 73-80.3-15.4-140.1-58.7-179.5-130C-5.3 298.2-7.7 224.9 23 150.5 61.5 70.6 124.3 22.1 211.5 5c34.5-5.6 68.5-4.1 102 4.5Z"></path>
-            <path fill="#f9517d" d="M313.5 9.5c66.7 16.2 118.9 52.9 156.5 110 46 76.9 52 156.9 18 240-29.7 63.1-76.9 107.6-141.5 133.5-38.6 14.8-78.3 19.1-119 13-6.3-1.4-12.3-3.2-18-5.5-33.4-14.9-57.2-39.2-71.5-73-13.7-40.8-9.4-79.4 13-116 32-41.7 74.5-60.9 127.5-57.5 39.7-7.9 69.6-29.4 89.5-64.5 17.6-36.8 19-74.1 4-112-19.2-37.2-49-61-89.5-71.5 10.4.3 20.7 1.5 31 3.5Z"></path>
-            <path fill="#f9f9f9" d="M227.5 48.5c34.4-3.5 60.3 9.5 77.5 39 14.6 36.1 6.7 66.3-23.5 90.5-29.1 17.5-57.4 16.5-85-3-24.6-22-32.1-48.8-22.5-80.5 10.2-24.3 28-39.7 53.5-46Z"></path>
-            <path fill="#faf9f9" d="M320.5 302.5c41.9-3.3 66.1 15.7 72.5 57 2.9 48.7-16.6 85.2-58.5 109.5-32.7 17.4-67 21.8-103 13-26.5-8-47.6-23.1-63.5-45.5-1-1.3-1.3-2.6-1-4 12.3 14.7 28.1 22.4 47.5 23 27.2-1.5 47-14.2 59.5-38 3.2-9.1 4.2-18.4 3-28-16.4-44.5-1.9-73.5 43.5-87Z"></path>
-            <path fill="#fa547f" d="M324.5 342.5c9.4-1.7 16.3 1.6 20.5 10 .6 7.7-2.6 13.2-9.5 16.5-8.6 3.1-15.4 1-20.5-6.5-2.2-4.5-1.9-8.9 1-13 2.4-3 5.3-5.3 8.5-7Z"  ></path>
-          </svg>
-          <span class="font-heading text-white font-semibold text-sm">{footer.brandShort}</span>
+<footer class="site-footer">
+  <div class="site-footer__container site-footer__main">
+    <div class="site-footer__layout">
+      <section
+        class="site-footer__brand"
+        aria-labelledby="footer-brand-title"
+      >
+        <a href={homeUrl} class="site-footer__brand-link">
+          <span class="site-footer__logo">
+            <svg
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-hidden="true"
+            >
+              <path
+                fill="#034bec"
+                d="M313.5 9.5c-10.3-2-20.6-3.2-31-3.5 40.5 10.5 70.3 34.3 89.5 71.5 15 37.9 13.6 75.2-4 112-19.9 35.1-49.8 56.6-89.5 64.5-53-3.4-95.5 15.8-127.5 57.5-22.4 36.6-26.7 75.2-13 116 14.3 33.8 38.1 58.1 71.5 73-80.3-15.4-140.1-58.7-179.5-130C-5.3 298.2-7.7 224.9 23 150.5 61.5 70.6 124.3 22.1 211.5 5c34.5-5.6 68.5-4.1 102 4.5Z"
+              ></path>
+
+              <path
+                fill="#f9517d"
+                d="M313.5 9.5c66.7 16.2 118.9 52.9 156.5 110 46 76.9 52 156.9 18 240-29.7 63.1-76.9 107.6-141.5 133.5-38.6 14.8-78.3 19.1-119 13-6.3-1.4-12.3-3.2-18-5.5-33.4-14.9-57.2-39.2-71.5-73-13.7-40.8-9.4-79.4 13-116 32-41.7 74.5-60.9 127.5-57.5 39.7-7.9 69.6-29.4 89.5-64.5 17.6-36.8 19-74.1 4-112-19.2-37.2-49-61-89.5-71.5 10.4.3 20.7 1.5 31 3.5Z"
+              ></path>
+
+              <path
+                fill="#f9f9f9"
+                d="M227.5 48.5c34.4-3.5 60.3 9.5 77.5 39 14.6 36.1 6.7 66.3-23.5 90.5-29.1 17.5-57.4 16.5-85-3-24.6-22-32.1-48.8-22.5-80.5 10.2-24.3 28-39.7 53.5-46Z"
+              ></path>
+
+              <path
+                fill="#faf9f9"
+                d="M320.5 302.5c41.9-3.3 66.1 15.7 72.5 57 2.9 48.7-16.6 85.2-58.5 109.5-32.7 17.4-67 21.8-103 13-26.5-8-47.6-23.1-63.5-45.5-1-1.3-1.3-2.6-1-4 12.3 14.7 28.1 22.4 47.5 23 27.2-1.5 47-14.2 59.5-38 3.2-9.1 4.2-18.4 3-28-16.4-44.5-1.9-73.5 43.5-87Z"
+              ></path>
+
+              <path
+                fill="#fa547f"
+                d="M324.5 342.5c9.4-1.7 16.3 1.6 20.5 10 .6 7.7-2.6 13.2-9.5 16.5-8.6 3.1-15.4 1-20.5-6.5-2.2-4.5-1.9-8.9 1-13 2.4-3 5.3-5.3 8.5-7Z"
+              ></path>
+            </svg>
+          </span>
+
+          <span class="site-footer__brand-copy">
+            <strong id="footer-brand-title">
+              {footerContent.brandShort}
+            </strong>
+
+            <span>{footerContent.brand}</span>
+          </span>
         </a>
-        <p class="text-sm text-white/50 leading-relaxed mb-6 max-w-xs">{footer.brand}</p>
-        <div class="flex items-center gap-3">
-          <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-rose-300 hover:scale-110"><Icon name="instagram" size={16} /></a>
-          <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-rose-300 hover:scale-110"><Icon name="facebook" size={16} /></a>
-          <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-rose-300 hover:scale-110"><Icon name="send" size={16} /></a>
+
+        <p class="site-footer__description">
+          {footerContent.description}
+        </p>
+
+        <div class="site-footer__social">
+          <span class="site-footer__social-label">
+            {footerContent.social}
+          </span>
+
+          <a
+            href="https://www.youtube.com/@ovaagu416"
+            class="site-footer__youtube"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={footerContent.youtubeLabel}
+          >
+            <span class="site-footer__youtube-icon">
+              <Icon name="youtube" size={17} />
+            </span>
+
+            <span>YouTube</span>
+
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
-      </div>
-      <div>
-        <h4 class="font-heading font-semibold text-white text-sm uppercase tracking-widest mb-6">{footer.nav}</h4>
-        <ul class="grid grid-cols-2 gap-x-5 gap-y-3">
-          {footer.links.map(([label, href]) => (
-            <li><a href={`${prefix}${href}`} class="text-sm text-white/50 hover:text-rose-300 transition-colors duration-300">{label}</a></li>
-          ))}
-        </ul>
-      </div>
-      <div class="lg:col-span-2">
-        <h4 class="font-heading font-semibold text-white text-sm uppercase tracking-widest mb-6">{footer.contacts}</h4>
-        <div class="grid sm:grid-cols-3 gap-6">
-          {contacts.map((contact) => (
-            <div>
-              <p class="text-xs text-rose-300 font-semibold mb-2">{contact.role}</p>
-              {contact.name && <p class="text-sm text-white/70 mb-2 leading-snug">{contact.name}</p>}
-              <a href={contact.href} class="flex items-center gap-2 text-sm text-white/50 hover:text-rose-300 transition-colors mb-1">
-                <Icon name="phone" size={12} class="text-rose-300 flex-shrink-0" />{contact.phone}
-              </a>
-              {contact.email && (
-                <a href={`mailto:${contact.email}`} class="flex items-center gap-2 text-sm text-white/50 hover:text-rose-300 transition-colors break-all">
-                  <Icon name="mail" size={12} class="text-rose-300 flex-shrink-0" />{contact.email}
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
+      </section>
+
+      <div class="site-footer__content">
+        <nav
+          class="site-footer__navigation"
+          aria-labelledby="footer-navigation-title"
+        >
+          <h2
+            id="footer-navigation-title"
+            class="site-footer__heading"
+          >
+            {footerContent.navigation}
+          </h2>
+
+          <ul class="site-footer__links">
+            {
+              footerContent.links.map(({ label, href }) => (
+                <li>
+                  <a href={`${prefix}${href}`} class="site-footer__nav-link">
+                    <span>{label}</span>
+                    <span
+                      class="site-footer__nav-arrow"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <section
+          class="site-footer__contacts"
+          aria-labelledby="footer-contacts-title"
+        >
+          <h2
+            id="footer-contacts-title"
+            class="site-footer__heading"
+          >
+            {footerContent.contacts}
+          </h2>
+
+          <div class="site-footer__contact-grid">
+            {
+              contacts.map((contact) => (
+                <article class="site-footer__contact-card">
+                  <p class="site-footer__contact-role">
+                    {contact.role}
+                  </p>
+
+                  {contact.name && (
+                    <p class="site-footer__contact-name">
+                      {contact.name}
+                    </p>
+                  )}
+
+                  <div class="site-footer__contact-links">
+                    <a
+                      href={contact.phoneHref}
+                      class="site-footer__contact-link"
+                    >
+                      <Icon
+                        name="phone"
+                        size={14}
+                        class="site-footer__contact-icon"
+                      />
+
+                      <span>{contact.phone}</span>
+                    </a>
+
+                    {contact.email && (
+                      <a
+                        href={`mailto:${contact.email}`}
+                        class="site-footer__contact-link"
+                      >
+                        <Icon
+                          name="mail"
+                          size={14}
+                          class="site-footer__contact-icon"
+                        />
+
+                        <span>{contact.email}</span>
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
       </div>
     </div>
   </div>
-  <div class="border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-xs text-white/30">{footer.copyright}</p>
-      <p class="text-xs text-white/20">ov.aagu.od.ua</p>
+
+  <div class="site-footer__bottom">
+    <div class="site-footer__container site-footer__bottom-inner">
+      <p class="site-footer__copyright">
+        {footerContent.copyright}
+      </p>
+
+      <a
+        href={portfolioUrl}
+        class="site-footer__credit"
+        target="_blank"
+        rel="author noopener noreferrer"
+        aria-label={`${footerContent.madeBy} love by ${footerContent.author}`}
+      >
+        <span>{footerContent.madeBy}</span>
+
+        <span class="site-footer__heart" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 21s-7.1-4.35-9.45-8.63C.7 9 .96 5.08 4.08 3.2 6.26 1.88 9.09 2.42 12 5.3c2.91-2.88 5.74-3.42 7.92-2.1 3.12 1.88 3.38 5.8 1.53 9.17C19.1 16.65 12 21 12 21Z"
+            ></path>
+          </svg>
+        </span>
+
+        <strong>{footerContent.author}</strong>
+
+        <span class="site-footer__credit-arrow" aria-hidden="true">
+          ↗
+        </span>
+      </a>
     </div>
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    color: rgb(255 255 255 / 0.72);
+    background-color: #4c0519;
+    /* background-color: rgb(216 140 140); */
+  }
+
+  .site-footer__container {
+    width: min(100% - 3rem, 80rem);
+    max-width: calc(80rem - 64px);
+    margin-inline: auto;
+  }
+
+  .site-footer__main {
+    padding-block: clamp(4rem, 7vw, 6rem);
+  }
+
+  .site-footer__layout {
+    display: grid;
+    gap: 3.5rem;
+  }
+
+  .site-footer__brand {
+    max-width: 32rem;
+  }
+
+  .site-footer__brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+    text-decoration: none;
+  }
+
+  .site-footer__logo {
+    display: grid;
+    width: 3.75rem;
+    height: 3.75rem;
+    flex: 0 0 auto;
+    padding: 0.65rem;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    border-radius: 1rem;
+    background-color: rgb(255 255 255 / 0.06);
+    transition:
+      transform 200ms ease,
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .site-footer__logo svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .site-footer__brand-link:hover .site-footer__logo {
+    border-color: rgb(253 164 175 / 0.55);
+    background-color: rgb(255 255 255 / 0.09);
+    transform: translateY(-2px);
+  }
+
+  .site-footer__brand-copy {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .site-footer__brand-copy strong {
+    font-family: var(--font-heading, inherit);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+
+  .site-footer__brand-copy > span {
+    max-width: 22rem;
+    color: rgb(255 255 255 / 0.48);
+    font-size: 0.73rem;
+    line-height: 1.5;
+  }
+
+  .site-footer__description {
+    max-width: 28rem;
+    margin: 1.75rem 0 0;
+    color: rgb(255 255 255 / 0.55);
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+
+  .site-footer__social {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1.75rem;
+  }
+
+  .site-footer__social-label {
+    color: rgb(255 255 255 / 0.34);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__youtube {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.8rem 0.55rem 0.55rem;
+    color: rgb(255 255 255 / 0.7);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 999px;
+    background-color: rgb(255 255 255 / 0.05);
+    transition:
+      color 200ms ease,
+      border-color 200ms ease,
+      background-color 200ms ease,
+      transform 200ms ease;
+  }
+
+  .site-footer__youtube:hover {
+    color: white;
+    border-color: rgb(253 164 175 / 0.35);
+    background-color: rgb(255 255 255 / 0.08);
+    transform: translateY(-2px);
+  }
+
+  .site-footer__youtube-icon {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    color: white;
+    place-items: center;
+    border-radius: 999px;
+    background-color: #e11d48;
+  }
+
+  .site-footer__content {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .site-footer__heading {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0 0 1.4rem;
+    color: white;
+    font-family: var(--font-heading, inherit);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__heading::before {
+    width: 1.25rem;
+    height: 2px;
+    content: '';
+    border-radius: 999px;
+    background-color: #fb7185;
+  }
+
+  .site-footer__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.3rem 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .site-footer__nav-link {
+    display: flex;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.25rem;
+    color: rgb(255 255 255 / 0.52);
+    font-size: 0.85rem;
+    text-decoration: none;
+    border-bottom: 1px solid rgb(255 255 255 / 0.07);
+    transition:
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .site-footer__nav-arrow {
+    color: rgb(253 164 175 / 0.6);
+    transform: translateX(-0.2rem);
+    transition:
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .site-footer__nav-link:hover {
+    color: white;
+    border-color: rgb(253 164 175 / 0.3);
+  }
+
+  .site-footer__nav-link:hover .site-footer__nav-arrow {
+    color: #fda4af;
+    transform: translateX(0);
+  }
+
+  .site-footer__contact-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .site-footer__contact-card {
+    min-width: 0;
+    padding: 1.15rem;
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 0.9rem;
+    background-color: rgb(255 255 255 / 0.045);
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .site-footer__contact-card:hover {
+    border-color: rgb(253 164 175 / 0.25);
+    background-color: rgb(255 255 255 / 0.065);
+    transform: translateY(-2px);
+  }
+
+  .site-footer__contact-role {
+    margin: 0;
+    color: #fda4af;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__contact-name {
+    margin: 0.65rem 0 0.9rem;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .site-footer__contact-links {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .site-footer__contact-link {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgb(255 255 255 / 0.48);
+    font-size: 0.77rem;
+    line-height: 1.4;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color 180ms ease;
+  }
+
+  .site-footer__contact-link:hover {
+    color: white;
+  }
+
+  .site-footer__contact-icon {
+    flex: 0 0 auto;
+    color: #fda4af;
+  }
+
+  .site-footer__bottom {
+    border-top: 1px solid rgb(255 255 255 / 0.09);
+    background-color: #3c0414;
+  }
+
+  .site-footer__bottom-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.25rem;
+  }
+
+  .site-footer__copyright {
+    margin: 0;
+    color: rgb(255 255 255 / 0.32);
+    font-size: 0.72rem;
+    text-align: center;
+  }
+
+  .site-footer__credit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: rgb(255 255 255 / 0.38);
+    font-size: 0.72rem;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+
+  .site-footer__credit strong {
+    color: rgb(255 255 255 / 0.7);
+    font-weight: 600;
+    transition: color 180ms ease;
+  }
+
+  .site-footer__credit:hover,
+  .site-footer__credit:hover strong {
+    color: white;
+  }
+
+  .site-footer__heart {
+    display: inline-grid;
+    width: 1rem;
+    height: 1rem;
+    place-items: center;
+    transform-origin: center;
+    animation: footer-heartbeat 1.5s ease-in-out infinite;
+  }
+
+  .site-footer__heart svg {
+    width: 100%;
+    height: 100%;
+    fill: #fb7185;
+  }
+
+  .site-footer__credit-arrow {
+    color: rgb(255 255 255 / 0.28);
+    transition:
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .site-footer__credit:hover .site-footer__credit-arrow {
+    color: #fda4af;
+    transform: translate(2px, -2px);
+  }
+
+  @keyframes footer-heartbeat {
+    0%,
+    40%,
+    100% {
+      transform: scale(1);
+    }
+
+    14% {
+      transform: scale(1.2);
+    }
+
+    28% {
+      transform: scale(1.08);
+    }
+  }
+
+  @media (min-width: 640px) {
+    .site-footer__contact-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .site-footer__bottom-inner {
+      flex-direction: row;
+    }
+
+    .site-footer__copyright {
+      text-align: left;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .site-footer__layout {
+      grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.7fr);
+      gap: clamp(3rem, 7vw, 6rem);
+      align-items: start;
+    }
+
+    .site-footer__content {
+      gap: 3.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-footer__container {
+      width: min(100% - 2rem, 80rem);
+    }
+
+    .site-footer__links {
+      grid-template-columns: 1fr;
+    }
+
+    .site-footer__brand-copy > span {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-footer *,
+    .site-footer *::before,
+    .site-footer *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

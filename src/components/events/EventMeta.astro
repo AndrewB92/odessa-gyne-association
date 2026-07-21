@@ -51,6 +51,13 @@ const hasBprPoints =
   Number.isFinite(bprPoints);
 
 const normalizedProviderNumber = providerNumber?.trim();
+
+const valueClassCheck = (valueCount: number) => [
+  "event-meta__value",
+  {
+    "flex-row": valueCount === 1,
+  },
+];
 ---
 
 <dl
@@ -62,7 +69,15 @@ const normalizedProviderNumber = providerNumber?.trim();
     className,
   ]}
 >
-  <div class="event-meta__item">
+  <div 
+    class:list={[
+                  "event-meta__item",
+                  {
+                    "flex-row": formattedDates.length <= 1,
+                  },
+                ]}
+  >
+
     <dt class="event-meta__label">
       <Icon name="calendar" size={18} />
 
@@ -72,33 +87,30 @@ const normalizedProviderNumber = providerNumber?.trim();
     </dt>
 
     <dd class="event-meta__value">
-      <ul class="event-meta__list">
-        {
-          formattedDates.map((date) => (
+    {
+      formattedDates.length > 1 ? (
+        <ol class="event-meta__list">
+          {formattedDates.map((date) => (
             <li>{date}</li>
-          ))
-        }
-      </ul>
-    </dd>
-  </div>
-
-  <div class="event-meta__item">
-    <dt class="event-meta__label">
-      <Icon name="globe" size={18} />
-
-      <span>
-        {labels.format}
-      </span>
-    </dt>
-
-    <dd class="event-meta__value">
-      {getEventFormatLabel(format, locale)}
+          ))}
+        </ol>
+      ) : (
+        <span>{formattedDates[0]}</span>
+      )
+    }
     </dd>
   </div>
 
   {
     localizedLocations.length > 0 && (
-      <div class="event-meta__item">
+      <div 
+        class:list={[
+                      "event-meta__item",
+                      {
+                        "flex-row": localizedLocations.length <= 1,
+                      },
+                    ]}
+      >
         <dt class="event-meta__label">
           <Icon name="map" size={18} />
 
@@ -112,21 +124,39 @@ const normalizedProviderNumber = providerNumber?.trim();
         </dt>
 
         <dd class="event-meta__value">
-          <ul class="event-meta__list">
-            {
-              localizedLocations.map((location) => (
+        {
+          localizedLocations.length > 1 ? (
+            <ol class="event-meta__list">
+              {localizedLocations.map((location) => (
                 <li>{location}</li>
-              ))
-            }
-          </ul>
+              ))}
+            </ol>
+          ) : localizedLocations.length === 1 ? (
+            <span>{localizedLocations[0]}</span>
+          ) : null
+        }
         </dd>
       </div>
     )
   }
 
+  <cla class="event-meta__item flex-row">
+    <dt class="event-meta__label">
+      <Icon name="globe" size={18} />
+
+      <span>
+        {labels.format}
+      </span>
+    </dt>
+
+    <dd class="event-meta__value">
+      {getEventFormatLabel(format, locale)}
+    </dd>
+  </cla>
+
   {
     hasBprPoints && (
-      <div class="event-meta__item">
+      <div class="event-meta__item flex-row">
         <dt class="event-meta__label">
           <Icon name="award" size={18} />
 
@@ -144,7 +174,7 @@ const normalizedProviderNumber = providerNumber?.trim();
 
   {
     normalizedProviderNumber && (
-      <div class="event-meta__item">
+      <div class="event-meta__item flex-row">
         <dt class="event-meta__label">
           <Icon name="file" size={18} />
 
@@ -189,17 +219,29 @@ const normalizedProviderNumber = providerNumber?.trim();
     background: var(--color-surface, #fff);
   }
 
+  .flex-row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
   .event-meta__label {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
-    margin: 0 0 0.5rem;
     color: var(--color-text-muted, #5e6a73);
     font-size: 0.8125rem;
     font-weight: 600;
     line-height: 1.4;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+  }
+
+  :global(.bpr-page) .event-meta__label {
+    padding-top: 3px;
   }
 
   .event-meta__label :global(svg) {
@@ -218,8 +260,12 @@ const normalizedProviderNumber = providerNumber?.trim();
     display: grid;
     gap: 0.25rem;
     margin: 0;
-    padding: 0;
-    list-style: none;
+    padding: 0 0 0 20px;
+    /* list-style: none; */
+  }
+
+  :global(main) ol.event-meta__list{
+    list-style-type: decimal;
   }
 
   .event-meta--compact {
@@ -230,7 +276,7 @@ const normalizedProviderNumber = providerNumber?.trim();
 
   .event-meta--compact .event-meta__item {
     display: grid;
-    grid-template-columns: minmax(7rem, auto) 1fr;
+    grid-template-columns: minmax(4rem, auto) 1fr;
     gap: 0.75rem;
     padding: 0;
     border: 0;

@@ -1,0 +1,161 @@
+---
+import EventStatistics from './EventStatistics.astro';
+import EventsCalendar from './EventsCalendar.astro';
+
+import type {
+  EventStatistics as EventStatisticsData,
+  Lang,
+  NormalizedEvent,
+} from '../../lib/events';
+
+type Props = {
+  lang: Lang;
+  events: NormalizedEvent[];
+  statistics: EventStatisticsData;
+};
+
+const {
+  lang,
+  events,
+  statistics,
+} = Astro.props as Props;
+
+const content = {
+  uk: {
+    badge: 'Події асоціації',
+    title: 'Конференції та заходи БПР',
+    description:
+      'Переглядайте проведені та заплановані професійні заходи Одеського відділення ААГУ.',
+  },
+  en: {
+    badge: 'Association events',
+    title: 'Conferences and CPD events',
+    description:
+      'Explore completed and upcoming professional events organised by the Odessa Branch of AAGU.',
+  },
+} as const;
+
+const t = content[lang];
+---
+
+<section
+  id="events-overview"
+  class="events-overview"
+  aria-labelledby="events-overview-title"
+>
+  <div class="events-overview__container">
+    <div class="events-overview__header">
+      <div>
+        <span class="events-overview__badge">
+          {t.badge}
+        </span>
+
+        <h2 id="events-overview-title">
+          {t.title}
+        </h2>
+      </div>
+
+      <p>{t.description}</p>
+    </div>
+
+    <div class="events-overview__layout">
+      <EventStatistics
+        lang={lang}
+        statistics={statistics}
+      />
+
+    <EventsCalendar
+    lang={lang}
+    events={events}
+    />
+    </div>
+  </div>
+</section>
+
+<style>
+  .events-overview {
+    position: relative;
+    padding-block: 6rem;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at 85% 10%,
+        rgb(253 164 175 / 0.14),
+        transparent 28rem
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(255 255 255),
+        rgb(255 241 242 / 0.65)
+      );
+  }
+
+  .events-overview__container {
+    width: min(100% - 3rem, 80rem);
+    margin-inline: auto;
+  }
+
+  .events-overview__header {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .events-overview__badge {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding: 0.375rem 1rem;
+    border-radius: 999px;
+    background: rgb(255 228 230);
+    color: rgb(181 102 102 / var(--tw-text-opacity, 1));
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .events-overview__header h2 {
+    max-width: 44rem;
+    margin: 0;
+    color: rgb(76 5 25);
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .events-overview__header > p {
+    max-width: 38rem;
+    margin: 0;
+    color: rgb(76 5 25 / 0.58);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .events-overview__layout {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .events-overview__header {
+      grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(18rem, 0.85fr);
+      align-items: end;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .events-overview {
+      padding-block: 8rem;
+    }
+
+    .events-overview__layout {
+      grid-template-columns:
+        minmax(17rem, 0.72fr)
+        minmax(0, 1.28fr);
+      align-items: stretch;
+    }
+  }
+</style>

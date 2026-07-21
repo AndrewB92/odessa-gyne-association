@@ -10,8 +10,6 @@ schedule:
   - start: '2025-12-18'
     end: '2025-12-19'
 locations:
-  - uk: Одеса, Україна
-    en: Odesa, Ukraine
   - uk: Французький бульвар, 17а, Grand Otrada Hotel Resort & Spa
     en: 17a Frantsuzkyi Boulevard, Grand Otrada Hotel Resort & Spa
 format: hybrid

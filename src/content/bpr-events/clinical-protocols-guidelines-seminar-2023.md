@@ -7,133 +7,143 @@ excerpt:
   uk: Всеукраїнський онлайн-семінар, 1 березня 2023 року.
   en: A nationwide online seminar held on 1 March 2023.
 schedule:
-- start: '2023-03-01'
+  - start: '2023-03-01'
 locations: []
 format: online
 linkMode: internal
 externalBlank: true
 resources:
-- icon: clipboard-check
-  title:
-    uk: Тестові запитання ФАХОВИЙ СЕМІНАР "Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов
-      "
-    en: Assessment / testing
-  url: https://docs.google.com/forms/d/1ZTjJ2pIfIYU4WfdWgXCa-03LysZBfgPI36YUalt123Y/
-  newTab: true
-- icon: images
-  title:
-    uk: Оригінальне зображення або афіша
-    en: Original image or poster
-  url: https://static.tildacdn.com/tild3461-3139-4532-b939-303864623063/testing-trends.jpeg
-  newTab: true
-- icon: youtube
-  title:
-    uk: Семінар Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов
-    en: Video / recording
-  url: https://www.youtube.com/live/SVSgr2h10eE?feature=share
-  newTab: true
-- icon: images
-  title:
-    uk: Оригінальне зображення або афіша
-    en: Original image or poster
-  url: https://static.tildacdn.com/tild6332-6366-4332-b235-653033313535/gynecology-concept-i.jpg
-  newTab: true
-- icon: file-text
-  title:
-    uk: КАРТКА ЗАХОДУ "Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов"
-    en: Event information card
-  url: https://drive.google.com/file/d/1ru2F3Y17CTVsSjScpd_h1T9n-acnbPP8/view?usp=share_link
-  newTab: true
-- icon: images
-  title:
-    uk: Оригінальне зображення або афіша
-    en: Original image or poster
-  url: https://static.tildacdn.com/tild6464-3832-4263-b531-323330643961/234433323.png
-  newTab: true
-- icon: clipboard-check
-  title:
-    uk: Посилання
-    en: Related material
-  url: https://docs.google.com/forms/d/1cPv7sWE0PPp-cXcZ9xE0S5rP6RARxAeOFTf5D41vlks/edit?usp=sharing_eil_m&invite=CND6lfME&ts=63d39b4f
-  newTab: true
-- icon: images
-  title:
-    uk: Оригінальне зображення або афіша
-    en: Original image or poster
-  url: https://static.tildacdn.com/tild3464-3363-4637-b565-363934633435/one-continuous-line-.jpg
-  newTab: true
+  - icon: clipboard-check
+    title:
+      uk: Підсумкове тестування
+      en: Final assessment
+    url: https://docs.google.com/forms/d/1ZTjJ2pIfIYU4WfdWgXCa-03LysZBfgPI36YUalt123Y/
+    newTab: true
+  - icon: youtube
+    title:
+      uk: Запис семінару
+      en: Seminar recording
+    url: https://www.youtube.com/live/SVSgr2h10eE?feature=share
+    newTab: true
+  - icon: file-text
+    title:
+      uk: Картка заходу
+      en: Event information card
+    url: https://drive.google.com/file/d/1ru2F3Y17CTVsSjScpd_h1T9n-acnbPP8/view?usp=share_link
+    newTab: true
 bodyUk: |-
-  Всеукраїнський онлайн-семінар, 1 березня 2023 року.
+  ## Про семінар
 
-  ## Архівні матеріали з попереднього сайту
+  Всеукраїнський фаховий семінар **«Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов»** відбувся 1 березня 2023 року в онлайн-форматі. Початок заходу — о **15:00**.
 
-  ### Тестові запитання ФАХОВИЙ СЕМІНАР "Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов "
+  Організатором виступила ГО «Одеське відділення Асоціації акушерів-гінекологів України», офіційний провайдер БПР № **1118**.
 
-  01 березня 2023р.
+  **Співорганізатори:**
 
-  [Відкрити оригінальний матеріал](https://docs.google.com/forms/d/1ZTjJ2pIfIYU4WfdWgXCa-03LysZBfgPI36YUalt123Y/)
+  - Одеський національний медичний університет;
+  - Департамент охорони здоров'я Одеської обласної державної адміністрації;
+  - Департамент охорони здоров'я Одеської міської ради.
 
-  ### Семінар Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов
+  Запланована кількість учасників — **200 осіб**.
 
-  01.03
+  ## Цільова аудиторія
 
-  [Відкрити оригінальний матеріал](https://www.youtube.com/live/SVSgr2h10eE?feature=share)
+  Семінар був призначений для акушерів-гінекологів, лікарів загальної практики — сімейної медицини, урологів, неврологів, хірургів та інших фахівців, залучених до надання акушерсько-гінекологічної допомоги.
 
-  ### КАРТКА ЗАХОДУ "Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов"
+  ## Мета
 
-  [Відкрити оригінальний матеріал](https://drive.google.com/file/d/1ru2F3Y17CTVsSjScpd_h1T9n-acnbPP8/view?usp=share_link)
+  Метою заходу була імплементація нових стандартів акушерсько-гінекологічної допомоги, а також навчання сучасним підходам до діагностики та лікування:
 
-  ### Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов
+  - ускладнень вагітності й пологів;
+  - гінекологічних захворювань;
+  - онкогінекологічних захворювань.
 
-  БПР № 1118
+  Формат навчання — лекційний матеріал із подальшим онлайн-тестуванням.
 
-  ВЕЛЬМИШАНОВНІ КОЛЕГИ!
+  ## Сертифікація
 
-  Одеське відділення Асоціації акушерів – гінекологів України
+  За участь у семінарі передбачалося **10 балів БПР**.
 
-  (офіційний провайдер БПР № 1118)
+  Сертифікат надавався за умови отримання не менше **70% правильних відповідей** у підсумковому тестуванні за матеріалами доповідей.
 
-  Одеський національний медичний університет
+  Реєстрація була відкрита до **14:00 1 березня 2023 року**.
 
-  Запрошують Вас взяти участь у
+  Для членів Асоціації акушерів-гінекологів України участь була безкоштовною. Для інших лікарів вартість участі становила 200 грн.
 
-  Всеукраїнському семінарі
+  ## Доповідачі
 
-  "Акушерсько-гінекологічна допомога у фокусі сучасних клінічних протоколів та настанов"
+  - **Ігор Гладчук** — завідувач кафедри акушерства та гінекології ОНМедУ, д.мед.н., професор.
+  - **Христина Гайдаржі** — аспірантка кафедри акушерства та гінекології ОНМедУ.
+  - **Марина Запорожченко** — заслужений лікар України, д.мед.н., професор кафедри акушерства та гінекології ОНМедУ.
+  - **Світлана Корнієнко** — д.мед.н., професор кафедри акушерства та гінекології ОНМедУ.
+  - **Віктор Малюк** — к.мед.н., доцент кафедри акушерства та гінекології ОНМедУ, голова Миколаївського відділення Асоціації акушерів-гінекологів України.
+  - **Гульсим Манасова** — заслужений лікар України, д.мед.н., професор кафедри акушерства та гінекології ОНМедУ.
+  - **Валентина Міщенко** — д.мед.н., професор кафедри акушерства та гінекології ОНМедУ.
+  - **Світлана Посохова** — д.мед.н., професор кафедри акушерства та гінекології ОНМедУ.
+  - **Наталія Рожковська** — д.мед.н., професор кафедри акушерства та гінекології ОНМедУ.
 
-  який відбудеться 01 березня 2023 р. (онлайн формат), початок о 15.00
+  ## Програма
 
-  - Обов'язкова попередня реєстрація (за посиланням): [Посилання](https://docs.google.com/forms/d/1cPv7sWE0PPp-cXcZ9xE0S5rP6RARxAeOFTf5D41vlks/edit?usp=sharing_eil_m&invite=CND6lfME&ts=63d39b4f)
+  **Вступне слово:**
 
-  - Реєстрація дійсна до 14:00 01.03.2023 р.
+  - Ігор Гладчук — завідувач кафедри акушерства та гінекології ОНМедУ, д.мед.н., професор;
+  - Гульсим Манасова — голова Президії Одеського відділення Асоціації акушерів-гінекологів України, д.мед.н., професор кафедри акушерства та гінекології ОНМедУ.
 
-  - Запис семінару буде вільним (з наступного дня після закінчення семінару) для перегляду на каналі YouTube Одеського відділення Асоціації акушерів-гінекологів України для всіх учасників.
+  1. **Стандарти медичної допомоги «Нормальна вагітність»** — Валентина Міщенко.
+  2. **Гіпертензивні розлади у вагітних: клінічна настанова, заснована на доказах** — Світлана Посохова.
+  3. **Уніфікований клінічний протокол медичної допомоги «Кесарів розтин»** — Гульсим Манасова.
+  4. **Глибокий інфільтративний ендометріоз: огляд сучасних рекомендацій** — Ігор Гладчук, Христина Гайдаржі.
+  5. **Гіперплазія ендометрію. Клінічна настанова, заснована на доказах** — Наталія Рожковська.
+  6. **Ектопічна вагітність. Клінічна настанова, заснована на доказах** — Світлана Корнієнко.
+  7. **Імплементація клінічного протоколу «Аномальні вагінальні виділення»** — Віктор Малюк.
+  8. **Сучасні алгоритми ведення пацієнток із лейоміомою матки** — Марина Запорожченко.
+  9. Дискусійні питання та підбиття підсумків.
 
-  - Передбачені сертифікати (10 балів) за умови не менше 70% правильних відповідей на тести по доповідям (відповідно до наказу МОЗ України від 22.02.2019р. № 446).
+  ## Оцінювання
 
-  - Для членів Асоціації акушерів-гінекологів України участь у семінарі безкоштовна.
+  Оцінювання набутих знань проводилося після завершення семінару у форматі онлайн-тестування.
 
-  - Для лікарів, які не являються членами Асоціації, вартість - 200 грн.
-
-  - Оплатити участь Ви можете за наступними реквізитами:
-
-  ГО «Одеське відділення Асоціації акушерів-гінекологів України»
-  65009, м.Одеса, вул М. Говорова, 28
-  ЄДРПОУ 20998897
-  п/р UA483223130000026004000031618
-  АТ "Укрексімбанк"
-  МФО 322313
-  тел. +3 8097 686 8236
-
-  КООРДИНАТОР ЗАХОДУ – Кузьмин Наталія Василівна,
-
-  тел.: +3 8097 686 8236
+  Організатори зазначили, що конфлікту інтересів під час проведення заходу не було.
 bodyEn: |-
   ## About the seminar
 
-  The nationwide online seminar **Obstetric and Gynecological Care through the Lens of Current Clinical Protocols and Guidelines** took place on 1 March 2023 at 15:00.
+  The nationwide professional seminar **Obstetric and Gynecological Care through the Lens of Current Clinical Protocols and Guidelines** was held online on 1 March 2023, starting at **15:00**.
 
-  The Odesa Branch of AAGU organised the seminar with Odesa National Medical University. Participants could receive 10 CPD points after achieving at least 70% in the assessment. The archive includes the announcement, event card, registration, stream recording and test form.
+  The event was organised by the Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine, official CPD provider No. **1118**.
+
+  Co-organisers included Odesa National Medical University, the Health Department of the Odesa Regional State Administration and the Health Department of Odesa City Council.
+
+  The planned audience was **200 participants**.
+
+  ## Audience and objectives
+
+  The seminar was intended for obstetrician-gynecologists, family physicians, urologists, neurologists, surgeons and other professionals involved in obstetric and gynecological care.
+
+  Its objective was to support implementation of current clinical standards and evidence-based approaches to diagnosing and treating pregnancy and childbirth complications, gynecological diseases and gynecological cancers.
+
+  ## Certification
+
+  Participants could receive **10 CPD points** after achieving at least **70% correct answers** in the final online assessment.
+
+  Registration remained open until **14:00 on 1 March 2023**.
+
+  ## Programme
+
+  The programme covered:
+
+  1. standards of care for normal pregnancy;
+  2. evidence-based guidance on hypertensive disorders in pregnancy;
+  3. the unified clinical protocol for cesarean section;
+  4. current recommendations for deep infiltrating endometriosis;
+  5. evidence-based guidance on endometrial hyperplasia;
+  6. evidence-based guidance on ectopic pregnancy;
+  7. implementation of the clinical protocol on abnormal vaginal discharge;
+  8. current management algorithms for uterine leiomyoma;
+  9. discussion and final conclusions.
+
+  ## Assessment
+
+  Knowledge assessment was conducted through an online test after the seminar. Participants were required to answer at least 70% of the questions correctly to receive certification.
 featured: false
 draft: false
 seoTitle:
@@ -145,5 +155,5 @@ seoDescription:
 category: seminars-webinars
 bprPoints: 10
 providerNumber: '1118'
-registrationDeadline: '2023-03-01'
+registrationDeadline: '2023-03-01 14:00:00+02:00'
 ---

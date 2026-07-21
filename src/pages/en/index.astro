@@ -2,9 +2,18 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SitePage from '../../components/SitePage.astro';
 import { getNewsCategories, getNewsPosts } from '../../lib/news';
+import {
+  getEventStatistics,
+  getNormalizedEvents,
+} from '../../lib/events';
 
-const latestNews = (await getNewsPosts()).slice(0, 3);
-const newsCategories = await getNewsCategories();
+const [latestNews, newsCategories, events] = await Promise.all([
+  getNewsPosts().then((posts) => posts.slice(0, 3)),
+  getNewsCategories(),
+  getNormalizedEvents({ lang: 'en' }),
+]);
+
+const eventStatistics = getEventStatistics(events);
 ---
 
 <BaseLayout lang="en" title="Odessa Branch of AAGU">
@@ -14,5 +23,7 @@ const newsCategories = await getNewsCategories();
     currentPath="/en/"
     latestNews={latestNews}
     newsCategories={newsCategories}
+    events={events}
+    eventStatistics={eventStatistics}
   />
 </BaseLayout>

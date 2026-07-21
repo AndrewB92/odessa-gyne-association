@@ -1,0 +1,1503 @@
+---
+import {
+  createCalendarMonth,
+  getCalendarWeekdays,
+} from '../../lib/events/calendar';
+
+import {
+  formatEventDateRange,
+  getTodayIso,
+  type Lang,
+  type NormalizedEvent,
+} from '../../lib/events';
+
+type Props = {
+  lang: Lang;
+  events: NormalizedEvent[];
+};
+
+const { lang, events } = Astro.props as Props;
+
+const today = getTodayIso();
+const [initialYear, initialMonthNumber] = today.split('-').map(Number);
+const initialMonth = initialMonthNumber - 1;
+
+const calendar = createCalendarMonth({
+  year: initialYear,
+  month: initialMonth,
+  events,
+  lang,
+  today,
+});
+
+const weekdays = getCalendarWeekdays(lang);
+
+const content = {
+  uk: {
+    title: 'Календар подій',
+    conference: 'Конференція',
+    bpr: 'Захід БПР',
+    events: 'подій',
+    event: 'подія',
+    noEvents: 'Подій немає',
+    previousMonth: 'Попередній місяць',
+    nextMonth: 'Наступний місяць',
+    today: 'Сьогодні',
+    close: 'Закрити',
+    viewEvent: 'Переглянути подію',
+    eventsOnDate: 'Події на',
+  },
+  en: {
+    title: 'Events calendar',
+    conference: 'Conference',
+    bpr: 'CPD event',
+    events: 'events',
+    event: 'event',
+    noEvents: 'No events',
+    previousMonth: 'Previous month',
+    nextMonth: 'Next month',
+    today: 'Today',
+    close: 'Close',
+    viewEvent: 'View event',
+    eventsOnDate: 'Events on',
+  },
+} as const;
+
+const t = content[lang];
+
+function getDayEventLabel(count: number): string {
+  if (count === 0) {
+    return t.noEvents;
+  }
+
+  return `${count} ${count === 1 ? t.event : t.events}`;
+}
+
+function serializeForInlineScript(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
+const serializedEvents = serializeForInlineScript(events);
+const serializedLabels = serializeForInlineScript(t);
+const popoverId = `events-calendar-popover-${lang}`;
+---
+
+<div
+  class="events-calendar"
+  aria-labelledby="events-calendar-title"
+  data-events-calendar
+  data-lang={lang}
+>
+  <div class="events-calendar__header">
+    <div>
+      <p class="events-calendar__eyebrow">
+        {t.title}
+      </p>
+
+      <h3
+        id="events-calendar-title"
+        data-calendar-title
+        aria-live="polite"
+      >
+        {calendar.label}
+      </h3>
+    </div>
+
+    <div class="events-calendar__controls">
+      <button
+        type="button"
+        class="events-calendar__control"
+        aria-label={t.previousMonth}
+        data-calendar-previous
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="events-calendar__today"
+        data-calendar-today
+        hidden
+      >
+        {t.today}
+      </button>
+
+      <button
+        type="button"
+        class="events-calendar__control"
+        aria-label={t.nextMonth}
+        data-calendar-next
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="events-calendar__weekdays"
+    aria-hidden="true"
+  >
+    {
+      weekdays.map((weekday) => (
+        <span>{weekday}</span>
+      ))
+    }
+  </div>
+
+  <div
+    class="events-calendar__grid"
+    role="grid"
+    aria-label={calendar.label}
+    data-calendar-grid
+  >
+    {
+      calendar.days.map((day) => {
+        const dayLabel = `${formatEventDateRange(
+          day.date,
+          day.date,
+          lang,
+        )}, ${getDayEventLabel(day.events.length)}`;
+
+        return day.events.length > 0 ? (
+          <button
+            type="button"
+            class:list={[
+              'events-calendar__day',
+              'events-calendar__day--interactive',
+              {
+                'events-calendar__day--outside':
+                  !day.isCurrentMonth,
+                'events-calendar__day--today':
+                  day.isToday,
+                'events-calendar__day--has-events':
+                  true,
+              },
+            ]}
+            role="gridcell"
+            aria-label={dayLabel}
+            aria-expanded="false"
+            aria-controls={popoverId}
+            data-calendar-day
+            data-date={day.date}
+          >
+            <span class="events-calendar__day-number">
+              {day.dayNumber}
+            </span>
+
+            <span
+              class="events-calendar__markers"
+              aria-hidden="true"
+            >
+              {
+                day.events.slice(0, 3).map((event) => (
+                  <span
+                    class:list={[
+                      'events-calendar__marker',
+                      `events-calendar__marker--${event.type}`,
+                      `events-calendar__marker--${event.status}`,
+                    ]}
+                  ></span>
+                ))
+              }
+
+              {
+                day.events.length > 3 && (
+                  <span class="events-calendar__more">
+                    +{day.events.length - 3}
+                  </span>
+                )
+              }
+            </span>
+          </button>
+        ) : (
+          <div
+            class:list={[
+              'events-calendar__day',
+              {
+                'events-calendar__day--outside':
+                  !day.isCurrentMonth,
+                'events-calendar__day--today':
+                  day.isToday,
+              },
+            ]}
+            role="gridcell"
+            aria-label={dayLabel}
+            data-date={day.date}
+          >
+            <span class="events-calendar__day-number">
+              {day.dayNumber}
+            </span>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <div
+    id={popoverId}
+    class="events-calendar__popover"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby={`${popoverId}-title`}
+    data-calendar-popover
+    hidden
+  >
+    <div class="events-calendar__popover-header">
+      <h4
+        id={`${popoverId}-title`}
+        data-calendar-popover-title
+      ></h4>
+
+      <button
+        type="button"
+        class="events-calendar__popover-close"
+        aria-label={t.close}
+        data-calendar-popover-close
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="events-calendar__popover-content"
+      data-calendar-popover-content
+    ></div>
+  </div>
+
+  <div class="events-calendar__legend">
+    <span>
+      <i class="events-calendar__marker events-calendar__marker--conference"></i>
+      {t.conference}
+    </span>
+
+    <span>
+      <i class="events-calendar__marker events-calendar__marker--bpr"></i>
+      {t.bpr}
+    </span>
+  </div>
+
+  <script
+    type="application/json"
+    data-calendar-events
+    set:html={serializedEvents}
+  ></script>
+
+  <script
+    type="application/json"
+    data-calendar-labels
+    set:html={serializedLabels}
+  ></script>
+</div>
+
+<script>
+  type CalendarEvent = {
+    id: string;
+    slug: string;
+    type: 'conference' | 'bpr';
+    title: string;
+    url: string;
+    external: boolean;
+    externalBlank: boolean;
+    status: 'past' | 'ongoing' | 'upcoming';
+    startDate: string;
+    endDate: string;
+    ranges: Array<{
+      start: string;
+      end: string;
+    }>;
+  };
+
+  type CalendarLabels = {
+    title: string;
+    conference: string;
+    bpr: string;
+    events: string;
+    event: string;
+    noEvents: string;
+    previousMonth: string;
+    nextMonth: string;
+    today: string;
+    close: string;
+    viewEvent: string;
+    eventsOnDate: string;
+  };
+
+  type Lang = 'uk' | 'en';
+
+  const CALENDAR_CELL_COUNT = 42;
+  const SITE_TIME_ZONE = 'Europe/Simferopol';
+
+  function padNumber(value: number): string {
+    return String(value).padStart(2, '0');
+  }
+
+  function createIsoDate(
+    year: number,
+    month: number,
+    day: number,
+  ): string {
+    return `${year}-${padNumber(month + 1)}-${padNumber(day)}`;
+  }
+
+  function getCurrentSiteDate(): {
+    isoDate: string;
+    year: number;
+    month: number;
+  } {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: SITE_TIME_ZONE,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).formatToParts(new Date());
+
+    const values = Object.fromEntries(
+      parts.map((part) => [part.type, part.value]),
+    );
+
+    const year = Number(values.year);
+    const month = Number(values.month) - 1;
+
+    return {
+      isoDate: `${values.year}-${values.month}-${values.day}`,
+      year,
+      month,
+    };
+  }
+
+  function getEventStatus(
+    event: CalendarEvent,
+    today: string,
+  ): CalendarEvent['status'] {
+    if (today < event.startDate) {
+      return 'upcoming';
+    }
+
+    if (today > event.endDate) {
+      return 'past';
+    }
+
+    return 'ongoing';
+  }
+
+  function getMondayFirstWeekday(date: Date): number {
+    return (date.getUTCDay() + 6) % 7;
+  }
+
+  function getEventsForDate(
+    events: CalendarEvent[],
+    date: string,
+  ): CalendarEvent[] {
+    return events.filter((event) =>
+      event.ranges.some(
+        (range) =>
+          date >= range.start &&
+          date <= range.end,
+      ),
+    );
+  }
+
+  function getMonthLabel(
+    year: number,
+    month: number,
+    lang: Lang,
+  ): string {
+    return new Intl.DateTimeFormat(
+      lang === 'en' ? 'en-GB' : 'uk-UA',
+      {
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      },
+    ).format(new Date(Date.UTC(year, month, 1)));
+  }
+
+  function formatEventDate(
+    date: string,
+    lang: Lang,
+  ): string {
+    const [year, month, day] = date
+      .split('-')
+      .map(Number);
+
+    return new Intl.DateTimeFormat(
+      lang === 'en' ? 'en-GB' : 'uk-UA',
+      {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: 'UTC',
+      },
+    ).format(
+      new Date(Date.UTC(year, month - 1, day)),
+    );
+  }
+
+  function formatEventDateRange(
+    start: string,
+    end: string,
+    lang: Lang,
+  ): string {
+    const formattedStart = formatEventDate(start, lang);
+
+    if (start === end) {
+      return formattedStart;
+    }
+
+    return `${formattedStart}–${formatEventDate(end, lang)}`;
+  }
+
+  function getDayEventLabel(
+    count: number,
+    labels: CalendarLabels,
+  ): string {
+    if (count === 0) {
+      return labels.noEvents;
+    }
+
+    return `${count} ${
+      count === 1 ? labels.event : labels.events
+    }`;
+  }
+
+  function createCalendarDay({
+    date,
+    year,
+    month,
+    today,
+    events,
+    labels,
+    lang,
+    popoverId,
+  }: {
+    date: Date;
+    year: number;
+    month: number;
+    today: string;
+    events: CalendarEvent[];
+    labels: CalendarLabels;
+    lang: Lang;
+    popoverId: string;
+  }): HTMLElement {
+    const cellYear = date.getUTCFullYear();
+    const cellMonth = date.getUTCMonth();
+    const cellDay = date.getUTCDate();
+
+    const isoDate = createIsoDate(
+      cellYear,
+      cellMonth,
+      cellDay,
+    );
+
+    const dayEvents = getEventsForDate(events, isoDate);
+    const isCurrentMonth =
+      cellYear === year && cellMonth === month;
+    const isToday = isoDate === today;
+
+    const day = document.createElement(
+      dayEvents.length > 0 ? 'button' : 'div',
+    );
+
+    day.className = 'events-calendar__day';
+    day.setAttribute('role', 'gridcell');
+    day.dataset.date = isoDate;
+
+    if (day instanceof HTMLButtonElement) {
+      day.type = 'button';
+      day.dataset.calendarDay = '';
+      day.setAttribute('aria-expanded', 'false');
+      day.setAttribute('aria-controls', popoverId);
+      day.classList.add(
+        'events-calendar__day--interactive',
+      );
+    }
+
+    if (!isCurrentMonth) {
+      day.classList.add(
+        'events-calendar__day--outside',
+      );
+    }
+
+    if (isToday) {
+      day.classList.add(
+        'events-calendar__day--today',
+      );
+    }
+
+    if (dayEvents.length > 0) {
+      day.classList.add(
+        'events-calendar__day--has-events',
+      );
+    }
+
+    day.setAttribute(
+      'aria-label',
+      `${formatEventDate(isoDate, lang)}, ${getDayEventLabel(
+        dayEvents.length,
+        labels,
+      )}`,
+    );
+
+    const dayNumber = document.createElement('span');
+    dayNumber.className =
+      'events-calendar__day-number';
+    dayNumber.textContent = String(cellDay);
+    day.append(dayNumber);
+
+    if (dayEvents.length > 0) {
+      const markers = document.createElement('span');
+      markers.className =
+        'events-calendar__markers';
+      markers.setAttribute('aria-hidden', 'true');
+
+      dayEvents.slice(0, 3).forEach((event) => {
+        const marker = document.createElement('span');
+
+        marker.className = [
+          'events-calendar__marker',
+          `events-calendar__marker--${event.type}`,
+          `events-calendar__marker--${event.status}`,
+        ].join(' ');
+
+        markers.append(marker);
+      });
+
+      if (dayEvents.length > 3) {
+        const more = document.createElement('span');
+        more.className = 'events-calendar__more';
+        more.textContent = `+${dayEvents.length - 3}`;
+        markers.append(more);
+      }
+
+      day.append(markers);
+    }
+
+    return day;
+  }
+
+  function initialiseCalendar(root: HTMLElement): void {
+    if (root.dataset.calendarReady === 'true') {
+      return;
+    }
+
+    const lang: Lang =
+      root.dataset.lang === 'en' ? 'en' : 'uk';
+
+    const title = root.querySelector<HTMLElement>(
+      '[data-calendar-title]',
+    );
+    const grid = root.querySelector<HTMLElement>(
+      '[data-calendar-grid]',
+    );
+    const previousButton =
+      root.querySelector<HTMLButtonElement>(
+        '[data-calendar-previous]',
+      );
+    const nextButton =
+      root.querySelector<HTMLButtonElement>(
+        '[data-calendar-next]',
+      );
+    const todayButton =
+      root.querySelector<HTMLButtonElement>(
+        '[data-calendar-today]',
+      );
+    const eventsScript =
+      root.querySelector<HTMLScriptElement>(
+        '[data-calendar-events]',
+      );
+    const labelsScript =
+      root.querySelector<HTMLScriptElement>(
+        '[data-calendar-labels]',
+      );
+    const popover = root.querySelector<HTMLElement>(
+      '[data-calendar-popover]',
+    );
+    const popoverTitle =
+      root.querySelector<HTMLElement>(
+        '[data-calendar-popover-title]',
+      );
+    const popoverContent =
+      root.querySelector<HTMLElement>(
+        '[data-calendar-popover-content]',
+      );
+    const popoverClose =
+      root.querySelector<HTMLButtonElement>(
+        '[data-calendar-popover-close]',
+      );
+
+    if (
+      !title ||
+      !grid ||
+      !previousButton ||
+      !nextButton ||
+      !todayButton ||
+      !eventsScript ||
+      !labelsScript ||
+      !popover ||
+      !popoverTitle ||
+      !popoverContent ||
+      !popoverClose
+    ) {
+      return;
+    }
+
+    let events: CalendarEvent[];
+    let labels: CalendarLabels;
+
+    const currentSiteDate = getCurrentSiteDate();
+    const today = currentSiteDate.isoDate;
+    const initialYear = currentSiteDate.year;
+    const initialMonth = currentSiteDate.month;
+
+    try {
+      events = (
+        JSON.parse(
+          eventsScript.textContent ?? '[]',
+        ) as CalendarEvent[]
+      ).map((event) => ({
+        ...event,
+        status: getEventStatus(event, today),
+      }));
+
+      labels = JSON.parse(
+        labelsScript.textContent ?? '{}',
+      ) as CalendarLabels;
+    } catch {
+      return;
+    }
+
+    root.dataset.calendarReady = 'true';
+
+    let activeYear = initialYear;
+    let activeMonth = initialMonth;
+    let activeDayButton: HTMLButtonElement | null = null;
+
+    const popoverId = popover.id;
+
+    function closePopover({
+      restoreFocus = false,
+    }: {
+      restoreFocus?: boolean;
+    } = {}): void {
+      popover.hidden = true;
+      popoverContent.replaceChildren();
+
+      if (activeDayButton) {
+        activeDayButton.setAttribute(
+          'aria-expanded',
+          'false',
+        );
+
+        if (
+          restoreFocus &&
+          activeDayButton.isConnected
+        ) {
+          activeDayButton.focus();
+        }
+      }
+
+      activeDayButton = null;
+    }
+
+    function createEventPopoverItem(
+      event: CalendarEvent,
+    ): HTMLAnchorElement {
+      const link = document.createElement('a');
+      link.className =
+        'events-calendar__popover-event';
+      link.href = event.url;
+
+      if (event.external && event.externalBlank) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+
+      const eventType = document.createElement('span');
+      eventType.className =
+        'events-calendar__popover-type';
+      eventType.textContent =
+        event.type === 'conference'
+          ? labels.conference
+          : labels.bpr;
+
+      const eventTitle = document.createElement('strong');
+      eventTitle.textContent = event.title;
+
+      const eventDate = document.createElement('span');
+      eventDate.className =
+        'events-calendar__popover-date';
+      eventDate.textContent = formatEventDateRange(
+        event.startDate,
+        event.endDate,
+        lang,
+      );
+
+      const action = document.createElement('span');
+      action.className =
+        'events-calendar__popover-action';
+      action.textContent = `${labels.viewEvent} →`;
+
+      link.append(
+        eventType,
+        eventTitle,
+        eventDate,
+        action,
+      );
+
+      return link;
+    }
+
+    function openPopover(
+      button: HTMLButtonElement,
+      {
+        focusPopover = false,
+      }: {
+        focusPopover?: boolean;
+      } = {},
+    ): void {
+      const date = button.dataset.date;
+
+      if (!date) {
+        return;
+      }
+
+      if (
+        activeDayButton === button &&
+        !popover.hidden
+      ) {
+        if (focusPopover) {
+          popoverClose.focus();
+        }
+
+        return;
+      }
+
+      const dayEvents = getEventsForDate(events, date);
+
+      if (dayEvents.length === 0) {
+        return;
+      }
+
+      closePopover();
+
+      activeDayButton = button;
+      button.setAttribute('aria-expanded', 'true');
+
+      popoverTitle.textContent =
+        `${labels.eventsOnDate} ${formatEventDate(
+          date,
+          lang,
+        )}`;
+
+      const fragment =
+        document.createDocumentFragment();
+
+      dayEvents.forEach((event) => {
+        fragment.append(
+          createEventPopoverItem(event),
+        );
+      });
+
+      popoverContent.append(fragment);
+      popover.hidden = false;
+
+      if (focusPopover) {
+        popoverClose.focus();
+      }
+    }
+
+    function render(): void {
+      closePopover();
+
+      const monthLabel = getMonthLabel(
+        activeYear,
+        activeMonth,
+        lang,
+      );
+
+      title.textContent = monthLabel;
+      grid.setAttribute('aria-label', monthLabel);
+      grid.replaceChildren();
+
+      const firstDay = new Date(
+        Date.UTC(activeYear, activeMonth, 1),
+      );
+      const firstWeekday =
+        getMondayFirstWeekday(firstDay);
+      const gridStart = new Date(firstDay);
+
+      gridStart.setUTCDate(
+        firstDay.getUTCDate() - firstWeekday,
+      );
+
+      const fragment =
+        document.createDocumentFragment();
+
+      for (
+        let index = 0;
+        index < CALENDAR_CELL_COUNT;
+        index += 1
+      ) {
+        const date = new Date(gridStart);
+        date.setUTCDate(
+          gridStart.getUTCDate() + index,
+        );
+
+        fragment.append(
+          createCalendarDay({
+            date,
+            year: activeYear,
+            month: activeMonth,
+            today,
+            events,
+            labels,
+            lang,
+            popoverId,
+          }),
+        );
+      }
+
+      grid.append(fragment);
+
+      todayButton.hidden =
+        activeYear === initialYear &&
+        activeMonth === initialMonth;
+    }
+
+    function changeMonth(offset: number): void {
+      const nextDate = new Date(
+        Date.UTC(
+          activeYear,
+          activeMonth + offset,
+          1,
+        ),
+      );
+
+      activeYear = nextDate.getUTCFullYear();
+      activeMonth = nextDate.getUTCMonth();
+
+      render();
+    }
+
+    grid.addEventListener('click', (event) => {
+      const target = event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      const button =
+        target.closest<HTMLButtonElement>(
+          '[data-calendar-day]',
+        );
+
+      if (!button || !grid.contains(button)) {
+        return;
+      }
+
+      if (
+        activeDayButton === button &&
+        !popover.hidden
+      ) {
+        closePopover({
+          restoreFocus: true,
+        });
+        return;
+      }
+
+      openPopover(button, {
+        focusPopover: true,
+      });
+    });
+
+    grid.addEventListener(
+      'pointerover',
+      (event) => {
+        if (event.pointerType === 'touch') {
+          return;
+        }
+
+        const target = event.target;
+
+        if (!(target instanceof Element)) {
+          return;
+        }
+
+        const button =
+          target.closest<HTMLButtonElement>(
+            '[data-calendar-day]',
+          );
+
+        if (!button || !grid.contains(button)) {
+          return;
+        }
+
+        const relatedTarget = event.relatedTarget;
+
+        if (
+          relatedTarget instanceof Node &&
+          button.contains(relatedTarget)
+        ) {
+          return;
+        }
+
+        openPopover(button);
+      },
+    );
+
+    grid.addEventListener(
+      'focusin',
+      (event) => {
+        const target = event.target;
+
+        if (
+          !(target instanceof HTMLButtonElement) ||
+          !target.matches('[data-calendar-day]')
+        ) {
+          return;
+        }
+
+        openPopover(target);
+      },
+    );
+
+    previousButton.addEventListener(
+      'click',
+      () => changeMonth(-1),
+    );
+
+    nextButton.addEventListener(
+      'click',
+      () => changeMonth(1),
+    );
+
+    todayButton.addEventListener(
+      'click',
+      () => {
+        activeYear = initialYear;
+        activeMonth = initialMonth;
+        render();
+      },
+    );
+
+    popoverClose.addEventListener(
+      'click',
+      () => {
+        closePopover({
+          restoreFocus: true,
+        });
+      },
+    );
+
+    document.addEventListener(
+      'pointerdown',
+      (event) => {
+        const target = event.target;
+
+        if (
+          !(target instanceof Node) ||
+          popover.hidden ||
+          popover.contains(target) ||
+          activeDayButton?.contains(target)
+        ) {
+          return;
+        }
+
+        closePopover();
+      },
+    );
+
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (
+          event.key !== 'Escape' ||
+          popover.hidden
+        ) {
+          return;
+        }
+
+        closePopover({
+          restoreFocus: true,
+        });
+      },
+    );
+
+    render();
+  }
+
+  function initialiseCalendars(): void {
+    document
+      .querySelectorAll<HTMLElement>(
+        '[data-events-calendar]',
+      )
+      .forEach(initialiseCalendar);
+  }
+
+  initialiseCalendars();
+
+  document.addEventListener(
+    'astro:page-load',
+    initialiseCalendars,
+  );
+</script>
+
+<style is:global>
+  .events-calendar {
+    position: relative;
+    min-width: 0;
+    padding: 1.5rem;
+    border: 1px solid rgb(255 228 230);
+    border-radius: 2rem;
+    background: rgb(255 255 255 / 0.85);
+    box-shadow: 0 16px 45px rgb(74 59 59 / 0.06);
+  }
+
+  .events-calendar__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .events-calendar__eyebrow {
+    margin: 0 0 0.35rem;
+    color: rgb(244 63 94);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    /* text-transform: uppercase; */
+  }
+
+  .events-calendar__header h3 {
+    margin: 0;
+    color: rgb(76 5 25);
+    font-family: var(--font-heading);
+    font-size: clamp(.8rem, 2vw, 1.2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: capitalize;
+  }
+
+  .events-calendar__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .events-calendar__control,
+  .events-calendar__today,
+  .events-calendar__popover-close {
+    font: inherit;
+  }
+
+  .events-calendar__control {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255 228 230);
+    border-radius: 999px;
+    background: rgb(255 241 242);
+    color: rgb(190 24 93);
+    cursor: pointer;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .events-calendar__control:hover {
+    transform: translateY(-1px);
+    border-color: rgb(253 164 175);
+    background: rgb(255 228 230);
+  }
+
+  .events-calendar__control:focus-visible,
+  .events-calendar__today:focus-visible,
+  .events-calendar__popover-close:focus-visible {
+    outline: 3px solid rgb(253 164 175 / 0.42);
+    outline-offset: 2px;
+  }
+
+  .events-calendar__today {
+    min-height: 2.5rem;
+    padding-inline: 0.85rem;
+    border: 1px solid rgb(255 228 230);
+    border-radius: 999px;
+    background: white;
+    color: rgb(190 24 93);
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .events-calendar__today[hidden],
+  .events-calendar__popover[hidden] {
+    display: none;
+  }
+
+  .events-calendar__weekdays,
+  .events-calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .events-calendar__weekdays {
+    margin-bottom: 0.5rem;
+  }
+
+  .events-calendar__weekdays span {
+    padding-block: 0.4rem;
+    color: rgb(76 5 25 / 0.38);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .events-calendar__grid {
+    gap: 0.25rem;
+  }
+
+  .events-calendar__day {
+    min-width: 0;
+    min-height: 3.45rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.35rem;
+    padding: 0.45rem 0.15rem;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+
+  button.events-calendar__day {
+    appearance: none;
+  }
+
+  .events-calendar__day--outside {
+    opacity: 0.3;
+  }
+
+  .events-calendar__day--has-events {
+    background: rgb(255 241 242 / 0.7);
+  }
+
+  .events-calendar__day--today {
+    border-color: rgb(251 113 133 / 0.55);
+    background: rgb(255 228 230 / 0.75);
+  }
+
+  .events-calendar__day-number {
+    width: 1.65rem;
+    height: 1.65rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: rgb(76 5 25 / 0.72);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .events-calendar__day--today
+    .events-calendar__day-number {
+    background: rgb(244 63 94);
+    color: white;
+  }
+
+  .events-calendar__markers {
+    min-height: 0.45rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    max-width: 100%;
+  }
+
+  .events-calendar__marker {
+    width: 0.42rem;
+    height: 0.42rem;
+    flex: 0 0 auto;
+    display: inline-block;
+    border-radius: 999px;
+  }
+
+  .events-calendar__marker--conference {
+    background: rgb(225 29 72);
+  }
+
+  .events-calendar__marker--bpr {
+    border: 1.5px solid rgb(225 29 72);
+    background: transparent;
+  }
+
+  .events-calendar__marker--past {
+    opacity: 0.42;
+  }
+
+  .events-calendar__marker--ongoing {
+    box-shadow: 0 0 0 0.2rem rgb(244 63 94 / 0.14);
+  }
+
+  .events-calendar__more {
+    color: rgb(190 24 93);
+    font-size: 0.58rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .events-calendar__day--interactive {
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .events-calendar__day--interactive:hover {
+    transform: translateY(-1px);
+    border-color: rgb(253 164 175 / 0.55);
+    background: rgb(255 228 230 / 0.82);
+  }
+
+  .events-calendar__day--interactive:focus-visible {
+    outline: 3px solid rgb(253 164 175 / 0.42);
+    outline-offset: 1px;
+  }
+
+  .events-calendar__day--interactive[aria-expanded='true'] {
+    border-color: rgb(244 63 94 / 0.7);
+    background: rgb(255 228 230);
+  }
+
+  .events-calendar__popover {
+    position: absolute;
+    z-index: 20;
+    top: 5.75rem;
+    right: 1rem;
+    left: 1rem;
+    max-height: calc(100% - 7rem);
+    padding: 1.25rem;
+    overflow-y: auto;
+    border: 1px solid rgb(255 228 230);
+    border-radius: 1.25rem;
+    background: white;
+    box-shadow:
+      0 18px 50px rgb(74 59 59 / 0.16),
+      0 4px 12px rgb(74 59 59 / 0.08);
+  }
+
+  .events-calendar__popover-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .events-calendar__popover-header h4 {
+    margin: 0;
+    color: rgb(76 5 25);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .events-calendar__popover-close {
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(255 241 242);
+    color: rgb(190 24 93);
+    cursor: pointer;
+  }
+
+  .events-calendar__popover-close:hover {
+    background: rgb(255 228 230);
+  }
+
+  .events-calendar__popover-content {
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .events-calendar__popover-event {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgb(255 228 230);
+    border-radius: 1rem;
+    background: rgb(255 241 242 / 0.55);
+    text-decoration: none;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .events-calendar__popover-event:hover {
+    transform: translateY(-1px);
+    border-color: rgb(253 164 175);
+    background: rgb(255 241 242);
+  }
+
+  .events-calendar__popover-event:focus-visible {
+    outline: 3px solid rgb(253 164 175 / 0.42);
+    outline-offset: 2px;
+  }
+
+  .events-calendar__popover-type {
+    color: rgb(244 63 94);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .events-calendar__popover-event strong {
+    color: rgb(76 5 25);
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .events-calendar__popover-date {
+    color: rgb(76 5 25 / 0.48);
+    font-size: 0.72rem;
+  }
+
+  .events-calendar__popover-action {
+    margin-top: 0.25rem;
+    color: rgb(190 24 93);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .events-calendar__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(255 228 230);
+  }
+
+  .events-calendar__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: rgb(76 5 25 / 0.52);
+    font-size: 0.72rem;
+  }
+
+  @media (min-width: 640px) {
+    .events-calendar {
+      padding: 2rem;
+    }
+
+    .events-calendar__grid {
+      gap: 0.4rem;
+    }
+
+    .events-calendar__day {
+      min-height: 4.25rem;
+      padding: 0.55rem 0.25rem;
+    }
+
+    .events-calendar__day-number {
+      font-size: 0.82rem;
+    }
+
+    .events-calendar__popover {
+      top: 6.25rem;
+      right: 2rem;
+      left: 2rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .events-calendar__popover {
+      position: fixed;
+      z-index: 100;
+      inset: auto 0.75rem 0.75rem;
+      max-height: min(75vh, 32rem);
+      padding: 1.25rem;
+      border-radius: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .events-calendar__header {
+      align-items: center;
+    }
+
+    .events-calendar__controls {
+      gap: 0.25rem;
+    }
+
+    .events-calendar__control {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .events-calendar__today {
+      min-height: 2.25rem;
+      padding-inline: 0.65rem;
+      font-size: 0.65rem;
+    }
+
+    .events-calendar__day {
+      min-height: 3.15rem;
+    }
+  }
+</style>

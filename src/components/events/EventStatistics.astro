@@ -1,0 +1,210 @@
+---
+import type {
+  EventStatistics,
+  Lang,
+} from '../../lib/events';
+
+type Props = {
+  lang: Lang;
+  statistics: EventStatistics;
+};
+
+const {
+  lang,
+  statistics,
+} = Astro.props as Props;
+
+const content = {
+  uk: {
+    bpr: 'Заходи БПР',
+    conferences: 'Конференції',
+    completed: 'Проведено',
+    upcoming: 'Заплановано',
+    ongoing: 'Відбувається зараз',
+  },
+  en: {
+    bpr: 'CPD events',
+    conferences: 'Conferences',
+    completed: 'Completed',
+    upcoming: 'Upcoming',
+    ongoing: 'Happening now',
+  },
+} as const;
+
+const t = content[lang];
+
+const groups = [
+  {
+    id: 'bpr',
+    title: t.bpr,
+    statistics: statistics.bpr,
+    href: lang === 'en' ? '/en/bpr/' : '/bpr/',
+  },
+  {
+    id: 'conference',
+    title: t.conferences,
+    statistics: statistics.conference,
+    href: lang === 'en'
+      ? '/en/conferences/'
+      : '/conferences/',
+  },
+] as const;
+---
+
+<div class="event-statistics">
+  {
+    groups.map((group) => (
+      <a
+        href={group.href}
+        class="event-statistics__group"
+        aria-label={group.title}
+      >
+        <div class="event-statistics__heading">
+          <h3>{group.title}</h3>
+
+          <span aria-hidden="true">→</span>
+        </div>
+
+        <dl class="event-statistics__values">
+          <div>
+            <dt>{t.completed}</dt>
+            <dd>{group.statistics.past}</dd>
+          </div>
+
+          <div>
+            <dt>{t.upcoming}</dt>
+            <dd>{group.statistics.upcoming}</dd>
+          </div>
+        </dl>
+
+        {
+          group.statistics.ongoing > 0 && (
+            <div class="event-statistics__ongoing">
+              <span aria-hidden="true"></span>
+
+              <strong>{group.statistics.ongoing}</strong>
+
+              <span>{t.ongoing}</span>
+            </div>
+          )
+        }
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .event-statistics {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .event-statistics__group {
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid rgb(255 228 230);
+    border-radius: 1.5rem;
+    background: rgb(255 255 255 / 0.8);
+    box-shadow: 0 10px 30px rgb(74 59 59 / 0.05);
+    transition:
+      transform 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .event-statistics__group:hover {
+    transform: translateY(-2px);
+    border-color: rgb(253 164 175 / 0.65);
+    box-shadow: 0 16px 38px rgb(74 59 59 / 0.09);
+  }
+
+  .event-statistics__group:focus-visible {
+    outline: 3px solid rgb(253 164 175 / 0.45);
+    outline-offset: 3px;
+  }
+
+  .event-statistics__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .event-statistics__heading h3 {
+    margin: 0;
+    color: rgb(76 5 25);
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .event-statistics__heading span {
+    color: rgb(251 113 133);
+    transition: transform 200ms ease;
+  }
+
+  .event-statistics__group:hover
+    .event-statistics__heading
+    span {
+    transform: translateX(0.2rem);
+  }
+
+  .event-statistics__values {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+  }
+
+  .event-statistics__values > div {
+    min-width: 0;
+  }
+
+  .event-statistics__values > div + div {
+    padding-left: 1.25rem;
+    border-left: 1px solid rgb(255 228 230);
+  }
+
+  .event-statistics__values dt {
+    margin-bottom: 0.35rem;
+    color: rgb(76 5 25 / 0.5);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .event-statistics__values dd {
+    margin: 0;
+    color: rgb(76 5 25);
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .event-statistics__ongoing {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(255 228 230);
+    color: rgb(190 24 93);
+    font-size: 0.8rem;
+  }
+
+  .event-statistics__ongoing > span:first-child {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: rgb(244 63 94);
+    box-shadow: 0 0 0 0.25rem rgb(244 63 94 / 0.12);
+  }
+
+  .event-statistics__ongoing strong {
+    font-weight: 700;
+  }
+</style>
