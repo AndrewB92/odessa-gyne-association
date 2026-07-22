@@ -1,189 +1,238 @@
 ---
 import Icon from "./Icon.astro";
 
-const { lang = "uk", currentPath = "/" } = Astro.props;
+interface Props {
+  lang?: "uk" | "en";
+  currentPath?: string;
+}
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const {
+  lang = "uk",
+  currentPath = "/",
+} = Astro.props as Props;
+
 const isEn = lang === "en";
 const prefix = isEn ? "/en" : "";
 const home = isEn ? "/en/" : "/";
-const navItems = isEn
+
+const navItems: NavItem[] = isEn
   ? [
-      {
-        label: "About",
-        href: "/about-us",
-      },
-      {
-        label: "News",
-        href: "/news",
-      },
-      {
-        label: "Conferences",
-        href: "/conferences",
-      },
-      {
-        label: "BPR",
-        href: "/bpr",
-      },
-      {
-        label: "Speakers",
-        href: "/speakers",
-      },
-      {
-        label: "Documents",
-        href: "/docs",
-      },
-      {
-        label: "Community",
-        href: "/involved",
-      },
-      {
-        label: "Contacts",
-        href: "/contacts",
-      },
+      { label: "About", href: "/about-us" },
+      { label: "News", href: "/news" },
+      { label: "Conferences", href: "/conferences" },
+      { label: "BPR", href: "/bpr" },
+      { label: "Speakers", href: "/speakers" },
+      { label: "Documents", href: "/docs" },
+      { label: "Community", href: "/involved" },
+      { label: "Contacts", href: "/contacts" },
     ]
   : [
-      {
-        label: "Про асоціацію",
-        href: "/about-us",
-      },
-      {
-        label: "Новини",
-        href: "/news",
-      },
-      {
-        label: "Конференції",
-        href: "/conferences",
-      },
-      {
-        label: "БПР",
-        href: "/bpr",
-      },
-      {
-        label: "Спікери",
-        href: "/speakers",
-      },
-      {
-        label: "Документи",
-        href: "/docs",
-      },
-      {
-        label: "Спільнота",
-        href: "/involved",
-      },
-      {
-        label: "Контакти",
-        href: "/contacts",
-      },
+      { label: "Про асоціацію", href: "/about-us" },
+      { label: "Новини", href: "/news" },
+      { label: "Конференції", href: "/conferences" },
+      { label: "БПР", href: "/bpr" },
+      { label: "Спікери", href: "/speakers" },
+      { label: "Документи", href: "/docs" },
+      { label: "Спільнота", href: "/involved" },
+      { label: "Контакти", href: "/contacts" },
     ];
-const route = currentPath.replace(/^\/en(?=\/|$)/, "") || "/";
-function isActiveRoute(href: string) {
+
+const route =
+  currentPath
+    .replace(/^\/en(?=\/|$)/, "")
+    .replace(/\/+$/, "") || "/";
+
+function isActiveRoute(href: string): boolean {
   if (href === "/") {
     return route === "/";
   }
 
-  return (
-    route === href ||
-    route.startsWith(`${href}/`)
-  );
+  return route === href || route.startsWith(`${href}/`);
 }
+
 const ukHref = route === "/" ? "/" : route;
 const enHref = route === "/" ? "/en/" : `/en${route}`;
+
+const labels = isEn
+  ? {
+      navigation: "Main navigation",
+      openMenu: "Open navigation menu",
+      closeMenu: "Close navigation menu",
+      youtube: "OB AAGU on YouTube",
+    }
+  : {
+      navigation: "Основна навігація",
+      openMenu: "Відкрити меню навігації",
+      closeMenu: "Закрити меню навігації",
+      youtube: "ОВ ААГУ на YouTube",
+    };
 ---
 
 <header
   id="site-header"
-  class={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${route === "/" ? "bg-transparent" : "bg-rose-50/90 backdrop-blur-xl shadow-sm"}`}
+  data-home={route === "/" ? "true" : "false"}
+  data-menu-open="false"
+  class:list={[
+    "site-header fixed inset-x-0 top-0 z-50",
+    route === "/"
+      ? "bg-transparent"
+      : "bg-rose-50/95 shadow-sm",
+  ]}
 >
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
+  <div class="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-20 items-center justify-between">
       <a
         href={home}
-        class="flex items-center gap-3 group"
+        class="group flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2"
         aria-label={isEn ? "OB AAGU home" : "ОВ ААГУ головна"}
       >
         <svg
-          class="w-10 h-10 transition-transform duration-300 group-hover:scale-105"
+          class="h-10 w-10 shrink-0 transition-transform duration-200 group-hover:scale-105"
           viewBox="0 0 512 512"
           xmlns="http://www.w3.org/2000/svg"
           role="img"
           aria-hidden="true"
         >
-          <path fill="#034bec" d="M313.5 9.5c-10.3-2-20.6-3.2-31-3.5 40.5 10.5 70.3 34.3 89.5 71.5 15 37.9 13.6 75.2-4 112-19.9 35.1-49.8 56.6-89.5 64.5-53-3.4-95.5 15.8-127.5 57.5-22.4 36.6-26.7 75.2-13 116 14.3 33.8 38.1 58.1 71.5 73-80.3-15.4-140.1-58.7-179.5-130C-5.3 298.2-7.7 224.9 23 150.5 61.5 70.6 124.3 22.1 211.5 5c34.5-5.6 68.5-4.1 102 4.5Z"></path>
-          <path fill="#f9517d" d="M313.5 9.5c66.7 16.2 118.9 52.9 156.5 110 46 76.9 52 156.9 18 240-29.7 63.1-76.9 107.6-141.5 133.5-38.6 14.8-78.3 19.1-119 13-6.3-1.4-12.3-3.2-18-5.5-33.4-14.9-57.2-39.2-71.5-73-13.7-40.8-9.4-79.4 13-116 32-41.7 74.5-60.9 127.5-57.5 39.7-7.9 69.6-29.4 89.5-64.5 17.6-36.8 19-74.1 4-112-19.2-37.2-49-61-89.5-71.5 10.4.3 20.7 1.5 31 3.5Z"></path>
-          <path fill="#f9f9f9" d="M227.5 48.5c34.4-3.5 60.3 9.5 77.5 39 14.6 36.1 6.7 66.3-23.5 90.5-29.1 17.5-57.4 16.5-85-3-24.6-22-32.1-48.8-22.5-80.5 10.2-24.3 28-39.7 53.5-46Z"></path>
-          <path fill="#faf9f9" d="M320.5 302.5c41.9-3.3 66.1 15.7 72.5 57 2.9 48.7-16.6 85.2-58.5 109.5-32.7 17.4-67 21.8-103 13-26.5-8-47.6-23.1-63.5-45.5-1-1.3-1.3-2.6-1-4 12.3 14.7 28.1 22.4 47.5 23 27.2-1.5 47-14.2 59.5-38 3.2-9.1 4.2-18.4 3-28-16.4-44.5-1.9-73.5 43.5-87Z"></path>
-          <path fill="#fa547f" d="M324.5 342.5c9.4-1.7 16.3 1.6 20.5 10 .6 7.7-2.6 13.2-9.5 16.5-8.6 3.1-15.4 1-20.5-6.5-2.2-4.5-1.9-8.9 1-13 2.4-3 5.3-5.3 8.5-7Z"  ></path>
+          <path
+            fill="#034bec"
+            d="M313.5 9.5c-10.3-2-20.6-3.2-31-3.5 40.5 10.5 70.3 34.3 89.5 71.5 15 37.9 13.6 75.2-4 112-19.9 35.1-49.8 56.6-89.5 64.5-53-3.4-95.5 15.8-127.5 57.5-22.4 36.6-26.7 75.2-13 116 14.3 33.8 38.1 58.1 71.5 73-80.3-15.4-140.1-58.7-179.5-130C-5.3 298.2-7.7 224.9 23 150.5 61.5 70.6 124.3 22.1 211.5 5c34.5-5.6 68.5-4.1 102 4.5Z"
+          />
+          <path
+            fill="#f9517d"
+            d="M313.5 9.5c66.7 16.2 118.9 52.9 156.5 110 46 76.9 52 156.9 18 240-29.7 63.1-76.9 107.6-141.5 133.5-38.6 14.8-78.3 19.1-119 13-6.3-1.4-12.3-3.2-18-5.5-33.4-14.9-57.2-39.2-71.5-73-13.7-40.8-9.4-79.4 13-116 32-41.7 74.5-60.9 127.5-57.5 39.7-7.9 69.6-29.4 89.5-64.5 17.6-36.8 19-74.1 4-112-19.2-37.2-49-61-89.5-71.5 10.4.3 20.7 1.5 31 3.5Z"
+          />
+          <path
+            fill="#f9f9f9"
+            d="M227.5 48.5c34.4-3.5 60.3 9.5 77.5 39 14.6 36.1 6.7 66.3-23.5 90.5-29.1 17.5-57.4 16.5-85-3-24.6-22-32.1-48.8-22.5-80.5 10.2-24.3 28-39.7 53.5-46Z"
+          />
+          <path
+            fill="#faf9f9"
+            d="M320.5 302.5c41.9-3.3 66.1 15.7 72.5 57 2.9 48.7-16.6 85.2-58.5 109.5-32.7 17.4-67 21.8-103 13-26.5-8-47.6-23.1-63.5-45.5-1-1.3-1.3-2.6-1-4 12.3 14.7 28.1 22.4 47.5 23 27.2-1.5 47-14.2 59.5-38 3.2-9.1 4.2-18.4 3-28-16.4-44.5-1.9-73.5 43.5-87Z"
+          />
+          <path
+            fill="#fa547f"
+            d="M324.5 342.5c9.4-1.7 16.3 1.6 20.5 10 .6 7.7-2.6 13.2-9.5 16.5-8.6 3.1-15.4 1-20.5-6.5-2.2-4.5-1.9-8.9 1-13 2.4-3 5.3-5.3 8.5-7Z"
+          />
         </svg>
 
         <span
-          class="hidden sm:block font-heading text-rose-900 font-semibold text-sm leading-tight"
+          class="hidden font-heading text-sm font-semibold leading-tight text-rose-900 sm:block"
         >
           {isEn ? "OB AAGU" : "ОВ ААГУ"}
         </span>
       </a>
 
-      <nav class="hidden lg:flex items-center gap-4">
+      <nav
+        class="hidden items-center gap-4 lg:flex"
+        aria-label={labels.navigation}
+      >
         {
-          navItems.map((item) =>
-            item.href ? (
+          navItems.map((item) => {
+            const active = isActiveRoute(item.href);
+
+            return (
               <a
                 href={`${prefix}${item.href}`}
-                class={`text-sm font-medium transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-rose-300 after:transition-all after:duration-300 ${isActiveRoute(item.href) ? "text-rose-300 after:w-full" : "text-rose-900/70 hover:text-rose-300 after:w-0 hover:after:w-full"}`}
-                aria-current={
-                  isActiveRoute(item.href)
-                    ? "page"
-                    : undefined
-                }
+                class:list={[
+                  "relative py-2 text-sm font-medium",
+                  "transition-colors duration-200",
+                  "focus-visible:outline-none focus-visible:ring-2",
+                  "focus-visible:ring-rose-400 focus-visible:ring-offset-2",
+                  "after:absolute after:inset-x-0 after:bottom-0",
+                  "after:h-0.5 after:origin-left after:bg-rose-400",
+                  "after:transition-transform after:duration-200",
+                  active
+                    ? "text-rose-400 after:scale-x-100"
+                    : "text-rose-900/70 after:scale-x-0 hover:text-rose-400 hover:after:scale-x-100",
+                ]}
+                aria-current={active ? "page" : undefined}
               >
                 {item.label}
               </a>
-            ) : (
-              <span class="text-sm font-medium text-rose-900/30 cursor-default select-none">
-                {item.label}
-              </span>
-            ),
-          )
+            );
+          })
         }
       </nav>
 
-      <div class="flex items-center gap-4">
-        <div class="hidden md:flex items-center gap-2">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="hidden items-center md:flex">
           <a
             href="https://www.youtube.com/@ovaagu416"
-            class="text-rose-900/40 hover:text-rose-300 transition-colors duration-300"
-            ><Icon name="youtube" size={16} /></a
+            class="inline-flex h-9 w-9 items-center justify-center rounded-full text-rose-900/40 transition-colors duration-200 hover:bg-rose-100 hover:text-rose-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+            aria-label={labels.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-          <!-- <a
-            href=""
-            class="text-rose-900/40 hover:text-rose-300 transition-colors duration-300 is-disabled"
-            ><Icon name="facebook" size={16} /></a
-          >
-          <a
-            href=""
-            class="text-rose-900/40 hover:text-rose-300 transition-colors duration-300 is-disabled"
-            ><Icon name="telegram" size={16} /></a
-          > -->
+            <Icon name="youtube" size={16} />
+          </a>
         </div>
-        <div class="flex items-center bg-rose-100 rounded-full p-0.5">
+
+        <div class="flex items-center rounded-full bg-rose-100 p-0.5">
           <a
             href={ukHref}
-            class={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${!isEn ? "bg-rose-300 text-white shadow-sm" : "text-rose-900/60 hover:text-rose-900"}`}
-            >Ukr</a
+            class:list={[
+              "rounded-full px-2.5 py-1.5 text-xs font-medium",
+              "transition-colors duration-200",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400",
+              !isEn
+                ? "bg-rose-300 text-white shadow-sm"
+                : "text-rose-900/60 hover:text-rose-900",
+            ]}
+            hreflang="uk"
+            lang="uk"
+            aria-current={!isEn ? "page" : undefined}
           >
+            Укр
+          </a>
+
           <a
             href={enHref}
-            class={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${isEn ? "bg-rose-300 text-white shadow-sm" : "text-rose-900/60 hover:text-rose-900"}`}
-            >En</a
+            class:list={[
+              "rounded-full px-2.5 py-1.5 text-xs font-medium",
+              "transition-colors duration-200",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400",
+              isEn
+                ? "bg-rose-300 text-white shadow-sm"
+                : "text-rose-900/60 hover:text-rose-900",
+            ]}
+            hreflang="en"
+            lang="en"
+            aria-current={isEn ? "page" : undefined}
           >
+            En
+          </a>
         </div>
+
         <button
           id="mobile-menu-button"
-          class="lg:hidden text-rose-900/70 hover:text-rose-300 transition-colors"
-          aria-label="Menu"
+          type="button"
+          class="mobile-menu-button relative inline-flex h-10 w-10 items-center justify-center rounded-full text-rose-900/70 transition-colors duration-200 hover:bg-rose-100 hover:text-rose-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 lg:hidden"
+          aria-label={labels.openMenu}
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+          data-open-label={labels.openMenu}
+          data-close-label={labels.closeMenu}
         >
-          <span data-menu-open><Icon name="menu" size={24} /></span>
-          <span data-menu-close class="hidden"
-            ><Icon name="close" size={24} /></span
+          <span
+            data-menu-open
+            class="menu-icon menu-icon-open"
+            aria-hidden="true"
           >
+            <Icon name="menu" size={23} />
+          </span>
+
+          <span
+            data-menu-close
+            class="menu-icon menu-icon-close"
+            aria-hidden="true"
+          >
+            <Icon name="close" size={23} />
+          </span>
         </button>
       </div>
     </div>
@@ -191,81 +240,286 @@ const enHref = route === "/" ? "/en/" : `/en${route}`;
 
   <div
     id="mobile-menu"
-    class="hidden xl:hidden bg-rose-50/95 backdrop-blur-xl border-t border-rose-200/50 overflow-hidden"
+    class="mobile-menu absolute inset-x-0 top-full z-10 lg:hidden"
+    aria-hidden="true"
   >
-    <nav class="px-6 py-6 flex flex-col gap-4">
-      {
-        navItems.map((item) =>
-          item.href ? (
+    <div class="mobile-menu-inner">
+      <nav
+        class="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6 gap-3"
+        aria-label={labels.navigation}
+      >
+        {
+          navItems.map((item) => {
+            const active = isActiveRoute(item.href);
+
+            return (
+              <a
+                href={`${prefix}${item.href}`}
+                class:list={[
+                  "mobile-nav-link relative flex min-h-12 items-center",
+                  "rounded-lg px-3 py-2.5 text-[15px] font-medium",
+                  "transition-colors duration-150",
+                  "focus-visible:outline-none focus-visible:ring-2",
+                  "focus-visible:ring-rose-400",
+                  active
+                    ? "bg-rose-100 text-rose-500"
+                    : "text-rose-900/75 hover:bg-rose-100/70 hover:text-rose-500",
+                ]}
+                aria-current={active ? "page" : undefined}
+              >
+                <span>{item.label}</span>
+
+                {active && (
+                  <span
+                    class="ml-auto h-1.5 w-1.5 rounded-full bg-rose-400"
+                    aria-hidden="true"
+                  />
+                )}
+              </a>
+            );
+          })
+        }
+
+        <div class="mt-2 border-t border-rose-200/80 pt-3">
           <a
-            href={`${prefix}${item.href}`}
-            class:list={[
-              "text-base font-medium transition-colors duration-300",
-              isActiveRoute(item.href)
-                ? "text-rose-300"
-                : "text-rose-900/70 hover:text-rose-300",
-            ]}
-            aria-current={
-              isActiveRoute(item.href)
-                ? "page"
-                : undefined
-            }
+            href="https://www.youtube.com/@ovaagu416"
+            class="inline-flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-rose-900/60 transition-colors duration-150 hover:bg-rose-100/70 hover:text-rose-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+            aria-label={labels.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            {item.label}
+            <Icon name="youtube" size={18} />
+            <span>YouTube</span>
           </a>
-          ) : (
-            <span class="text-base font-medium text-rose-900/30 cursor-default">
-              {item.label}
-            </span>
-          ),
-        )
-      }
-      <div class="flex items-center gap-4 pt-4 border-t border-rose-200/50">
-        <a
-          href="https://www.youtube.com/@ovaagu416"
-          class="text-rose-900/40 hover:text-rose-300 transition-colors"
-          ><Icon name="youtube" size={18} /></a
-        >
-        <!-- <a
-          href=""
-          class="text-rose-900/40 hover:text-rose-300 transition-colors is-disabled"
-          ><Icon name="facebook" size={18} /></a
-        >
-        <a
-          href=""
-          class="text-rose-900/40 hover:text-rose-300 transition-colors is-disabled"
-          ><Icon name="send" size={18} /></a
-        > -->
-      </div>
-    </nav>
+        </div>
+      </nav>
+    </div>
   </div>
 </header>
 
-<script>
-  const header = document.getElementById("site-header");
-  const button = document.getElementById("mobile-menu-button");
-  const menu = document.getElementById("mobile-menu");
-  const openIcon = button?.querySelector("[data-menu-open]");
-  const closeIcon = button?.querySelector("[data-menu-close]");
-  const isHome = location.pathname === "/" || location.pathname === "/en/";
-
-  function updateHeader() {
-    if (!header || !isHome) return;
-    if (window.scrollY > 20) {
-      header.classList.add("bg-rose-50/90", "backdrop-blur-xl", "shadow-sm");
-      header.classList.remove("bg-transparent");
-    } else {
-      header.classList.remove("bg-rose-50/90", "backdrop-blur-xl", "shadow-sm");
-      header.classList.add("bg-transparent");
-    }
+<style>
+  .site-header {
+    transition:
+      background-color 200ms ease,
+      box-shadow 200ms ease;
   }
 
-  button?.addEventListener("click", () => {
-    menu?.classList.toggle("hidden");
-    openIcon?.classList.toggle("hidden");
-    closeIcon?.classList.toggle("hidden");
-  });
+  .site-header[data-scrolled="true"],
+  .site-header[data-menu-open="true"] {
+    background-color: rgb(255 241 242 / 0.97);
+    box-shadow: 0 1px 8px rgb(76 5 25 / 0.06);
+  }
 
-  window.addEventListener("scroll", updateHeader, { passive: true });
-  updateHeader();
+  .mobile-menu {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .mobile-menu-inner {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    background-color: rgb(255 241 242 / 0.98);
+    border-top: 1px solid rgb(254 205 211 / 0.7);
+    box-shadow: 0 12px 24px rgb(76 5 25 / 0.08);
+
+    transition:
+      max-height 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 160ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-header[data-menu-open="true"] .mobile-menu {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .site-header[data-menu-open="true"] .mobile-menu-inner {
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .menu-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+      opacity 160ms ease,
+      transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .menu-icon-open {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  .menu-icon-close {
+    opacity: 0;
+    transform: rotate(-30deg) scale(0.8);
+  }
+
+  .site-header[data-menu-open="true"] .menu-icon-open {
+    opacity: 0;
+    transform: rotate(30deg) scale(0.8);
+  }
+
+  .site-header[data-menu-open="true"] .menu-icon-close {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  :global(html.mobile-menu-open),
+  :global(body.mobile-menu-open) {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .mobile-menu-inner,
+    .menu-icon {
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<script>
+  const MOBILE_BREAKPOINT = 1024;
+  const SCROLL_THRESHOLD = 20;
+
+  function initSiteHeader() {
+    const header =
+      document.querySelector<HTMLElement>("#site-header");
+
+    const button =
+      document.querySelector<HTMLButtonElement>(
+        "#mobile-menu-button",
+      );
+
+    const menu =
+      document.querySelector<HTMLElement>("#mobile-menu");
+
+    if (!header || !button || !menu) {
+      return;
+    }
+
+    if (header.dataset.initialized === "true") {
+      return;
+    }
+
+    header.dataset.initialized = "true";
+
+    const openLabel =
+      button.dataset.openLabel ?? "Open navigation menu";
+
+    const closeLabel =
+      button.dataset.closeLabel ?? "Close navigation menu";
+
+    const isMenuOpen = () =>
+      header.dataset.menuOpen === "true";
+
+    const updateHeaderState = () => {
+      const isHome = header.dataset.home === "true";
+
+      header.dataset.scrolled =
+        isHome && window.scrollY > SCROLL_THRESHOLD
+          ? "true"
+          : "false";
+    };
+
+    const setMenuState = (
+      open: boolean,
+      restoreFocus = false,
+    ) => {
+      header.dataset.menuOpen = String(open);
+
+      button.setAttribute(
+        "aria-expanded",
+        String(open),
+      );
+
+      button.setAttribute(
+        "aria-label",
+        open ? closeLabel : openLabel,
+      );
+
+      menu.setAttribute(
+        "aria-hidden",
+        String(!open),
+      );
+
+      document.documentElement.classList.toggle(
+        "mobile-menu-open",
+        open,
+      );
+
+      document.body.classList.toggle(
+        "mobile-menu-open",
+        open,
+      );
+
+      if (!open && restoreFocus) {
+        button.focus();
+      }
+
+      updateHeaderState();
+    };
+
+    button.addEventListener("click", () => {
+      setMenuState(!isMenuOpen());
+    });
+
+    menu.addEventListener("click", (event) => {
+      const target = event.target;
+
+      if (
+        target instanceof Element &&
+        target.closest("a[href]")
+      ) {
+        setMenuState(false);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (
+        event.key === "Escape" &&
+        isMenuOpen()
+      ) {
+        setMenuState(false, true);
+      }
+    });
+
+    window.addEventListener(
+      "resize",
+      () => {
+        if (
+          window.innerWidth >= MOBILE_BREAKPOINT &&
+          isMenuOpen()
+        ) {
+          setMenuState(false);
+        }
+      },
+      { passive: true },
+    );
+
+    window.addEventListener(
+      "scroll",
+      updateHeaderState,
+      { passive: true },
+    );
+
+    updateHeaderState();
+  }
+
+  initSiteHeader();
+
+  document.addEventListener(
+    "astro:page-load",
+    initSiteHeader,
+  );
 </script>
