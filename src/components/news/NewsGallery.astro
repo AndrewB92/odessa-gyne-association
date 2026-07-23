@@ -6,24 +6,76 @@ type Props = {
   lang: Lang;
 };
 
-const { gallery, lang } = Astro.props;
-const title = lang === "en" ? "Photo gallery" : "Фотогалерея";
+const { gallery = [], lang } = Astro.props;
+
+const translations =
+  lang === "en"
+    ? {
+        title: "Photo gallery",
+        openImage: "Open image",
+        close: "Close gallery",
+        previous: "Previous image",
+        next: "Next image",
+        imageCounter: "Image",
+        of: "of",
+      }
+    : {
+        title: "Фотогалерея",
+        openImage: "Відкрити зображення",
+        close: "Закрити галерею",
+        previous: "Попереднє зображення",
+        next: "Наступне зображення",
+        imageCounter: "Зображення",
+        of: "з",
+      };
 ---
 
 {
   gallery.length > 0 && (
-    <section class="news-gallery" aria-labelledby="news-gallery-title">
-      <h2 id="news-gallery-title">{title}</h2>
+    <section
+      class="news-gallery"
+      aria-label={translations.title}
+      data-news-gallery
+      data-counter-label={translations.imageCounter}
+      data-counter-separator={translations.of}
+    >
+      <h2>{translations.title}</h2>
 
       <div class="news-gallery__grid">
-        {gallery.map((item) => (
+        {gallery.map((item, index) => (
           <figure class="news-gallery__item">
-            <img
-              src={item.image}
-              alt={item.alt[lang]}
-              loading="lazy"
-              decoding="async"
-            />
+            <button
+              class="news-gallery__trigger"
+              type="button"
+              data-gallery-trigger
+              data-gallery-index={index}
+              aria-label={`${translations.openImage}: ${item.alt[lang]}`}
+            >
+              <img
+                src={item.image}
+                alt={item.alt[lang]}
+                loading="lazy"
+                decoding="async"
+              />
+
+              <span class="news-gallery__zoom-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.35-4.35" />
+                  <path d="M11 8v6" />
+                  <path d="M8 11h6" />
+                </svg>
+              </span>
+            </button>
 
             {item.caption?.[lang] && (
               <figcaption>{item.caption[lang]}</figcaption>
@@ -31,9 +83,329 @@ const title = lang === "en" ? "Photo gallery" : "Фотогалерея";
           </figure>
         ))}
       </div>
+
+      <dialog
+        class="news-gallery__lightbox"
+        data-gallery-dialog
+        aria-label={translations.title}
+      >
+        <div class="news-gallery__lightbox-inner">
+          <button
+            class="news-gallery__control news-gallery__close"
+            type="button"
+            data-gallery-close
+            aria-label={translations.close}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="26"
+              height="26"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+
+          {
+            gallery.length > 1 && (
+              <>
+                <button
+                  class="news-gallery__control news-gallery__navigation news-gallery__navigation--previous"
+                  type="button"
+                  data-gallery-previous
+                  aria-label={translations.previous}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="30"
+                    height="30"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </button>
+
+                <button
+                  class="news-gallery__control news-gallery__navigation news-gallery__navigation--next"
+                  type="button"
+                  data-gallery-next
+                  aria-label={translations.next}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="30"
+                    height="30"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </>
+            )
+          }
+
+          <div class="news-gallery__viewer" data-gallery-viewer>
+            <img
+              class="news-gallery__full-image"
+              data-gallery-image
+              src=""
+              alt=""
+            />
+          </div>
+
+          <footer class="news-gallery__lightbox-footer">
+            <p
+              class="news-gallery__lightbox-caption"
+              data-gallery-caption
+              hidden
+            />
+
+            <p class="news-gallery__counter" data-gallery-counter />
+          </footer>
+        </div>
+      </dialog>
     </section>
   )
 }
+
+<script>
+  type GalleryItem = {
+    src: string;
+    alt: string;
+    caption: string;
+  };
+
+  const galleries =
+    document.querySelectorAll<HTMLElement>("[data-news-gallery]");
+
+  galleries.forEach((gallery) => {
+    if (gallery.dataset.initialized === "true") {
+      return;
+    }
+
+    gallery.dataset.initialized = "true";
+
+    const dialog =
+      gallery.querySelector<HTMLDialogElement>("[data-gallery-dialog]");
+
+    const fullImage =
+      gallery.querySelector<HTMLImageElement>("[data-gallery-image]");
+
+    const caption =
+      gallery.querySelector<HTMLElement>("[data-gallery-caption]");
+
+    const counter =
+      gallery.querySelector<HTMLElement>("[data-gallery-counter]");
+
+    const viewer =
+      gallery.querySelector<HTMLElement>("[data-gallery-viewer]");
+
+    const closeButton =
+      gallery.querySelector<HTMLButtonElement>("[data-gallery-close]");
+
+    const previousButton =
+      gallery.querySelector<HTMLButtonElement>("[data-gallery-previous]");
+
+    const nextButton =
+      gallery.querySelector<HTMLButtonElement>("[data-gallery-next]");
+
+    const triggers = Array.from(
+      gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-trigger]")
+    );
+
+    if (
+      !dialog ||
+      !fullImage ||
+      !caption ||
+      !counter ||
+      !viewer ||
+      !closeButton ||
+      triggers.length === 0
+    ) {
+      return;
+    }
+
+    const items: GalleryItem[] = triggers.map((trigger) => {
+      const image = trigger.querySelector<HTMLImageElement>("img");
+      const figure = trigger.closest("figure");
+      const figcaption = figure?.querySelector("figcaption");
+
+      return {
+        src: image?.currentSrc || image?.src || "",
+        alt: image?.alt || "",
+        caption: figcaption?.textContent?.trim() || "",
+      };
+    });
+
+    const counterLabel = gallery.dataset.counterLabel || "Image";
+    const counterSeparator = gallery.dataset.counterSeparator || "of";
+
+    let activeIndex = 0;
+    let lastFocusedElement: HTMLElement | null = null;
+    let pointerStartX: number | null = null;
+    let pointerStartY: number | null = null;
+
+    const normalizeIndex = (index: number) => {
+      return (index + items.length) % items.length;
+    };
+
+    const renderImage = (index: number) => {
+      activeIndex = normalizeIndex(index);
+
+      const item = items[activeIndex];
+
+      fullImage.classList.add("is-changing");
+
+      window.setTimeout(() => {
+        fullImage.src = item.src;
+        fullImage.alt = item.alt;
+
+        caption.textContent = item.caption;
+        caption.hidden = item.caption.length === 0;
+
+        counter.textContent =
+          `${counterLabel} ${activeIndex + 1} ` +
+          `${counterSeparator} ${items.length}`;
+
+        fullImage.classList.remove("is-changing");
+      }, 100);
+    };
+
+    const openGallery = (index: number, trigger: HTMLElement) => {
+      activeIndex = normalizeIndex(index);
+      lastFocusedElement = trigger;
+
+      renderImage(activeIndex);
+
+      document.documentElement.classList.add("gallery-is-open");
+      dialog.showModal();
+
+      closeButton.focus();
+    };
+
+    const closeGallery = () => {
+      if (!dialog.open) {
+        return;
+      }
+
+      dialog.close();
+    };
+
+    const showPrevious = () => {
+      renderImage(activeIndex - 1);
+    };
+
+    const showNext = () => {
+      renderImage(activeIndex + 1);
+    };
+
+    triggers.forEach((trigger, index) => {
+      trigger.addEventListener("click", () => {
+        openGallery(index, trigger);
+      });
+    });
+
+    closeButton.addEventListener("click", closeGallery);
+    previousButton?.addEventListener("click", showPrevious);
+    nextButton?.addEventListener("click", showNext);
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) {
+        closeGallery();
+      }
+    });
+
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeGallery();
+    });
+
+    dialog.addEventListener("close", () => {
+      document.documentElement.classList.remove("gallery-is-open");
+
+      fullImage.src = "";
+      caption.textContent = "";
+      counter.textContent = "";
+
+      lastFocusedElement?.focus();
+      lastFocusedElement = null;
+    });
+
+    dialog.addEventListener("keydown", (event) => {
+      switch (event.key) {
+        case "ArrowLeft":
+          event.preventDefault();
+          showPrevious();
+          break;
+
+        case "ArrowRight":
+          event.preventDefault();
+          showNext();
+          break;
+
+        case "Home":
+          event.preventDefault();
+          renderImage(0);
+          break;
+
+        case "End":
+          event.preventDefault();
+          renderImage(items.length - 1);
+          break;
+      }
+    });
+
+    viewer.addEventListener("pointerdown", (event) => {
+      pointerStartX = event.clientX;
+      pointerStartY = event.clientY;
+
+      viewer.setPointerCapture(event.pointerId);
+    });
+
+    viewer.addEventListener("pointerup", (event) => {
+      if (pointerStartX === null || pointerStartY === null) {
+        return;
+      }
+
+      const distanceX = event.clientX - pointerStartX;
+      const distanceY = event.clientY - pointerStartY;
+
+      pointerStartX = null;
+      pointerStartY = null;
+
+      const isHorizontalSwipe =
+        Math.abs(distanceX) > Math.abs(distanceY) &&
+        Math.abs(distanceX) >= 50;
+
+      if (!isHorizontalSwipe) {
+        return;
+      }
+
+      if (distanceX > 0) {
+        showPrevious();
+      } else {
+        showNext();
+      }
+    });
+
+    viewer.addEventListener("pointercancel", () => {
+      pointerStartX = null;
+      pointerStartY = null;
+    });
+  });
+</script>
 
 <style>
   .news-gallery {
@@ -61,11 +433,76 @@ const title = lang === "en" ? "Photo gallery" : "Фотогалерея";
     background: #fff;
   }
 
-  .news-gallery__item img {
+  .news-gallery__trigger {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: zoom-in;
+  }
+
+  .news-gallery__trigger::after {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.16);
+    content: "";
+    opacity: 0;
+    transition: opacity 180ms ease;
+    pointer-events: none;
+  }
+
+  .news-gallery__trigger img {
     display: block;
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
+    transition: transform 350ms ease;
+  }
+
+  .news-gallery__zoom-icon {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 3.25rem;
+    height: 3.25rem;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.72);
+    color: #fff;
+    opacity: 0;
+    transform: translate(-50%, -40%) scale(0.9);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+    pointer-events: none;
+  }
+
+  .news-gallery__trigger:hover::after,
+  .news-gallery__trigger:focus-visible::after {
+    opacity: 1;
+  }
+
+  .news-gallery__trigger:hover img,
+  .news-gallery__trigger:focus-visible img {
+    transform: scale(1.035);
+  }
+
+  .news-gallery__trigger:hover .news-gallery__zoom-icon,
+  .news-gallery__trigger:focus-visible .news-gallery__zoom-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .news-gallery__trigger:focus-visible {
+    outline: 3px solid rgba(136, 19, 55, 0.45);
+    outline-offset: -3px;
   }
 
   .news-gallery__item figcaption {
@@ -75,9 +512,211 @@ const title = lang === "en" ? "Photo gallery" : "Фотогалерея";
     line-height: 1.5;
   }
 
+  .news-gallery__lightbox {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+  }
+
+  .news-gallery__lightbox::backdrop {
+    background: rgba(2, 6, 23, 0.94);
+    backdrop-filter: blur(8px);
+  }
+
+  .news-gallery__lightbox-inner {
+    position: relative;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: minmax(0, 1fr) auto;
+    color: #fff;
+  }
+
+  .news-gallery__viewer {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    padding: 4.5rem 5rem 1.5rem;
+    place-items: center;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .news-gallery__full-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 80vh;
+    border-radius: 0.5rem;
+    object-fit: contain;
+    opacity: 1;
+    transform: scale(1);
+    transition:
+      opacity 120ms ease,
+      transform 120ms ease;
+    -webkit-user-drag: none;
+  }
+
+  .news-gallery__full-image.is-changing {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  .news-gallery__control {
+    position: absolute;
+    z-index: 3;
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.68);
+    color: #fff;
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .news-gallery__control:hover {
+    border-color: rgba(255, 255, 255, 0.55);
+    background: rgba(136, 19, 55, 0.9);
+  }
+
+  .news-gallery__control:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.75);
+    outline-offset: 3px;
+  }
+
+  .news-gallery__close {
+    top: 1.25rem;
+    right: 1.25rem;
+  }
+
+  .news-gallery__navigation {
+    top: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    transform: translateY(-50%);
+  }
+
+  .news-gallery__navigation:hover {
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .news-gallery__navigation--previous {
+    left: 1.25rem;
+  }
+
+  .news-gallery__navigation--next {
+    right: 1.25rem;
+  }
+
+  .news-gallery__lightbox-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1rem 1.5rem 1.5rem;
+    background: linear-gradient(
+      to top,
+      rgba(2, 6, 23, 0.92),
+      rgba(2, 6, 23, 0)
+    );
+  }
+
+  .news-gallery__lightbox-caption,
+  .news-gallery__counter {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .news-gallery__lightbox-caption {
+    max-width: 50rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+  }
+
+  .news-gallery__counter {
+    flex: 0 0 auto;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  :global(html.gallery-is-open) {
+    overflow: hidden;
+  }
+
+  @media (max-width: 700px) {
+    .news-gallery__viewer {
+      padding: 4.5rem 0.75rem 5.5rem;
+    }
+
+    .news-gallery__navigation {
+      top: auto;
+      bottom: 1rem;
+      width: 3rem;
+      height: 3rem;
+      transform: none;
+    }
+
+    .news-gallery__navigation:hover {
+      transform: scale(1.05);
+    }
+
+    .news-gallery__navigation--previous {
+      left: 1rem;
+    }
+
+    .news-gallery__navigation--next {
+      right: 1rem;
+    }
+
+    .news-gallery__lightbox-footer {
+      position: absolute;
+      right: 4.75rem;
+      bottom: 1rem;
+      left: 4.75rem;
+      display: block;
+      padding: 0;
+      background: transparent;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .news-gallery__lightbox-caption {
+      display: none;
+    }
+
+    .news-gallery__counter {
+      font-size: 0.8rem;
+    }
+  }
+
   @media (max-width: 560px) {
     .news-gallery__grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .news-gallery__trigger img,
+    .news-gallery__zoom-icon,
+    .news-gallery__trigger::after,
+    .news-gallery__full-image,
+    .news-gallery__control {
+      transition: none;
     }
   }
 </style>
