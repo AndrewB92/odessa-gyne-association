@@ -140,8 +140,8 @@ function timeLabel(item: ConferenceProgrammeItem) {
   }
   .conference-programme h2 {
     margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     font-size: clamp(1.65rem, 3vw, 2.25rem);
     line-height: 1.25;
   }
@@ -154,18 +154,18 @@ function timeLabel(item: ConferenceProgrammeItem) {
   .conference-programme__tab {
     flex: 0 0 auto;
     padding: 0.7rem 1rem;
-    border: 1px solid #fecdd3;
+    border: 1px solid var(--color-brand-200);
     border-radius: 999px;
-    color: #9f1239;
-    background: #fff;
+    color: var(--color-brand-700);
+    background: var(--color-surface);
     font: inherit;
     font-weight: 700;
     cursor: pointer;
   }
   .conference-programme__tab[aria-selected="true"] {
-    color: #fff;
-    border-color: #9f1239;
-    background: #9f1239;
+    color: var(--color-surface);
+    border-color: var(--color-brand-700);
+    background: var(--color-brand-700);
   }
   .conference-programme__tab:focus-visible {
     outline: 3px solid rgba(251, 113, 133, 0.45);
@@ -186,7 +186,7 @@ function timeLabel(item: ConferenceProgrammeItem) {
     left: 0px;
     width: 2px;
     content: "";
-    background: #fecdd3;
+    background: var(--color-brand-200);
   }
   .conference-programme__item {
     position: relative;
@@ -196,7 +196,7 @@ function timeLabel(item: ConferenceProgrammeItem) {
   }
   .conference-programme__time {
     padding-top: 1.15rem;
-    color: #9f1239;
+    color: var(--color-brand-700);
     font-size: 0.875rem;
     font-weight: 800;
     line-height: 1.35;
@@ -208,38 +208,38 @@ function timeLabel(item: ConferenceProgrammeItem) {
     width: 1rem;
     height: 1rem;
     margin: 1.2rem auto 0;
-    border: 3px solid #fff;
+    border: 3px solid var(--color-surface);
     border-radius: 50%;
-    background: #e11d48;
-    box-shadow: 0 0 0 2px #fda4af;
+    background: var(--color-brand-500);
+    box-shadow: 0 0 0 2px var(--color-brand-300);
   }
   .conference-programme__card {
     min-width: 0;
     padding: 1rem 1.125rem;
-    border: 1px solid #f1e3e6;
+    border: 1px solid var(--color-brand-200);
     border-radius: 0.9rem;
-    background: #fff;
+    background: var(--color-surface);
     box-shadow: 0 8px 24px rgba(136, 19, 55, 0.05);
   }
   .conference-programme__card h3 {
     margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     font-size: 1.1rem;
     line-height: 1.35;
     text-transform: uppercase;
   }
   .conference-programme__item--break .conference-programme__card {
     border-style: dashed;
-    color: #64748b;
-    background: #fffafb;
+    color: var(--color-text-muted);
+    background: var(--color-brand-50);
   }
   .conference-programme__item--break .conference-programme__marker {
-    background: #fff;
+    background: var(--color-surface);
   }
   .conference-programme__description {
     margin-top: 0.6rem;
-    color: #475569;
+    color: var(--color-text-soft);
     line-height: 1.65;
   }
   .conference-programme__description :global(:first-child) {
@@ -264,7 +264,7 @@ function timeLabel(item: ConferenceProgrammeItem) {
     list-style-type: decimal;
   }
   .conference-programme__description :global(a) {
-    color: #be123c;
+    color: var(--color-brand-600);
     text-decoration: underline;
   }
   @media (max-width: 580px) {

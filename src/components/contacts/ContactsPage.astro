@@ -368,8 +368,8 @@ const structuredData = {
       ),
       linear-gradient(
         180deg,
-        #fff7f9 0%,
-        #ffffff 45%
+        var(--color-brand-50) 0%,
+        var(--color-surface) 45%
       );
   }
 
@@ -390,7 +390,7 @@ const structuredData = {
 
   .contacts-eyebrow {
     margin: 0;
-    color: #be123c;
+    color: var(--color-brand-600);
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -398,8 +398,8 @@ const structuredData = {
 
   .contacts-header h1 {
     margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     font-size: clamp(2.4rem, 6vw, 5rem);
     line-height: 1;
   }
@@ -407,7 +407,7 @@ const structuredData = {
   .contacts-intro {
     max-width: 760px;
     margin: 0;
-    color: #475569;
+    color: var(--color-text-soft);
     font-size: clamp(1.05rem, 2vw, 1.25rem);
     line-height: 1.7;
   }
@@ -435,8 +435,8 @@ const structuredData = {
   .contact-section > h2,
   .contacts-map-header h2 {
     margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     font-size: clamp(1.6rem, 3vw, 2.25rem);
     line-height: 1.2;
   }
@@ -447,7 +447,7 @@ const structuredData = {
     padding: clamp(1.4rem, 4vw, 2rem);
     border: 1px solid rgba(136, 19, 55, 0.13);
     border-radius: 1.5rem;
-    background: #fff;
+    background: var(--color-surface);
     box-shadow:
       0 1.25rem 3.25rem rgba(136, 19, 55, 0.08);
   }
@@ -475,8 +475,8 @@ const structuredData = {
     width: 2.75rem;
     height: 2.75rem;
     border-radius: 0.875rem;
-    color: #be123c;
-    background: #ffe4e6;
+    color: var(--color-brand-600);
+    background: var(--color-brand-100);
   }
 
   .contact-details {
@@ -485,7 +485,7 @@ const structuredData = {
 
   .contact-label {
     margin: 0 0 0.25rem;
-    color: #64748b;
+    color: var(--color-text-muted);
     font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -493,7 +493,7 @@ const structuredData = {
   }
 
   .contact-value {
-    color: #881337;
+    color: var(--color-brand-900);
     font-size: clamp(1rem, 2vw, 1.125rem);
     font-weight: 800;
     overflow-wrap: anywhere;
@@ -520,10 +520,10 @@ const structuredData = {
     gap: 0.5rem;
     min-height: 2.75rem;
     padding: 0.65rem 1rem;
-    border: 1px solid #fecdd3;
+    border: 1px solid var(--color-brand-200);
     border-radius: 999px;
-    color: #9f1239;
-    background: #fff;
+    color: var(--color-brand-700);
+    background: var(--color-surface);
     font-size: 0.875rem;
     font-weight: 800;
     text-decoration: none;
@@ -536,14 +536,14 @@ const structuredData = {
 
   .contact-button:hover,
   .map-route-button:hover {
-    border-color: #be123c;
+    border-color: var(--color-brand-600);
     transform: translateY(-2px);
   }
 
   .contact-button--primary {
-    border-color: #be123c;
-    color: #fff;
-    background: #be123c;
+    border-color: var(--color-brand-600);
+    color: var(--color-surface);
+    background: var(--color-brand-600);
   }
 
   .contact-people {
@@ -560,7 +560,7 @@ const structuredData = {
 
   .person-role {
     margin: 0 0 0.625rem;
-    color: #be123c;
+    color: var(--color-brand-600);
     font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -569,7 +569,7 @@ const structuredData = {
 
   .person-card h3 {
     margin: 0;
-    color: #881337;
+    color: var(--color-brand-900);
     font-size: 1.125rem;
     line-height: 1.4;
   }
@@ -579,20 +579,20 @@ const structuredData = {
     align-items: center;
     gap: 0.5rem;
     margin-top: 1rem;
-    color: #475569;
+    color: var(--color-text-soft);
     font-weight: 700;
     text-decoration: none;
   }
 
   .person-phone:hover {
-    color: #be123c;
+    color: var(--color-brand-600);
   }
 
   .contacts-map-section {
     overflow: hidden;
     border: 1px solid rgba(136, 19, 55, 0.13);
     border-radius: 1.75rem;
-    background: #fff;
+    background: var(--color-surface);
     box-shadow:
       0 1.5rem 4rem rgba(136, 19, 55, 0.09);
   }
@@ -611,7 +611,7 @@ const structuredData = {
 
   .contacts-map-eyebrow {
     margin: 0 0 0.5rem;
-    color: #be123c;
+    color: var(--color-brand-600);
     font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -620,7 +620,7 @@ const structuredData = {
 
   .contacts-map-header > div > p:last-child {
     margin: 0.75rem 0 0;
-    color: #64748b;
+    color: var(--color-text-muted);
     line-height: 1.65;
   }
 
@@ -631,7 +631,7 @@ const structuredData = {
   .contacts-map {
     position: relative;
     min-height: 440px;
-    background: #e2e8f0;
+    background: var(--color-border-soft);
   }
 
   .contacts-map iframe {

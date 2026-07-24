@@ -30,10 +30,10 @@ const title = locale === "en" ? "Speaker abstracts" : "Резюме допові
 
 <style>
   .speaker-abstracts { display: grid; gap: 1.5rem; }
-  .speaker-abstracts h2 { margin: 0; color: #881337; font-family: Domine, serif; font-size: clamp(1.65rem, 3vw, 2.25rem); line-height: 1.25; }
+  .speaker-abstracts h2 { margin: 0; color: var(--color-brand-900); font-family: var(--font-heading); font-size: clamp(1.65rem, 3vw, 2.25rem); line-height: 1.25; }
   .speaker-abstracts__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.25rem; margin: 0; }
-  .speaker-abstracts__item { padding: 1.1rem 1.2rem; border-left: 3px solid #fb7185; border-radius: 0 .75rem .75rem 0; background: #fff7f8; }
-  .speaker-abstracts__item dt { color: #881337; font-family: Domine, serif; font-weight: 700; line-height: 1.35; }
-  .speaker-abstracts__item dd { margin: .45rem 0 0; color: #475569; line-height: 1.6; }
+  .speaker-abstracts__item { padding: 1.1rem 1.2rem; border-left: 3px solid var(--color-brand-400); border-radius: 0 .75rem .75rem 0; background: var(--color-brand-50); }
+  .speaker-abstracts__item dt { color: var(--color-brand-900); font-family: var(--font-heading); font-weight: 700; line-height: 1.35; }
+  .speaker-abstracts__item dd { margin: .45rem 0 0; color: var(--color-text-soft); line-height: 1.6; }
   @media (max-width: 620px) { .speaker-abstracts__list { grid-template-columns: 1fr; } }
 </style>

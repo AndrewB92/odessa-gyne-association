@@ -102,10 +102,10 @@ const groups = [
   .event-statistics__group {
     display: block;
     padding: 1.5rem;
-    border: 1px solid rgb(255 228 230);
+    border: 1px solid var(--color-brand-100);
     border-radius: 1.5rem;
-    background: rgb(255 255 255 / 0.8);
-    box-shadow: 0 10px 30px rgb(74 59 59 / 0.05);
+    background: var(--color-surface-soft);
+    box-shadow: var(--shadow-card-compact);
     transition:
       transform 200ms ease,
       border-color 200ms ease,
@@ -114,12 +114,12 @@ const groups = [
 
   .event-statistics__group:hover {
     transform: translateY(-2px);
-    border-color: rgb(253 164 175 / 0.65);
-    box-shadow: 0 16px 38px rgb(74 59 59 / 0.09);
+    border-color: var(--color-border-brand-hover);
+    box-shadow: var(--shadow-card);
   }
 
   .event-statistics__group:focus-visible {
-    outline: 3px solid rgb(253 164 175 / 0.45);
+    outline: 3px solid var(--color-focus-brand);
     outline-offset: 3px;
   }
 
@@ -133,14 +133,14 @@ const groups = [
 
   .event-statistics__heading h3 {
     margin: 0;
-    color: rgb(76 5 25);
+    color: var(--color-brand-900);
     font-family: var(--font-heading);
     font-size: 1.125rem;
     font-weight: 700;
   }
 
   .event-statistics__heading span {
-    color: rgb(251 113 133);
+    color: var(--color-brand-400);
     transition: transform 200ms ease;
   }
 
@@ -162,12 +162,12 @@ const groups = [
 
   .event-statistics__values > div + div {
     padding-left: 1.25rem;
-    border-left: 1px solid rgb(255 228 230);
+    border-left: 1px solid var(--color-brand-100);
   }
 
   .event-statistics__values dt {
     margin-bottom: 0.35rem;
-    color: rgb(76 5 25 / 0.5);
+    color: var(--color-brand-900-alpha-50);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -177,7 +177,7 @@ const groups = [
 
   .event-statistics__values dd {
     margin: 0;
-    color: rgb(76 5 25);
+    color: var(--color-brand-900);
     font-family: var(--font-heading);
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
@@ -190,8 +190,8 @@ const groups = [
     gap: 0.45rem;
     margin-top: 1.25rem;
     padding-top: 1rem;
-    border-top: 1px solid rgb(255 228 230);
-    color: rgb(190 24 93);
+    border-top: 1px solid var(--color-brand-100);
+    color: var(--color-brand-600);
     font-size: 0.8rem;
   }
 
@@ -200,8 +200,8 @@ const groups = [
     height: 0.5rem;
     flex: 0 0 auto;
     border-radius: 999px;
-    background: rgb(244 63 94);
-    box-shadow: 0 0 0 0.25rem rgb(244 63 94 / 0.12);
+    background: var(--color-brand-500);
+    box-shadow: 0 0 0 0.25rem var(--color-brand-500-alpha-12);
   }
 
   .event-statistics__ongoing strong {

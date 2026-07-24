@@ -21,11 +21,13 @@ const speakerPlaceholder = "/assets/person-placeholder.webp";
 {
   normalizedSpeakers.length > 0 && (
     <section class="key-speakers" aria-labelledby="key-speakers-title">
-      <h2 id="key-speakers-title">{title}</h2>
+      <h2 id="key-speakers-title" class="section-heading">
+        {title}
+      </h2>
 
       <div class="key-speakers__grid">
         {normalizedSpeakers.map((speaker) => (
-          <article class="key-speakers__card">
+          <article class="key-speakers__card surface-card surface-card--compact">
             <img
               class="key-speakers__photo"
               src={speaker.photo?.trim() || speakerPlaceholder}
@@ -52,13 +54,6 @@ const speakerPlaceholder = "/assets/person-placeholder.webp";
     display: grid;
     gap: 1.5rem;
   }
-  .key-speakers h2 {
-    margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
-    font-size: clamp(1.65rem, 3vw, 2.25rem);
-    line-height: 1.25;
-  }
   .key-speakers__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -68,10 +63,6 @@ const speakerPlaceholder = "/assets/person-placeholder.webp";
     display: grid;
     grid-template-columns: minmax(8rem, 10rem) minmax(0, 1fr);
     overflow: hidden;
-    border: 1px solid rgba(136, 19, 55, 0.14);
-    border-radius: 1rem;
-    background: #fff;
-    box-shadow: 0 14px 36px rgba(136, 19, 55, 0.07);
   }
   .key-speakers__photo {
     width: 100%;
@@ -88,14 +79,14 @@ const speakerPlaceholder = "/assets/person-placeholder.webp";
   }
   .key-speakers__body h3 {
     margin: 0 0 0.5rem;
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     font-size: 1.2rem;
     line-height: 1.3;
   }
   .key-speakers__body p {
     margin: 0;
-    color: #475569;
+    color: var(--color-text-soft);
     line-height: 1.65;
   }
   @media (max-width: 700px) {

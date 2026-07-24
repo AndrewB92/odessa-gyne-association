@@ -155,7 +155,7 @@ const label = locale === "en" ? "On this page" : "На цій сторінці";
 
   .conference-toc__label {
     flex: 0 0 auto;
-    color: #881337;
+    color: var(--color-brand-900);
     font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -176,7 +176,7 @@ const label = locale === "en" ? "On this page" : "На цій сторінці";
     flex: 0 0 auto;
     padding: 0.45rem 0.7rem;
     border-radius: 999px;
-    color: #64748b;
+    color: var(--color-text-muted);
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.25;
@@ -197,8 +197,8 @@ const label = locale === "en" ? "On this page" : "На цій сторінці";
 
    :global(.conference-toc__links a:hover),
    :global(.conference-toc__links a.is-active) {
-    color: #9f1239;
-    background: #fff1f2;
+    color: var(--color-brand-700);
+    background: var(--color-brand-50);
   }
 
    :global(.conference-toc__links a:focus-visible) {

@@ -129,7 +129,7 @@ const hasResources = normalizedResources.length > 0;
 
   .event-resources__title {
     margin: 0;
-    color: var(--color-text, #162129);
+    color: var(--color-brand-900);
     font-size: clamp(1.35rem, 2vw, 1.75rem);
     line-height: 1.2;
   }
@@ -157,10 +157,10 @@ const hasResources = normalizedResources.length > 0;
     gap: 0.75rem;
     min-height: 4.25rem;
     padding: 0.875rem 1rem;
-    border: 1px solid var(--color-border, #dfe4e8);
-    border-radius: 0.75rem;
-    color: var(--color-text, #162129);
-    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border-brand);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    background: var(--color-surface);
     text-decoration: none;
     transition:
       border-color 160ms ease,
@@ -169,8 +169,8 @@ const hasResources = normalizedResources.length > 0;
   }
 
   .event-resources__link:hover {
-    border-color: var(--color-primary, #325d50);
-    box-shadow: 0 0.5rem 1.5rem rgb(22 33 41 / 8%);
+    border-color: var(--color-border-brand-hover);
+    box-shadow: var(--shadow-card-compact);
     transform: translateY(-1px);
   }
 
@@ -178,7 +178,7 @@ const hasResources = normalizedResources.length > 0;
     outline: 3px solid
       color-mix(
         in srgb,
-        var(--color-primary, #325d50) 35%,
+        var(--color-brand-400) 45%,
         transparent
       );
     outline-offset: 3px;
@@ -189,14 +189,9 @@ const hasResources = normalizedResources.length > 0;
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: 0.625rem;
-    color: var(--color-primary, #325d50);
-    background:
-      color-mix(
-        in srgb,
-        var(--color-primary, #325d50) 10%,
-        white
-      );
+    border-radius: var(--radius-sm);
+    color: var(--color-brand-600);
+    background: var(--color-brand-100);
   }
 
   .event-resources__label {
@@ -208,7 +203,7 @@ const hasResources = normalizedResources.length > 0;
   }
 
   .event-resources__external {
-    color: var(--color-text-muted, #5e6a73);
+    color: var(--color-text-muted);
   }
 
   @media (prefers-reduced-motion: reduce) {

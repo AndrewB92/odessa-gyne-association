@@ -180,27 +180,17 @@ const linkLabel = eventLink.external
     min-width: 0;
     height: 100%;
     overflow: hidden;
-    border: 1px solid var(--color-border, #dfe4e8);
-    border-radius: 1rem;
-    background: var(--color-surface, #fff);
-    box-shadow:
-      0 0.125rem 0.5rem rgb(22 33 41 / 4%);
-    transition:
-      border-color 180ms ease,
-      box-shadow 180ms ease,
-      transform 180ms ease;
+    border: 1px solid var(--color-border-brand);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-card);
   }
 
   .event-card:hover {
-    border-color:
-      color-mix(
-        in srgb,
-        var(--color-primary, #325d50) 38%,
-        var(--color-border, #dfe4e8)
-      );
-    box-shadow:
-      0 0.75rem 2rem rgb(22 33 41 / 8%);
-    transform: translateY(-2px);
+    border-color: var(--color-border-brand-hover);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-0.25rem);
   }
 
   .event-card__body {
@@ -216,14 +206,9 @@ const linkLabel = eventLink.external
     align-self: flex-start;
     max-width: 100%;
     padding: 0.375rem 0.625rem;
-    border-radius: 999px;
-    color: var(--color-primary, #325d50);
-    background:
-      color-mix(
-        in srgb,
-        var(--color-primary, #325d50) 10%,
-        white
-      );
+    border-radius: var(--radius-pill);
+    color: var(--color-brand-600);
+    background: var(--color-brand-100);
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.25;
@@ -240,7 +225,7 @@ const linkLabel = eventLink.external
 
   .event-card__title {
     margin: 0;
-    color: var(--color-text, #162129);
+    color: var(--color-brand-900);
     font-size: clamp(1.2rem, 2vw, 1.5rem);
     line-height: 1.25;
   }
@@ -251,12 +236,12 @@ const linkLabel = eventLink.external
   }
 
   .event-card__title a:hover {
-    color: var(--color-primary, #325d50);
+    color: var(--color-brand-600);
   }
 
   .event-card__excerpt {
     margin: 0;
-    color: var(--color-text-muted, #5e6a73);
+    color: var(--color-text-muted);
     font-size: 0.9375rem;
     line-height: 1.6;
   }
@@ -279,9 +264,9 @@ const linkLabel = eventLink.external
     gap: 0.5rem;
     min-height: 2.75rem;
     padding: 0.625rem 0.875rem;
-    border: 1px solid var(--color-primary, #325d50);
-    border-radius: 0.625rem;
-    color: var(--color-primary, #325d50);
+    border: 1px solid var(--color-brand-600);
+    border-radius: var(--radius-sm);
+    color: var(--color-brand-600);
     background: transparent;
     font-size: 0.875rem;
     font-weight: 700;
@@ -294,8 +279,8 @@ const linkLabel = eventLink.external
   }
 
   .event-card__link:hover {
-    color: #fff;
-    background: var(--color-primary, #325d50);
+    color: var(--color-surface);
+    background: var(--color-brand-600);
     transform: translateX(1px);
   }
 
@@ -305,7 +290,7 @@ const linkLabel = eventLink.external
     outline: 3px solid
       color-mix(
         in srgb,
-        var(--color-primary, #325d50) 35%,
+        var(--color-brand-400) 45%,
         transparent
       );
     outline-offset: 3px;

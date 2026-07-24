@@ -139,7 +139,7 @@ const hasConferences =
 <div class="conference-archive">
   {
     !hasConferences && (
-      <div class="conference-archive__empty">
+      <div class="conference-archive__empty empty-state">
         <h2>{copy.emptyTitle}</h2>
         <p>{copy.emptyDescription}</p>
       </div>
@@ -153,11 +153,16 @@ const hasConferences =
         aria-labelledby="upcoming-conferences-title"
       >
         <header class="conference-group__header">
-          <h2 id="upcoming-conferences-title">
+          <h2
+            id="upcoming-conferences-title"
+            class="section-heading"
+          >
             {copy.upcomingTitle}
           </h2>
 
-          <p>{copy.upcomingDescription}</p>
+          <p class="section-copy">
+            {copy.upcomingDescription}
+          </p>
         </header>
 
         <div class="conference-grid">
@@ -202,11 +207,16 @@ const hasConferences =
         aria-labelledby="past-conferences-title"
       >
         <header class="conference-group__header">
-          <h2 id="past-conferences-title">
+          <h2
+            id="past-conferences-title"
+            class="section-heading"
+          >
             {copy.pastTitle}
           </h2>
 
-          <p>{copy.pastDescription}</p>
+          <p class="section-copy">
+            {copy.pastDescription}
+          </p>
         </header>
 
         <div class="conference-grid">
@@ -263,21 +273,6 @@ const hasConferences =
     max-width: 46rem;
   }
 
-  .conference-group__header h2 {
-    margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
-    font-size: clamp(1.75rem, 4vw, 2.75rem);
-    line-height: 1.15;
-  }
-
-  .conference-group__header p {
-    margin: 0;
-    color: #64748b;
-    font-size: 1rem;
-    line-height: 1.65;
-  }
-
   .conference-grid {
     display: grid;
     grid-template-columns: repeat(
@@ -285,27 +280,6 @@ const hasConferences =
       minmax(0, 1fr)
     );
     gap: 1.25rem;
-  }
-
-  .conference-archive__empty {
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-    border: 1px solid #fecdd3;
-    border-radius: 1rem;
-    background: rgb(255 255 255 / 78%);
-  }
-
-  .conference-archive__empty h2 {
-    margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
-    font-size: clamp(1.4rem, 3vw, 2rem);
-  }
-
-  .conference-archive__empty p {
-    max-width: 42rem;
-    margin: 0.75rem 0 0;
-    color: #64748b;
-    line-height: 1.65;
   }
 
   @media (max-width: 820px) {

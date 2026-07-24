@@ -252,8 +252,8 @@ const structuredData = {
       ),
       linear-gradient(
         180deg,
-        #fff7f9 0%,
-        #ffffff 34rem
+        var(--color-brand-50) 0%,
+        var(--color-surface) 34rem
       );
   }
 
@@ -268,12 +268,12 @@ const structuredData = {
     gap: 0.5rem;
     min-width: 0;
     margin-bottom: 2rem;
-    color: #64748b;
+    color: var(--color-text-muted);
     font-size: 0.875rem;
   }
 
   .conference-breadcrumbs a {
-    color: #be123c;
+    color: var(--color-brand-600);
     font-weight: 700;
     text-decoration: none;
   }
@@ -302,7 +302,7 @@ const structuredData = {
 
   .conference__eyebrow {
     margin: 0;
-    color: #be123c;
+    color: var(--color-brand-600);
     font-size: 0.875rem;
     font-weight: 800;
     letter-spacing: 0.12em;
@@ -312,8 +312,8 @@ const structuredData = {
   .conference__header h1 {
     max-width: 900px;
     margin: 0;
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     line-height: 1.05;
     overflow-wrap: anywhere;
@@ -322,7 +322,7 @@ const structuredData = {
   .conference__excerpt {
     max-width: 760px;
     margin: 0;
-    color: #475569;
+    color: var(--color-text-soft);
     font-size: clamp(1.05rem, 2vw, 1.25rem);
     line-height: 1.7;
   }
@@ -333,7 +333,7 @@ const structuredData = {
 
   .conference__content {
     /* max-width: 760px; */
-    color: #334155;
+    color: var(--color-text);
     font-size: 1.0625rem;
     line-height: 1.8;
   }
@@ -348,8 +348,8 @@ const structuredData = {
 
   .conference__content :global(h2),
   .conference__content :global(h3) {
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     line-height: 1.25;
   }
 
@@ -381,7 +381,7 @@ const structuredData = {
   }
 
   .conference__content :global(a) {
-    color: #be123c;
+    color: var(--color-brand-600);
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.18em;
   }
@@ -396,8 +396,8 @@ const structuredData = {
 
   .conference__content :global(blockquote) {
     padding: 1rem 1.25rem;
-    border-left: 4px solid #fb7185;
-    background: #fff1f2;
+    border-left: 4px solid var(--color-brand-400);
+    background: var(--color-brand-50);
   }
 
   .conference__content :global(table) {
@@ -410,24 +410,24 @@ const structuredData = {
   .conference__content :global(th),
   .conference__content :global(td) {
     padding: 0.75rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border-soft);
     text-align: left;
     vertical-align: top;
   }
 
   .conference__content :global(th) {
-    color: #881337;
-    background: #fff1f2;
+    color: var(--color-brand-900);
+    background: var(--color-brand-50);
   }
 
   .conference__resources {
     padding-top: 2rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--color-border-soft);
   }
 
   .conference__committee {
     padding-top: 2rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--color-border-soft);
   }
 
   .conference__committee h2 {
@@ -436,19 +436,19 @@ const structuredData = {
 
   .conference__additional-content {
     padding-top: 2rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--color-border-soft);
   }
 
   .conference__footer {
     padding-top: 1rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--color-border-soft);
   }
 
   .conference__back {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: #be123c;
+    color: var(--color-brand-600);
     font-weight: 700;
     text-decoration: none;
   }

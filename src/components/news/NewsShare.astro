@@ -95,13 +95,13 @@ const emailBody = encodeURIComponent(`${title}\n\n${url}`);
   .news-share {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(136, 19, 55, 0.14);
+    border-top: 1px solid var(--color-border-brand);
   }
 
   .news-share h2 {
     margin: 0 0 1rem;
-    color: #881337;
-    font-family: Domine, serif;
+    color: var(--color-brand-900);
+    font-family: var(--font-heading);
     font-size: clamp(1.25rem, 3vw, 1.6rem);
   }
 
@@ -118,10 +118,10 @@ const emailBody = encodeURIComponent(`${title}\n\n${url}`);
     gap: 0.5rem;
     min-height: 2.6rem;
     padding: 0.6rem 0.85rem;
-    border: 1px solid rgba(136, 19, 55, 0.18);
-    border-radius: 999px;
-    background: #fff;
-    color: #881337;
+    border: 1px solid var(--color-border-brand);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-brand-900);
     font: inherit;
     font-size: 0.88rem;
     font-weight: 800;
@@ -133,9 +133,9 @@ const emailBody = encodeURIComponent(`${title}\n\n${url}`);
 
   .news-share__link:hover,
   .news-share__button:hover {
-    border-color: #f9517d;
-    background: #f9517d;
-    color: #fff;
+    border-color: var(--color-brand-500);
+    background: var(--color-brand-500);
+    color: var(--color-surface);
   }
 
   .news-share__x {
