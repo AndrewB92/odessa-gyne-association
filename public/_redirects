@@ -5,3 +5,5 @@
 /en/work /en/speakers 301
 /en/work/ /en/speakers/ 301
 /en/work/* /en/speakers/:splat 301
+
+/sitemap.xml /sitemap-index.xml 301

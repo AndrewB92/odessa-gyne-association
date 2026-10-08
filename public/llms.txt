@@ -23,4 +23,4 @@
 
 ## Content discovery
 
-- [Sitemap index](https://odessa-gyne-association.pages.dev/sitemap-index.xml) — all generated public pages, including collection archives and published collection entries in both languages.
+- [Sitemap](https://odessa-gyne-association.pages.dev/sitemap.xml) — redirects to the generated index of public pages, including collection archives and published collection entries in both languages.
