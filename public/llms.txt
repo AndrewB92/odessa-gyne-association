@@ -4,23 +4,23 @@
 
 ## Main sections
 
-- [Ukrainian home](https://odessa-gyne-association.pages.dev/)
-- [English home](https://odessa-gyne-association.pages.dev/en/)
-- [About the association — Ukrainian](https://odessa-gyne-association.pages.dev/about-us/)
-- [About the association — English](https://odessa-gyne-association.pages.dev/en/about-us/)
-- [News — Ukrainian](https://odessa-gyne-association.pages.dev/news/)
-- [News — English](https://odessa-gyne-association.pages.dev/en/news/)
-- [Conferences — Ukrainian](https://odessa-gyne-association.pages.dev/conferences/)
-- [Conferences — English](https://odessa-gyne-association.pages.dev/en/conferences/)
-- [Professional development events — Ukrainian](https://odessa-gyne-association.pages.dev/bpr/)
-- [Professional development events — English](https://odessa-gyne-association.pages.dev/en/bpr/)
-- [Speakers — Ukrainian](https://odessa-gyne-association.pages.dev/speakers/)
-- [Speakers — English](https://odessa-gyne-association.pages.dev/en/speakers/)
-- [Documents — Ukrainian](https://odessa-gyne-association.pages.dev/docs/)
-- [Documents — English](https://odessa-gyne-association.pages.dev/en/docs/)
-- [Contacts — Ukrainian](https://odessa-gyne-association.pages.dev/contacts/)
-- [Contacts — English](https://odessa-gyne-association.pages.dev/en/contacts/)
+- [Ukrainian home](https://ov.aagu.od.ua/)
+- [English home](https://ov.aagu.od.ua/en/)
+- [About the association — Ukrainian](https://ov.aagu.od.ua/about-us/)
+- [About the association — English](https://ov.aagu.od.ua/en/about-us/)
+- [News — Ukrainian](https://ov.aagu.od.ua/news/)
+- [News — English](https://ov.aagu.od.ua/en/news/)
+- [Conferences — Ukrainian](https://ov.aagu.od.ua/conferences/)
+- [Conferences — English](https://ov.aagu.od.ua/en/conferences/)
+- [Professional development events — Ukrainian](https://ov.aagu.od.ua/bpr/)
+- [Professional development events — English](https://ov.aagu.od.ua/en/bpr/)
+- [Speakers — Ukrainian](https://ov.aagu.od.ua/speakers/)
+- [Speakers — English](https://ov.aagu.od.ua/en/speakers/)
+- [Documents — Ukrainian](https://ov.aagu.od.ua/docs/)
+- [Documents — English](https://ov.aagu.od.ua/en/docs/)
+- [Contacts — Ukrainian](https://ov.aagu.od.ua/contacts/)
+- [Contacts — English](https://ov.aagu.od.ua/en/contacts/)
 
 ## Content discovery
 
-- [Sitemap](https://odessa-gyne-association.pages.dev/sitemap.xml) — redirects to the generated index of public pages, including collection archives and published collection entries in both languages.
+- [Sitemap](https://ov.aagu.od.ua/sitemap.xml) — redirects to the generated index of public pages, including collection archives and published collection entries in both languages.

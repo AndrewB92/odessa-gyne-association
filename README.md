@@ -12,8 +12,8 @@ The project replaces the previous website with a faster, easier-to-navigate syst
 
 ## Links
 
+- **Production website:** https://ov.aagu.od.ua/
 - **Staging website:** https://odessa-gyne-association.pages.dev/
-- **Previous website:** https://ov.aagu.od.ua/
 - **CMS:** https://odessa-gyne-association.pages.dev/admin/
 - **Repository:** https://github.com/AndrewB92/odessa-gyne-association
 
