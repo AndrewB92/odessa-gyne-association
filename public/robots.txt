@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://odessa-gyne-association.pages.dev/sitemap-index.xml

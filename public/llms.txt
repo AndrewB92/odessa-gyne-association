@@ -1,0 +1,26 @@
+# Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine
+
+> The bilingual Ukrainian and English website of the Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine (OB AAGU). It shares association information, professional news, conferences, continuing professional development events, speaker profiles, and documents.
+
+## Main sections
+
+- [Ukrainian home](https://odessa-gyne-association.pages.dev/)
+- [English home](https://odessa-gyne-association.pages.dev/en/)
+- [About the association — Ukrainian](https://odessa-gyne-association.pages.dev/about-us/)
+- [About the association — English](https://odessa-gyne-association.pages.dev/en/about-us/)
+- [News — Ukrainian](https://odessa-gyne-association.pages.dev/news/)
+- [News — English](https://odessa-gyne-association.pages.dev/en/news/)
+- [Conferences — Ukrainian](https://odessa-gyne-association.pages.dev/conferences/)
+- [Conferences — English](https://odessa-gyne-association.pages.dev/en/conferences/)
+- [Professional development events — Ukrainian](https://odessa-gyne-association.pages.dev/bpr/)
+- [Professional development events — English](https://odessa-gyne-association.pages.dev/en/bpr/)
+- [Speakers — Ukrainian](https://odessa-gyne-association.pages.dev/speakers/)
+- [Speakers — English](https://odessa-gyne-association.pages.dev/en/speakers/)
+- [Documents — Ukrainian](https://odessa-gyne-association.pages.dev/docs/)
+- [Documents — English](https://odessa-gyne-association.pages.dev/en/docs/)
+- [Contacts — Ukrainian](https://odessa-gyne-association.pages.dev/contacts/)
+- [Contacts — English](https://odessa-gyne-association.pages.dev/en/contacts/)
+
+## Content discovery
+
+- [Sitemap index](https://odessa-gyne-association.pages.dev/sitemap-index.xml) — all generated public pages, including collection archives and published collection entries in both languages.

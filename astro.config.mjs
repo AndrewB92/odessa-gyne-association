@@ -5,5 +5,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://odessa-gyne-association.pages.dev',
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !/(?:^|\/)admin(?:\/|$)/i.test(new URL(page).pathname),
+    }),
+  ],
 });
