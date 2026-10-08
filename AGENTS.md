@@ -11,7 +11,7 @@ Languages:
 - Ukrainian (default)
 - English
 
-The project is SEO-first and uses static generation whenever possible.
+The current project is SEO-first and uses static generation whenever possible.
 
 ---
 
