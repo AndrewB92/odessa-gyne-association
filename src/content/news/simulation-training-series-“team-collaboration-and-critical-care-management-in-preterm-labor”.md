@@ -52,14 +52,17 @@ bodyUk: >-
   До участі запрошуються чергові медичні команди у складі **6–7 осіб**:
 
 
-  * акушер-гінеколог;
+  * * Лікарі акушери-гінекологи
 
-  * анестезіолог;
+    * Лікарі-анестезіологи
 
-  * акушерки;
+    * Лікарі-неонатологи
 
-  * анестезисти.
+    * Лікарі-анестезіологи дитячі (дитячі анестезіологи-реаніматологи)
 
+    * Акушерки
+
+    * Медичні сестри-анестезисти
 
   Команди формуються медичними директорами відповідних закладів.
 
@@ -141,14 +144,17 @@ bodyEn: >-
   On-duty medical teams of **6–7 participants** are invited to take part, including:
 
 
-  * obstetrician-gynecologist;
+  * * Obstetricians-Gynecologists
 
-  * anesthesiologist;
+    * Anesthesiologists
 
-  * midwives;
+    * Neonatologists
 
-  * anesthesia nurses.
+    * Pediatric Anesthesiologists (Pediatric Anesthesiologists-Resuscitators)
 
+    * Midwives
+
+    * Nurse Anesthetists
 
   Teams are formed by the medical directors of the participating healthcare institutions.
 
