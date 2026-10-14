@@ -13,6 +13,10 @@ excerpt:
     проведе цикл практичних симуляційних тренінгів з командної взаємодії та
     менеджменту критичних станів при передчасних пологах. Учасники можуть
     отримати 12 балів БПР.
+  en: From November 3–6, 2026, the Odesa Branch of the Association of
+    Obstetricians and Gynecologists will hold a series of practical
+    simulation-based training sessions on teamwork and critical care management
+    in preterm labor. Participants can earn 12 CPD credits.
 redirectBlank: true
 featured: false
 draft: false
