@@ -36,7 +36,38 @@ bprPoints: 12
 providerNumber: "1118"
 linkMode: internal
 externalBlank: true
-resources: []
+resources:
+  - icon: user-plus
+    newTab: true
+    title:
+      uk: КНП «МКЛ №1» ОМР Акушерсько-гінекологічне відділення - 03.11.2026 - № заходу
+        БПР 1034643
+      en: Odesa City Clinical Hospital No. 1, Obstetrics and Gynecology Department –
+        03.11.2026 – CPD Event No. 1034643
+    url: https://forms.gle/mx8VUQZY3LisrHUG7
+  - icon: user-plus
+    newTab: true
+    title:
+      uk: "КНП «МКЛ №10» ОМР  Центр перинатальної допомоги - 04.11.2026 - № заходу БПР
+        1034646\t"
+      en: Odesa City Clinical Hospital No. 10, Perinatal Care Center – 04.11.2026 –
+        CPD Event No. 1034646Odesa City Clinical Hospital No. 10, Perinatal Care
+        Center – 04.11.2026 – CPD Event No. 1034646
+    url: https://forms.gle/cKwuf7zqUDykeVgC7
+  - icon: user-plus
+    newTab: true
+    title:
+      uk: КНП «МПБ №1» «МКЛ №11» ОМР - 05.11.2026 - № заходу БПР  1034642
+      en: Odesa Maternity Hospital No. 1, City Clinical Hospital No. 11 – 05.11.2026 –
+        CPD Event No. 1034642
+    url: https://forms.gle/cCAVunLZVVFrCESv8
+  - icon: user-plus
+    newTab: true
+    title:
+      uk: КНП Одеський обласний перинальний центр ООР - 06.11.2026 - № заходу БПР
+        1034644
+      en: Odesa Regional Perinatal Center – 06.11.2026 – CPD Event No. 1034644
+    url: https://forms.gle/NThJGfqx4Tkh1S8M7
 bodyUk: >-
   **Цільова аудиторія:** лікарі-акушери-гінекологи, акушерки, медичні сестри
   відділень патології вагітності та пологових блоків.
