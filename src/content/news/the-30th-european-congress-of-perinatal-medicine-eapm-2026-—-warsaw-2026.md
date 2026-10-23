@@ -5,7 +5,7 @@ title:
   en: The 30th European Congress of Perinatal Medicine (EAPM 2026) — Warsaw, 2026
 slug: eapm-2026-warsaw
 category: professional-community
-publishedAt: 2026-10-23
+publishedAt: 2026-09-19
 image: /uploads/eapm-2026-warsaw-cover.webp
 imageAlt:
   uk: Представники Одеського осередку на EAPM 2026 у Варшаві.
