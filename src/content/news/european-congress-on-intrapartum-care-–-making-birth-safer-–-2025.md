@@ -4,7 +4,7 @@ title:
   en: European Congress on Intrapartum Care – Making Birth Safer – 2025
 slug: making-birth-safer-2025
 category: professional-community
-publishedAt: 2026-10-23
+publishedAt: 2025-03-29
 image: /uploads/making-birth-safer-2025-cover.webp
 imageAlt:
   uk: Учасники European Congress on Intrapartum Care 2025 біля екрана форуму.
