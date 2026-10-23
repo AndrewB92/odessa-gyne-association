@@ -4,7 +4,7 @@ title:
   en: European Congress on Gynaecological Oncology (ESCO) — Rome, 2025
 slug: esco-2025-rome
 category: professional-community
-publishedAt: 2026-10-23
+publishedAt: 2025-02-23
 image: /uploads/esco-2025-rome-cover.webp
 imageAlt:
   uk: Учасники конгресу 2025 у Римі біля стенду заходу.
