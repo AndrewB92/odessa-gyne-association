@@ -6,7 +6,7 @@ title:
     2024, 2025)
 slug: birth-clinical-challenges-2023-2025
 category: professional-community
-publishedAt: 2026-10-23
+publishedAt: 2025-12-06
 image: /uploads/birth-clinical-challenges-2023-2025-cover.webp
 imageAlt:
   uk: Учасники форуму BIRTH біля стенду конгресу.
