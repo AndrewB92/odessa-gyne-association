@@ -5,7 +5,7 @@ title:
     Frankfurt
 slug: ebcog-2025-frankfurt
 category: professional-community
-publishedAt: 2026-10-23
+publishedAt: 2026-06-07
 image: /uploads/ebcog-2025-frankfurt-cover.webp
 imageAlt:
   uk: Група учасників конгресу EBCOG 2025 у Франкфурті.
