@@ -6,7 +6,7 @@ title:
     (2025), and Vienna (2026)
 slug: fmf-congresses-2024-2026
 category: professional-community
-publishedAt: 2026-10-23
+publishedAt: 2026-07-02
 image: /uploads/fmf-congresses-2024-2026-cover.webp
 imageAlt:
   uk: Учасники FMF у Відні з прапором України.
