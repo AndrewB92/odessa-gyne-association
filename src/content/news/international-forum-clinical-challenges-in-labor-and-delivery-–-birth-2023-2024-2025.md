@@ -55,12 +55,7 @@ bodyUk: >-
 
   Захід традиційно збирає провідних експертів у галузі материнства, перинатальної медицини і безпосередньо розглядаются актуальні питання ведення пологів, ускладнень та сучасних підходів до їх вирішення. Представники Одеського осередку представляють як усні доповіді, так і **постерні презентації**, присвячені зниженню перинатальних ризиків, веденню вагітностей високого ризику у умовах військових дій, які увійшли до офіційних матеріалів конгресів.
 
-
-  Це- професори Валентина Міщенко, Гульсим Манасова, Світлана Посохова, Микола Шаповал, Ігор Шпак, доценти Олеся Жовтенко,  Дмитро Железов і др.
-
-
-  Це 📷 *Нижче представлена фотогалерея з полів форумів BIRTH.*
-
+   📷 *Нижче представлена фотогалерея з полів форумів BIRTH.*
 
   ← [До огляду міжнародних форумів](/news/professional-community/international-recognition-aagu-world-forums/)
 bodyEn: >-
@@ -71,9 +66,6 @@ bodyEn: >-
 
 
   The event traditionally brings together leading experts in maternity care and perinatal medicine and directly addresses current issues in labor management, complications, and modern approaches to their resolution. Representatives of the Odesa Branch deliver both oral presentations and **poster presentations** dedicated to reducing perinatal risks and managing high-risk pregnancies under wartime conditions; these works were included in the official congress materials.
-
-
-  These include Professors Valentyna Mishchenko, Hulsym Manasova, Svitlana Posokhova, Mykola Shapoval, Ihor Shpak, Associate Professors Olesia Zhovtenko, Dmytro Zhelezov, and others.
 
 
   📷 *Below is a photo gallery from the BIRTH forums.*
