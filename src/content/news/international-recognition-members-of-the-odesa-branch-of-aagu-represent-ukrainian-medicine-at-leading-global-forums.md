@@ -7,6 +7,7 @@ title:
 slug: international-recognition-aagu-world-forums
 category: professional-community
 publishedAt: 2026-10-23
+image: /uploads/fmf-congresses-2024-2026-cover.webp
 excerpt:
   uk: Лікарська та наукова спільнота Одеського осередку ГО «Асоціація
     акушерів-гінекологів України» (ААГУ) продовжує активно інтегруватися у
