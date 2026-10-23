@@ -6,7 +6,7 @@ title:
     Bologna"
 slug: eel-2026-bologna
 category: professional-community
-publishedAt: 2026-10-23
+publishedAt: 2026-04-25
 image: /uploads/eel-2026-bologna-cover.webp
 imageAlt:
   uk: Учасники конгресу EEL 2026 біля місця проведення заходу в Болоньї.
