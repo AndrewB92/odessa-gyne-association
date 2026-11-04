@@ -60,6 +60,12 @@ resources:
         04.11.2026 – CPD Event No. 1034646Odesa City Clinical Hospital No. 10,
         Perinatal Care Center – 04.11.2026 – CPD Event No. 1034646
     url: https://forms.gle/cKwuf7zqUDykeVgC7
+  - icon: clipboard-check
+    newTab: true
+    url: https://forms.gle/ycDUX2n3ScKveRDf6
+    title:
+      en: Tests for the Simulation Training Session 04.11.2026
+      uk: Тести до симуляційного тренінгу 04.11.2026
   - icon: user-plus
     newTab: true
     title:
