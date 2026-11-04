@@ -45,6 +45,12 @@ resources:
       en: Registration - Odesa City Clinical Hospital No. 1, Obstetrics and Gynecology
         Department – 03.11.2026 – CPD Event No. 1034643
     url: https://forms.gle/mx8VUQZY3LisrHUG7
+  - icon: clipboard-check
+    newTab: true
+    url: https://forms.gle/bCteLTwj2hkcnsc38
+    title:
+      uk: Тести до симуляційного тренінгу 03.11.2026
+      en: Tests for the Simulation Training Session 03.11.2026
   - icon: user-plus
     newTab: true
     title:
