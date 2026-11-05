@@ -73,6 +73,12 @@ resources:
       en: Registration - Odesa Maternity Hospital No. 1, City Clinical Hospital No. 11
         – 05.11.2026 – CPD Event No. 1034642
     url: https://forms.gle/cCAVunLZVVFrCESv8
+  - icon: clipboard-check
+    newTab: true
+    title:
+      uk: Тести до симуляційного тренінгу 05.11.2026
+      en: Tests for the Simulation Training Session 05.11.2026
+    url: https://forms.gle/LfWsvxBL8evEjyA36
   - icon: user-plus
     newTab: true
     title:
@@ -81,6 +87,12 @@ resources:
       en: Registration - Odesa Regional Perinatal Center – 06.11.2026 – CPD Event No.
         1034644
     url: https://forms.gle/NThJGfqx4Tkh1S8M7
+  - icon: clipboard-check
+    newTab: true
+    title:
+      uk: Tests for the Simulation Training Session 06.11.2026
+      en: Tests for the Simulation Training Session 06.11.2026
+    url: https://forms.gle/r3q5LG8wLEaHa2N38
   - icon: file-text
     newTab: true
     url: https://drive.google.com/file/d/18cEAVQm-i6y3YEadHfw6FhdBmXZpiF-t/view?usp=sharing
