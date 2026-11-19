@@ -67,6 +67,14 @@ bodyUk: >-
     Дякуємо всім учасникам за активність, професійну залученість та прагнення до вдосконалення!
 
     **Одеське відділення Асоціації акушерів-гінекологів України продовжує працювати задля підвищення якості та безпеки акушерської допомоги.**
+
+  ### Відеоматеріали тренінгів
+
+
+  Запрошуємо переглянути відеоматеріали симуляційних тренінгів із командної взаємодії та менеджменту критичних станів при передчасних пологах.
+
+
+  **[Переглянути всі відео на YouTube →](https://www.youtube.com/playlist?list=PLZQrmkg9LIvE)**
 bodyEn: >-
   **From 3 to 6 November 2026**, the Odesa Branch of the Association of
   Obstetricians and Gynecologists of Ukraine held a series of simulation
@@ -80,4 +88,13 @@ bodyEn: >-
     We thank all participants for their active involvement, professional commitment, and dedication to continuous improvement!
 
     **The Odesa Branch of the Association of Obstetricians and Gynecologists of Ukraine continues its work to improve the quality and safety of obstetric care.**
+
+
+  ### Training Video Materials
+
+
+  We invite you to watch the simulation training videos covering teamwork and the management of critical situations during preterm birth.
+
+
+  **[Watch all videos on YouTube →](https://www.youtube.com/playlist?list=PLZQrmkg9LIvE)**
 ---
