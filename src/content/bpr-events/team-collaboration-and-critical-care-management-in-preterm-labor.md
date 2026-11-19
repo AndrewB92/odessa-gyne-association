@@ -99,6 +99,12 @@ resources:
     title:
       en: Event programme
       uk: Програма
+  - icon: youtube
+    newTab: true
+    url: https://youtube.com/playlist?list=PLZQrmkg9LIvE&si=k_2N0n8QQkCQW8r9
+    title:
+      uk: Звіт
+      en: Report
 bodyUk: >-
   **Цільова аудиторія:** лікарі-акушери-гінекологи, акушерки, медичні сестри
   відділень патології вагітності та пологових блоків.
